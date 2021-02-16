@@ -1,0 +1,11 @@
+{
+  "name": "spa-movies",
+  "version": "1.0.0",
+  "description": "Single page application, which will allow users to search, add and delete movies from the Movies DB database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sergei Osipchuk <sergei_osipchuk@epam.com>",
+  "license": "ISC"
+}

@@ -8,8 +8,9 @@ module.exports = {
   entry: ['@babel/polyfill', './index.jsx'],
   devServer: {
     port: 3001,
-    contentBase: path.join(__dirname, './'),
+    contentBase: path.join(__dirname, 'build'),
     publicPath: './',
+    historyApiFallback: true,
   },
   output: {
     path: path.resolve(__dirname, 'build'),

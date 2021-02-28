@@ -1,0 +1,15 @@
+<svg width="440" height="90" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <g display="none" overflow="visible" id="canvasGrid" />
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text transform="matrix(2.5509, 0, 0, 2.39042, -203.633, -177.285)" xml:space="preserve"
+        text-anchor="start" font-family="Arvo, sans-serif" font-size="24" id="svg_1" y="102"
+        x="115" stroke-width="0" stroke="#000" fill="#F65261">MOVIEBOX</text>
+
+  <rect id="svg_3" height="18" width="21" y="26" x="38" stroke-width="1.5" stroke="#F65261" fill="#F65261" />
+  <rect id="svg_4" height="30" width="30" y="38" x="50" stroke-width="1.5" stroke="#F65261" fill="#F65261" />
+ </g>
+</svg>

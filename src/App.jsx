@@ -4,9 +4,9 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import RobotoRegular from './assets/fonts/Roboto-Regular.woff2';
-import ErrorBoundary from './components/ErrorBoundary';
 
 const theme = {
   mainColors: {
@@ -53,7 +53,7 @@ const App = () => (
         <Route path="/">
           <HomePage />
         </Route>
-        <Route exact path="/login">
+        <Route path="/login">
           <LoginPage />
         </Route>
       </Switch>

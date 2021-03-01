@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import HomePage from './pages/HomePage';
@@ -50,13 +50,12 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Switch>
-        <Route path="/home">
+        <Route path="/">
           <HomePage />
         </Route>
         <Route exact path="/login">
           <LoginPage />
         </Route>
-        <Redirect from="/" to="/home" />
       </Switch>
     </ThemeProvider>
   </ErrorBoundary>

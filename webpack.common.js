@@ -8,12 +8,13 @@ module.exports = {
   entry: ['@babel/polyfill', './index.jsx'],
   devServer: {
     port: 3001,
-    contentBase: path.join(__dirname, './'),
-    publicPath: './',
+    contentBase: path.join(__dirname, 'build'),
+    publicPath: '/',
+    historyApiFallback: true,
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    publicPath: './',
+    publicPath: '',
   },
   optimization: {
     splitChunks: { chunks: 'all' },
@@ -24,6 +25,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: 'index.html',
+      favicon: './assets/images/favicon.ico',
     }),
     new CleanWebpackPlugin(),
   ],
@@ -47,7 +49,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpe?g|gif)$/i,
+        test: /\.(png|svg|jpe?g|gif|ico)$/i,
         exclude: /fonts/,
         use: [{
           loader: 'file-loader',

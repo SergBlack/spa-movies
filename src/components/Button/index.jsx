@@ -34,20 +34,15 @@ const Button = ({
   opacity,
   disabled,
 }) => {
-  const { mainColors, secondaryColors } = useContext(ThemeContext);
-  const colors = {
-    background: mainColors[color],
-    text: color === 'red' ? mainColors.white : mainColors.red,
-    hover: secondaryColors[color],
-  };
+  const { mainColors, textColorsDependBgColor, shadesMainColors } = useContext(ThemeContext);
 
   return (
     <StyledButton
       height={height}
       width={width}
-      bgColor={colors.background}
-      textColor={colors.text}
-      hoverColor={colors.hover}
+      bgColor={mainColors[color]}
+      textColor={textColorsDependBgColor[color]}
+      hoverColor={shadesMainColors[color]}
       opacity={opacity}
       disabled={disabled}
     >

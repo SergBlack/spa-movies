@@ -10,7 +10,7 @@ import MovieList from '../MovieList';
 import movies from './movies.json';
 
 // TODO: replace with real data
-const filtersList = ['all', 'Action', 'Adventure', 'Drama', 'Mystery', 'Thriller'];
+const filtersList = ['ALL', 'ACTION', 'ADVENTURE', 'DRAMA', 'MYSTERY', 'THRILLER'];
 const sortList = ['RELEASE DATE', 'TITLE'];
 
 const StyledMain = styled.main`
@@ -29,11 +29,11 @@ const StyledFilterBlock = styled.div`
 `;
 
 const Main = () => {
-  const [currentFilter, setCurrentFilter] = useState('all');
+  const [currentFilter, setCurrentFilter] = useState('ALL');
   const { mainColors } = useContext(ThemeContext);
 
-  const onFilterClick = (event) => {
-    setCurrentFilter(event.target.innerText);
+  const onFilterClick = (value) => {
+    setCurrentFilter(value);
   };
 
   return (
@@ -41,7 +41,7 @@ const Main = () => {
       <StyledFilterBlock color={mainColors.gray}>
         <FilterPanel
           filtersList={filtersList}
-          current={currentFilter}
+          currentFilter={currentFilter}
           onClick={onFilterClick}
         />
         <SortPanel sortList={sortList} />

@@ -6,7 +6,7 @@ const StyledSortPanel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const StyledSortText = styled.div`
@@ -22,7 +22,7 @@ const StyledSortList = styled.select`
   border-radius: 5px;
   border: none;
   outline: none;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const SortPanel = ({

@@ -33,14 +33,14 @@ const Search = ({
   opacity,
   disabled,
 }) => {
-  const { mainColors } = useContext(ThemeContext);
+  const { mainColors, textColorsDependBgColor } = useContext(ThemeContext);
 
   return (
     <StyledInput
       placeholder={placeholder}
       height={height}
       width={width}
-      textColor={color === 'darkGray' ? mainColors.light : mainColors.dark}
+      textColor={textColorsDependBgColor[color]}
       bgColor={mainColors[color]}
       opacity={opacity}
       disabled={disabled}
@@ -60,7 +60,7 @@ Search.propTypes = {
 Search.defaultProps = {
   height: '60px',
   width: '600px',
-  color: 'white',
+  color: 'light',
   opacity: 1,
   disabled: false,
 };

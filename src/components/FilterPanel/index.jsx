@@ -7,15 +7,14 @@ const StyledFilterBar = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  text-transform: uppercase;
   margin: 16px -12px;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const StyledFilterItem = styled.div`
   margin: 0 12px;
   color: ${({ color, active }) => active && color};
-  border-bottom: ${({ color, active }) => active && `2px solid${color}`};
+  border-bottom: ${({ color, active }) => active && `2px solid ${color}`};
   
   :hover {
     cursor: pointer;
@@ -25,7 +24,7 @@ const StyledFilterItem = styled.div`
 const FilterPanel = ({
   filtersList,
   color,
-  current,
+  currentFilter,
   onClick,
 }) => {
   const { mainColors } = useContext(ThemeContext);
@@ -35,8 +34,8 @@ const FilterPanel = ({
       {filtersList.map((filter) => (
         <StyledFilterItem
           key={filter}
-          onClick={onClick}
-          active={current.toUpperCase() === filter.toUpperCase()}
+          onClick={() => onClick(filter)}
+          active={currentFilter === filter}
           color={mainColors[color]}
         >
           {filter}
@@ -49,14 +48,14 @@ const FilterPanel = ({
 FilterPanel.propTypes = {
   filtersList: arrayOf(string),
   color: string,
-  current: string,
+  currentFilter: string,
   onClick: func.isRequired,
 };
 
 FilterPanel.defaultProps = {
   filtersList: [],
   color: 'red',
-  current: 'all',
+  currentFilter: 'ALL',
 };
 
 export default FilterPanel;

@@ -16,9 +16,15 @@ const theme = {
     dark: '#232323',
     red: '#F65261',
   },
-  secondaryColors: {
-    red: '#FF3E50',
+  textColorsDependBgColor: {
+    gray: '#F65261',
+    darkGray: '#FFF',
+    red: '#FFF',
+    light: '#232323',
+  },
+  shadesMainColors: {
     gray: '#6A6A6A',
+    red: '#FF3E50',
   },
 };
 

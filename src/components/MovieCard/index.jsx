@@ -5,17 +5,33 @@ import styled from 'styled-components';
 import Title from '../Title';
 
 const StyledMovieCard = styled.div`
-  height: 640px;
-  width: 360px;
-  margin: 16px 48px;
+  width: 18%;
+  margin: 16px 16px;
   
   :hover {
     cursor: pointer;
+    transform: scale(1.01);
+  }
+
+  @media screen and (max-width: 2080px) {
+    width: 22%;
+  }
+
+  @media screen and (max-width: 1440px) {
+    width: 28%;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 42%;
+  }
+
+  @media screen and (max-width: 680px) {
+    width: 100%;
   }
 `;
 
 const ImageContainer = styled.div`
-  height: 540px;
+  width: 100%;
 `;
 
 const DescContainer = styled.div`

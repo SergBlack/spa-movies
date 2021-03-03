@@ -11,10 +11,9 @@ import MovieCard from '../MovieCard';
 
 const StyledMovieList = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  flex: 0 0 auto;
+  justify-content: space-between;
   flex-wrap: wrap;
-  margin: 16px 0;
+  padding: 0 32px;
 `;
 
 const MovieList = ({ movies }) => (

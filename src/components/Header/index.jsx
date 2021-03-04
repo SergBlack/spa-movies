@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Logo from '../Logo';
 import Button from '../Button';
 import Title from '../Title';
-import Search from '../Search';
+import Input from '../Input';
 
 import BackgroundImage from '../../assets/images/header-background.jpg';
 import LogoImage from '../../assets/images/logo.svg';
@@ -51,7 +51,7 @@ const Header = () => (
     <MainContent>
       <Title content="find your movie" uppercase />
       <SearchContainer>
-        <Search
+        <Input
           placeholder="What do you want?"
           color="darkGray"
           opacity={0.9}

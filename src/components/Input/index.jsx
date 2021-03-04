@@ -25,7 +25,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const Search = ({
+const Input = ({
   placeholder,
   height,
   width,
@@ -48,7 +48,7 @@ const Search = ({
   );
 };
 
-Search.propTypes = {
+Input.propTypes = {
   placeholder: string.isRequired,
   height: string,
   width: string,
@@ -57,7 +57,7 @@ Search.propTypes = {
   disabled: bool,
 };
 
-Search.defaultProps = {
+Input.defaultProps = {
   height: '60px',
   width: '600px',
   color: 'light',
@@ -65,4 +65,4 @@ Search.defaultProps = {
   disabled: false,
 };
 
-export default Search;
+export default Input;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { func } from 'prop-types';
 import styled from 'styled-components';
 
 import Logo from '../Logo';
@@ -37,7 +38,7 @@ const SearchContainer = styled.div`
   margin: 0 -10px;
 `;
 
-const Header = () => (
+const Header = ({ addMovie }) => (
   <StyledHeader>
     <TopContent>
       <Logo src={LogoImage} />
@@ -45,6 +46,7 @@ const Header = () => (
         text="+ add movie"
         color="gray"
         opacity={0.9}
+        onClick={addMovie}
       />
     </TopContent>
 
@@ -61,5 +63,13 @@ const Header = () => (
     </MainContent>
   </StyledHeader>
 );
+
+Header.propTypes = {
+  addMovie: func,
+};
+
+Header.defaultProps = {
+  addMovie: () => {},
+};
 
 export default Header;

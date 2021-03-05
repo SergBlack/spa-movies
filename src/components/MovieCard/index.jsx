@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { string } from 'prop-types';
 import styled from 'styled-components';
 
 import Title from '../Title';
+import Button from '../Button';
+import Dropdown from '../Dropdown';
+
+import DetailsIcon from '../../assets/images/details.svg';
+import CloseIcon from '../../assets/images/close.svg';
 
 const StyledMovieCard = styled.div`
   width: 18%;
@@ -32,6 +37,13 @@ const StyledMovieCard = styled.div`
 
 const ImageContainer = styled.div`
   width: 100%;
+  position: relative;
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
 `;
 
 const DescContainer = styled.div`
@@ -54,24 +66,75 @@ const MovieCard = ({
   title,
   releaseDate,
   genres,
-}) => (
-  <StyledMovieCard>
-    <ImageContainer>
-      <Image src={posterPath} alt="Poster" />
-    </ImageContainer>
+}) => {
+  const [isShowCardDetails, setShowCardDetails] = useState(false);
+  const [isHover, setIsHover] = useState(false);
 
-    <DescContainer>
-      <div>
-        <Title content={title} size="20px" />
-        <Paragraph>{genres}</Paragraph>
-      </div>
-      <div>
-        {new Date(releaseDate).getFullYear()}
-      </div>
-    </DescContainer>
+  const onOpenDetailsClick = () => {
+    setShowCardDetails(true);
+  };
 
-  </StyledMovieCard>
-);
+  const onCloseDetailsClick = () => {
+    setShowCardDetails(false);
+  };
+
+  const onMouseEnterCard = () => {
+    setIsHover(true);
+  };
+
+  const onMouseLeaveCard = () => {
+    setIsHover(false);
+    setShowCardDetails(false);
+  };
+
+  // TODO: декомпозировать
+  return (
+    <StyledMovieCard
+      onMouseEnter={onMouseEnterCard}
+      onMouseLeave={onMouseLeaveCard}
+    >
+      <ImageContainer>
+        <Image src={posterPath} alt="Poster" />
+        {isHover && (
+          <ButtonWrapper>
+            <Button
+              icon={DetailsIcon}
+              height="40px"
+              width="40px"
+              color="dark"
+              type="circle"
+              onClick={onOpenDetailsClick}
+            />
+          </ButtonWrapper>
+        )}
+        {isShowCardDetails && (
+          <Dropdown>
+            <Button
+              icon={CloseIcon}
+              onClick={onCloseDetailsClick}
+              height="30px"
+              width="30px"
+              color="dark"
+            />
+            <Button text="edit" width="100%" height="40px" color="dark" />
+            <Button text="delete" width="100%" height="40px" color="dark" />
+          </Dropdown>
+        )}
+      </ImageContainer>
+
+      <DescContainer>
+        <div>
+          <Title content={title} size="20px" />
+          <Paragraph>{genres}</Paragraph>
+        </div>
+        <div>
+          {new Date(releaseDate).getFullYear()}
+        </div>
+      </DescContainer>
+
+    </StyledMovieCard>
+  );
+};
 
 MovieCard.propTypes = {
   posterPath: string,

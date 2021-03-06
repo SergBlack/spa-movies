@@ -31,6 +31,8 @@ const MediaContent = ({
   isShowCardDetails,
   onOpenDetailsClick,
   onCloseDetailsClick,
+  onEditBtnClick,
+  onDeleteBtnClick,
 }) => (
   <ImageContainer>
     <Image src={posterPath || NotFound} alt="Poster" />
@@ -55,8 +57,8 @@ const MediaContent = ({
           width="30px"
           color="dark"
         />
-        <Button text="edit" width="100%" height="40px" color="dark" />
-        <Button text="delete" width="100%" height="40px" color="dark" />
+        <Button text="edit" width="100%" height="40px" color="dark" onClick={onEditBtnClick} />
+        <Button text="delete" width="100%" height="40px" color="dark" onClick={onDeleteBtnClick} />
       </Dropdown>
     )}
   </ImageContainer>
@@ -68,6 +70,8 @@ MediaContent.propTypes = {
   isShowCardDetails: bool.isRequired,
   onOpenDetailsClick: func.isRequired,
   onCloseDetailsClick: func.isRequired,
+  onEditBtnClick: func.isRequired,
+  onDeleteBtnClick: func.isRequired,
 };
 
 MediaContent.defaultProps = {

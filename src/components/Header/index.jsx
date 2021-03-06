@@ -32,7 +32,7 @@ const TopContent = styled.div`
 const MainContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px 150px;
+  padding: 50px 300px;
 `;
 
 const SearchContainer = styled.div`
@@ -71,7 +71,7 @@ const Header = () => {
               opacity={0.9}
             />
             <ButtonWrapper>
-              <Button text="search" width="260px" />
+              <Button text="search" width="200px" />
             </ButtonWrapper>
           </SearchContainer>
         </MainContent>

@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { string } from 'prop-types';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
 import MediaContent from './components/MediaContent';
 import DescContent from './components/DescContent';
+import Modal from '../Modal';
+import EditMovieForm from '../../forms/EditMovieForm';
+import DeleteMovieForm from '../../forms/DeleteMovieForm';
+
+import useModal from '../../hooks/useModal';
 
 const StyledMovieCard = styled.div`
   display: flex;
@@ -41,6 +46,9 @@ const MovieCard = ({
 }) => {
   const [isShowCardDetails, setShowCardDetails] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [currentModal, setCurrentModal] = useState(null);
+  const { isOpen, open, close } = useModal();
+  const { mainColors } = useContext(ThemeContext);
 
   const onOpenDetailsClick = () => {
     setShowCardDetails(true);
@@ -59,6 +67,21 @@ const MovieCard = ({
     setShowCardDetails(false);
   };
 
+  const onEditBtnClick = () => {
+    setCurrentModal('edit');
+    open();
+  };
+
+  const onDeleteBtnClick = () => {
+    setCurrentModal('delete');
+    open();
+  };
+
+  const onCloseModalClick = () => {
+    setCurrentModal(null);
+    close();
+  };
+
   return (
     <StyledMovieCard
       onMouseEnter={onMouseEnterCard}
@@ -70,12 +93,18 @@ const MovieCard = ({
         isShowCardDetails={isShowCardDetails}
         onOpenDetailsClick={onOpenDetailsClick}
         onCloseDetailsClick={onCloseDetailsClick}
+        onEditBtnClick={onEditBtnClick}
+        onDeleteBtnClick={onDeleteBtnClick}
       />
       <DescContent
         title={title}
         releaseDate={releaseDate}
         genres={genres}
       />
+      <Modal isOpen={isOpen} close={onCloseModalClick} color={mainColors.dark}>
+        {currentModal === 'edit' && <EditMovieForm formTitle="edit movie" />}
+        {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
+      </Modal>
     </StyledMovieCard>
   );
 };

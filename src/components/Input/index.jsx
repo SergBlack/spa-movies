@@ -13,7 +13,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  margin: 16px 0;
+  margin: 10px 0;
 `;
 
 const StyledInput = styled.input`

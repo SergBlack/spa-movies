@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { element, string } from 'prop-types';
+import { node, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 const StyledDropdown = styled.div`
@@ -37,7 +37,7 @@ const Dropdown = ({
 Dropdown.propTypes = {
   width: string,
   color: string,
-  children: element.isRequired,
+  children: node.isRequired,
 };
 
 Dropdown.defaultProps = {

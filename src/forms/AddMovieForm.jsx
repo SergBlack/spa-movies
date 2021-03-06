@@ -19,6 +19,7 @@ const ButtonWrapper = styled.div`
 const AddMovieForm = ({ formTitle }) => {
   const [newMovie, setNewMovie] = useState(INITIAL_STATE);
 
+  // TODO: replace with redux action
   const handleSubmit = () => {
     // eslint-disable-next-line no-alert
     alert(`You are submitting: ${JSON.stringify(newMovie)}`);
@@ -28,6 +29,7 @@ const AddMovieForm = ({ formTitle }) => {
     setNewMovie(INITIAL_STATE);
   };
 
+  // TODO: rework handle genres after refactor Select
   const handleInput = (e) => {
     setNewMovie({ ...newMovie, [e.target.name]: e.target.value });
   };

@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import { string } from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import {
+  arrayOf,
+  number,
+  shape,
+  string,
+} from 'prop-types';
 import styled from 'styled-components';
 
 import Form from '../components/Form';
@@ -16,26 +21,33 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
-const EditMovieForm = ({ formTitle }) => {
-  const [newMovie, setNewMovie] = useState(INITIAL_STATE);
+const EditMovieForm = ({ formTitle, movie }) => {
+  const [editedMovie, setEditMovie] = useState(INITIAL_STATE);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    setEditMovie(movie);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // TODO: replace with redux action
+  const handleSave = () => {
     // eslint-disable-next-line no-alert
-    alert(`You are submitting: ${JSON.stringify(newMovie)}`);
+    alert(`You are submitting: ${JSON.stringify(editedMovie)}`);
   };
 
   const handleReset = () => {
-    setNewMovie(INITIAL_STATE);
+    setEditMovie(INITIAL_STATE);
   };
 
+  // TODO: rework handle genres after refactor Select
   const handleInput = (e) => {
-    setNewMovie({ ...newMovie, [e.target.name]: e.target.value });
+    setEditMovie({ ...editedMovie, [e.target.name]: e.target.value });
   };
 
   return (
     <Form title={formTitle}>
       <Input
-        value={newMovie.id}
+        value={editedMovie.id}
         onChange={handleInput}
         name="id"
         label="movie id"
@@ -43,7 +55,7 @@ const EditMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.title}
+        value={editedMovie.title}
         onChange={handleInput}
         name="title"
         label="title"
@@ -52,27 +64,27 @@ const EditMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.date}
+        value={editedMovie.release_date}
         onChange={handleInput}
-        name="date"
+        name="release_date"
         type="date"
         label="release date"
         color="darkGray"
       />
 
       <Input
-        value={newMovie.url}
+        value={editedMovie.poster_path}
         onChange={handleInput}
-        name="url"
+        name="poster_path"
         label="movie URL"
         placeholder="Enter movie URL"
         color="darkGray"
       />
 
       <Select
-        value={newMovie.genre}
+        value={editedMovie.genres && editedMovie.genres[0]}
         onChange={handleInput}
-        name="genre"
+        name="genres"
         label="genre"
         optionList={GENRES}
         height="60px"
@@ -80,7 +92,7 @@ const EditMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.overview}
+        value={editedMovie.overview}
         onChange={handleInput}
         name="overview"
         label="overview"
@@ -89,7 +101,7 @@ const EditMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.runtime}
+        value={editedMovie.runtime}
         onChange={handleInput}
         name="runtime"
         label="runtime"
@@ -99,7 +111,7 @@ const EditMovieForm = ({ formTitle }) => {
 
       <ButtonWrapper>
         <Button text="reset" onClick={handleReset} color="gray" />
-        <Button text="save" onClick={handleSubmit} />
+        <Button text="save" onClick={handleSave} />
       </ButtonWrapper>
     </Form>
   );
@@ -107,10 +119,25 @@ const EditMovieForm = ({ formTitle }) => {
 
 EditMovieForm.propTypes = {
   formTitle: string,
+  movie: shape({
+    id: number,
+    title: string,
+    tagline: string,
+    vote_average: number,
+    vote_count: number,
+    release_date: string,
+    poster_path: string,
+    overview: string,
+    budget: number,
+    revenue: number,
+    genres: arrayOf(string),
+    runtime: number,
+  }),
 };
 
 EditMovieForm.defaultProps = {
   formTitle: '',
+  movie: {},
 };
 
 export default EditMovieForm;

@@ -1,5 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { string } from 'prop-types';
+import {
+  arrayOf,
+  number,
+  shape,
+  string,
+} from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 import MediaContent from './components/MediaContent';
@@ -38,12 +43,7 @@ const StyledMovieCard = styled.div`
   }
 `;
 
-const MovieCard = ({
-  posterPath,
-  title,
-  releaseDate,
-  genres,
-}) => {
+const MovieCard = ({ movie }) => {
   const [isShowCardDetails, setShowCardDetails] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
@@ -67,13 +67,8 @@ const MovieCard = ({
     setShowCardDetails(false);
   };
 
-  const onEditBtnClick = () => {
-    setCurrentModal('edit');
-    open();
-  };
-
-  const onDeleteBtnClick = () => {
-    setCurrentModal('delete');
+  const onOpenModalClick = (modal) => {
+    setCurrentModal(modal);
     open();
   };
 
@@ -88,21 +83,20 @@ const MovieCard = ({
       onMouseLeave={onMouseLeaveCard}
     >
       <MediaContent
-        posterPath={posterPath}
+        posterPath={movie.poster_path}
         isHover={isHover}
         isShowCardDetails={isShowCardDetails}
         onOpenDetailsClick={onOpenDetailsClick}
         onCloseDetailsClick={onCloseDetailsClick}
-        onEditBtnClick={onEditBtnClick}
-        onDeleteBtnClick={onDeleteBtnClick}
+        onClick={onOpenModalClick}
       />
       <DescContent
-        title={title}
-        releaseDate={releaseDate}
-        genres={genres}
+        title={movie.title}
+        releaseDate={movie.release_date}
+        genres={movie.genres.join(', ')}
       />
       <Modal isOpen={isOpen} close={onCloseModalClick} color={mainColors.dark}>
-        {currentModal === 'edit' && <EditMovieForm formTitle="edit movie" />}
+        {currentModal === 'edit' && <EditMovieForm formTitle="edit movie" movie={movie} />}
         {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
       </Modal>
     </StyledMovieCard>
@@ -110,17 +104,24 @@ const MovieCard = ({
 };
 
 MovieCard.propTypes = {
-  posterPath: string,
-  title: string,
-  releaseDate: string,
-  genres: string,
+  movie: shape({
+    id: number,
+    title: string,
+    tagline: string,
+    vote_average: number,
+    vote_count: number,
+    release_date: string,
+    poster_path: string,
+    overview: string,
+    budget: number,
+    revenue: number,
+    genres: arrayOf(string),
+    runtime: number,
+  }),
 };
 
 MovieCard.defaultProps = {
-  posterPath: '',
-  title: '',
-  releaseDate: '',
-  genres: '',
+  movie: {},
 };
 
 export default MovieCard;

@@ -32,7 +32,8 @@ const TopContent = styled.div`
 const MainContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px 300px;
+  margin: 50px 200px;
+  max-width: 800px;
 `;
 
 const SearchContainer = styled.div`

@@ -19,13 +19,7 @@ const StyledMovieList = styled.div`
 const MovieList = ({ movies }) => (
   <StyledMovieList>
     {movies.map((movie) => (
-      <MovieCard
-        key={movie.id}
-        posterPath={movie.poster_path}
-        title={movie.title}
-        releaseDate={movie.release_date}
-        genres={movie.genres.join(', ')}
-      />
+      <MovieCard key={movie.id} movie={movie} />
     ))}
   </StyledMovieList>
 );

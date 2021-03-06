@@ -35,9 +35,9 @@ const StyledModal = styled.div`
   position: relative;
   margin: 200px auto;
   border-radius: 3px;
-  max-width: 500px;
+  max-width: 600px;
   min-height: 300px;
-  padding: 18px;
+  padding: 10px;
 `;
 
 const StyledModalHeader = styled.div`

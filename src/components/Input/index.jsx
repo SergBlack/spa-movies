@@ -1,22 +1,36 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { bool, number, string } from 'prop-types';
+import {
+  bool,
+  number,
+  string,
+  func,
+} from 'prop-types';
+
+import Label from '../Label';
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 16px 0;
+`;
 
 const StyledInput = styled.input`
-  width: ${({ width }) => width};
   height: ${({ height }) => height};
   opacity: ${({ opacity }) => opacity};
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ textColor }) => textColor};
+  display: flex;
+  flex: 1 1 auto;
   border: none;
   border-radius: 5px;
   padding: 0 16px;
-  font-size: 24px;
+  font-size: 18px;
   outline: none;
-  margin: 10px;
   
   ::placeholder {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   :disabled {
@@ -26,9 +40,13 @@ const StyledInput = styled.input`
 `;
 
 const Input = ({
+  value,
+  onChange,
+  name,
+  type,
+  label,
   placeholder,
   height,
-  width,
   color,
   opacity,
   disabled,
@@ -36,30 +54,46 @@ const Input = ({
   const { mainColors, textColorsDependBgColor } = useContext(ThemeContext);
 
   return (
-    <StyledInput
-      placeholder={placeholder}
-      height={height}
-      width={width}
-      textColor={textColorsDependBgColor[color]}
-      bgColor={mainColors[color]}
-      opacity={opacity}
-      disabled={disabled}
-    />
+    <InputWrapper>
+      {label && <Label text={label} />}
+      <StyledInput
+        value={value}
+        onChange={onChange}
+        name={name}
+        type={type}
+        id={label && label}
+        placeholder={placeholder}
+        height={height}
+        textColor={textColorsDependBgColor[color]}
+        bgColor={mainColors[color]}
+        opacity={opacity}
+        disabled={disabled}
+      />
+    </InputWrapper>
   );
 };
 
 Input.propTypes = {
-  placeholder: string.isRequired,
+  value: string,
+  onChange: func,
+  name: string,
+  type: string,
+  label: string,
+  placeholder: string,
   height: string,
-  width: string,
   color: string,
   opacity: number,
   disabled: bool,
 };
 
 Input.defaultProps = {
+  value: '',
+  onChange: () => {},
+  name: '',
+  type: 'text',
+  label: '',
+  placeholder: '',
   height: '60px',
-  width: '600px',
   color: 'light',
   opacity: 1,
   disabled: false,

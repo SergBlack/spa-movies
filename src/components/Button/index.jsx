@@ -1,8 +1,16 @@
 import React, { useContext } from 'react';
-import { bool, number, string } from 'prop-types';
+import {
+  bool,
+  number,
+  string,
+  func,
+} from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 const StyledButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   opacity: ${({ opacity }) => opacity};
@@ -10,10 +18,9 @@ const StyledButton = styled.button`
   color: ${({ textColor }) => textColor};
   font-size: 20px;
   text-transform: uppercase;
-  border-radius: 5px;
+  border-radius: ${({ shape }) => (shape === 'square' ? '5px' : '50%')};
   border: none;
-  padding: 10px;
-  margin: 10px;
+  padding: 0;
 
   :hover {
     background-color: ${({ hoverColor }) => hoverColor};
@@ -26,46 +33,72 @@ const StyledButton = styled.button`
   }
 `;
 
+const StyledImage = styled.img`
+  height: 70%;
+  width: 70%;
+`;
+
 const Button = ({
   text,
+  icon,
   height,
   width,
   color,
+  shape,
   opacity,
   disabled,
+  onClick,
 }) => {
   const { mainColors, textColorsDependBgColor, shadesMainColors } = useContext(ThemeContext);
 
   return (
     <StyledButton
+      type="button"
       height={height}
       width={width}
       bgColor={mainColors[color]}
       textColor={textColorsDependBgColor[color]}
       hoverColor={shadesMainColors[color]}
+      shape={shape}
       opacity={opacity}
       disabled={disabled}
+      onClick={onClick}
     >
-      {text}
+      {icon
+        ? (
+          <StyledImage
+            src={icon}
+            alt="icon"
+            color={mainColors[color]}
+          />
+        )
+        : text}
     </StyledButton>
   );
 };
 
 Button.propTypes = {
-  text: string.isRequired,
+  text: string,
+  icon: string,
   height: string,
   width: string,
   color: string,
+  shape: string,
   opacity: number,
   disabled: bool,
+  onClick: func,
 };
 
 Button.defaultProps = {
+  text: '',
+  icon: '',
   height: '60px',
   width: '200px',
   color: 'red',
+  shape: 'square',
   opacity: 1,
   disabled: false,
+  onClick: () => {},
 };
 
 export default Button;

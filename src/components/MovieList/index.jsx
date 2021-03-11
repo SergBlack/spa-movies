@@ -11,21 +11,15 @@ import MovieCard from '../MovieCard';
 
 const StyledMovieList = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  padding: 0 32px;
+  margin: 0 32px;
 `;
 
 const MovieList = ({ movies }) => (
   <StyledMovieList>
     {movies.map((movie) => (
-      <MovieCard
-        key={movie.id}
-        posterPath={movie.poster_path}
-        title={movie.title}
-        releaseDate={movie.release_date}
-        genres={movie.genres.join(', ')}
-      />
+      <MovieCard key={movie.id} movie={movie} />
     ))}
   </StyledMovieList>
 );

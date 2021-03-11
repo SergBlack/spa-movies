@@ -1,90 +1,129 @@
-import React from 'react';
-import { string } from 'prop-types';
-import styled from 'styled-components';
+import React, { useContext, useState } from 'react';
+import {
+  arrayOf,
+  number,
+  shape,
+  string,
+} from 'prop-types';
+import styled, { ThemeContext } from 'styled-components';
 
-import Title from '../Title';
+import MediaContent from './components/MediaContent';
+import DescContent from './components/DescContent';
+import Modal from '../Modal';
+import EditMovieForm from '../../forms/EditMovieForm';
+import DeleteMovieForm from '../../forms/DeleteMovieForm';
+
+import useModal from '../../hooks/useModal';
 
 const StyledMovieCard = styled.div`
-  width: 18%;
-  margin: 16px 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 16px 16px 16px;
+  width: calc(1/5 * 100% - 32px);
+  transition-duration: 300ms;
   
   :hover {
     cursor: pointer;
+    transition-duration: 300ms;
     transform: scale(1.01);
   }
-
-  @media screen and (max-width: 2080px) {
-    width: 22%;
+  
+  @media screen and (max-width: 1920px) {
+    width: calc(1/4 * 100% - 32px);
   }
 
   @media screen and (max-width: 1440px) {
-    width: 28%;
+    width: calc(1/3 * 100% - 32px);
   }
 
-  @media screen and (max-width: 1000px) {
-    width: 42%;
+  @media screen and (max-width: 1200px) {
+    width: calc(1/2 * 100% - 32px);
   }
 
-  @media screen and (max-width: 680px) {
-    width: 100%;
+  @media screen and (max-width: 800px) {
+    width: calc(100% - 32px);
   }
 `;
 
-const ImageContainer = styled.div`
-  width: 100%;
-`;
+const MovieCard = ({ movie }) => {
+  const [isShowCardDetails, setShowCardDetails] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+  const [currentModal, setCurrentModal] = useState(null);
+  const { isOpen, open, close } = useModal();
+  const { mainColors } = useContext(ThemeContext);
 
-const DescContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 10px 0;
-`;
+  const onOpenDetailsClick = () => {
+    setShowCardDetails(true);
+  };
 
-const Paragraph = styled.div`
-  margin: 0;
-`;
+  const onCloseDetailsClick = () => {
+    setShowCardDetails(false);
+  };
 
-const Image = styled.img`
-  width: 100%;
-`;
+  const onMouseEnterCard = () => {
+    setIsHover(true);
+  };
 
-const MovieCard = ({
-  posterPath,
-  title,
-  releaseDate,
-  genres,
-}) => (
-  <StyledMovieCard>
-    <ImageContainer>
-      <Image src={posterPath} alt="Poster" />
-    </ImageContainer>
+  const onMouseLeaveCard = () => {
+    setIsHover(false);
+    setShowCardDetails(false);
+  };
 
-    <DescContainer>
-      <div>
-        <Title content={title} size="20px" />
-        <Paragraph>{genres}</Paragraph>
-      </div>
-      <div>
-        {new Date(releaseDate).getFullYear()}
-      </div>
-    </DescContainer>
+  const onOpenModalClick = (modal) => {
+    setCurrentModal(modal);
+    open();
+  };
 
-  </StyledMovieCard>
-);
+  const onCloseModalClick = () => {
+    setCurrentModal(null);
+    close();
+  };
+
+  return (
+    <StyledMovieCard
+      onMouseEnter={onMouseEnterCard}
+      onMouseLeave={onMouseLeaveCard}
+    >
+      <MediaContent
+        posterPath={movie.poster_path}
+        isHover={isHover}
+        isShowCardDetails={isShowCardDetails}
+        onOpenDetailsClick={onOpenDetailsClick}
+        onCloseDetailsClick={onCloseDetailsClick}
+        onClick={onOpenModalClick}
+      />
+      <DescContent
+        title={movie.title}
+        releaseDate={movie.release_date}
+        genres={movie.genres.join(', ')}
+      />
+      <Modal isOpen={isOpen} close={onCloseModalClick} color={mainColors.dark}>
+        {currentModal === 'edit' && <EditMovieForm formTitle="edit movie" movie={movie} />}
+        {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
+      </Modal>
+    </StyledMovieCard>
+  );
+};
 
 MovieCard.propTypes = {
-  posterPath: string,
-  title: string,
-  releaseDate: string,
-  genres: string,
+  movie: shape({
+    id: number,
+    title: string,
+    tagline: string,
+    vote_average: number,
+    vote_count: number,
+    release_date: string,
+    poster_path: string,
+    overview: string,
+    budget: number,
+    revenue: number,
+    genres: arrayOf(string),
+    runtime: number,
+  }),
 };
 
 MovieCard.defaultProps = {
-  posterPath: '',
-  title: '',
-  releaseDate: '',
-  genres: '',
+  movie: {},
 };
 
 export default MovieCard;

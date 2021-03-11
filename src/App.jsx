@@ -21,10 +21,12 @@ const theme = {
     darkGray: '#FFF',
     red: '#FFF',
     light: '#232323',
+    dark: '#FFF',
   },
   shadesMainColors: {
     gray: '#6A6A6A',
     red: '#FF3E50',
+    dark: '#555',
   },
 };
 

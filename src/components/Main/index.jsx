@@ -1,17 +1,11 @@
 import React, { useState, useContext } from 'react';
+import { arrayOf, shape, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 import FilterPanel from '../FilterPanel';
 import SortPanel from '../SortPanel';
 import Counter from '../Counter';
 import MovieList from '../MovieList';
-
-// TODO: replace with real data
-import movies from './movies.json';
-
-// TODO: replace with real data
-const filtersList = ['ALL', 'ACTION', 'ADVENTURE', 'DRAMA', 'MYSTERY', 'THRILLER'];
-const sortList = ['RELEASE DATE', 'TITLE'];
 
 const StyledMain = styled.main`
   min-height: 700px;
@@ -23,12 +17,13 @@ const StyledFilterBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   min-height: 70px;
   margin: 0 48px;
   border-bottom: ${({ color }) => `2px solid ${color}`};
 `;
 
-const Main = () => {
+const Main = ({ data, filtersList, sortList }) => {
   const [currentFilter, setCurrentFilter] = useState('ALL');
   const { mainColors } = useContext(ThemeContext);
 
@@ -47,10 +42,22 @@ const Main = () => {
         <SortPanel sortList={sortList} />
       </StyledFilterBlock>
 
-      <Counter count={movies.length} text="movies found" />
-      <MovieList movies={movies} />
+      <Counter count={data.length} text="movies found" />
+      <MovieList movies={data} />
     </StyledMain>
   );
+};
+
+Main.propTypes = {
+  data: arrayOf(shape({})),
+  filtersList: arrayOf(string),
+  sortList: arrayOf(string),
+};
+
+Main.defaultProps = {
+  data: [],
+  filtersList: [],
+  sortList: [],
 };
 
 export default Main;

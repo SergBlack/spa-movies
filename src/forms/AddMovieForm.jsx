@@ -16,6 +16,7 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
+// TODO: refactoring MovieForm
 const AddMovieForm = ({ formTitle }) => {
   const [newMovie, setNewMovie] = useState(INITIAL_STATE);
 
@@ -29,9 +30,17 @@ const AddMovieForm = ({ formTitle }) => {
     setNewMovie(INITIAL_STATE);
   };
 
-  // TODO: rework handle genres after refactor Select
   const handleInput = (e) => {
     setNewMovie({ ...newMovie, [e.target.name]: e.target.value });
+  };
+
+  const handleSelect = (newGenre) => {
+    if (newMovie.genres.includes(newGenre)) {
+      const filteredGenres = newMovie.genres.filter((genre) => genre !== newGenre);
+      setNewMovie({ ...newMovie, genres: filteredGenres });
+      return;
+    }
+    setNewMovie({ ...newMovie, genres: [...newMovie.genres, newGenre] });
   };
 
   return (
@@ -46,31 +55,31 @@ const AddMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.date}
+        value={newMovie.release_date}
         onChange={handleInput}
-        name="date"
+        name="release_date"
         type="date"
         label="release date"
         color="darkGray"
       />
 
       <Input
-        value={newMovie.url}
+        value={newMovie.poster_path}
         onChange={handleInput}
-        name="url"
+        name="poster_path"
         label="movie URL"
         placeholder="Enter movie URL"
         color="darkGray"
       />
 
       <Select
-        value={newMovie.genre}
-        onChange={handleInput}
-        name="genre"
+        value={newMovie.genres.join(', ')}
+        placeholder="Select genre"
+        onChange={handleSelect}
         label="genre"
         optionList={GENRES}
+        selectedList={newMovie.genres}
         height="60px"
-        color="darkGray"
       />
 
       <Input

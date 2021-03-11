@@ -21,6 +21,7 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
+// TODO: refactoring MovieForm
 const EditMovieForm = ({ formTitle, movie }) => {
   const [editedMovie, setEditMovie] = useState(INITIAL_STATE);
 
@@ -39,9 +40,17 @@ const EditMovieForm = ({ formTitle, movie }) => {
     setEditMovie(INITIAL_STATE);
   };
 
-  // TODO: rework handle genres after refactor Select
   const handleInput = (e) => {
     setEditMovie({ ...editedMovie, [e.target.name]: e.target.value });
+  };
+
+  const handleSelect = (newGenre) => {
+    if (editedMovie.genres.includes(newGenre)) {
+      const filteredGenres = editedMovie.genres.filter((genre) => genre !== newGenre);
+      setEditMovie({ ...editedMovie, genres: filteredGenres });
+      return;
+    }
+    setEditMovie({ ...editedMovie, genres: [...editedMovie.genres, newGenre] });
   };
 
   return (
@@ -82,13 +91,13 @@ const EditMovieForm = ({ formTitle, movie }) => {
       />
 
       <Select
-        value={editedMovie.genres && editedMovie.genres[0]}
-        onChange={handleInput}
-        name="genres"
+        value={editedMovie.genres.join(', ')}
+        placeholder="Select genre"
+        onChange={handleSelect}
         label="genre"
         optionList={GENRES}
+        selectedList={editedMovie.genres}
         height="60px"
-        color="darkGray"
       />
 
       <Input

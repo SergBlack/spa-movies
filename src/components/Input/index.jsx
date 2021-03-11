@@ -5,6 +5,7 @@ import {
   number,
   string,
   func,
+  oneOfType,
 } from 'prop-types';
 
 import Label from '../Label';
@@ -74,7 +75,7 @@ const Input = ({
 };
 
 Input.propTypes = {
-  value: string,
+  value: oneOfType([string, number]),
   onChange: func,
   name: string,
   type: string,

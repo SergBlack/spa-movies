@@ -1,9 +1,10 @@
 const INITIAL_STATE = {
   title: '',
-  date: '',
-  url: '',
-  genre: '',
+  release_date: '',
+  poster_path: '',
+  genres: [],
   overview: '',
+  runtime: '',
 };
 
 export default INITIAL_STATE;

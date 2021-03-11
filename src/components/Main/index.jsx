@@ -17,6 +17,7 @@ const StyledFilterBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   min-height: 70px;
   margin: 0 48px;
   border-bottom: ${({ color }) => `2px solid ${color}`};

@@ -7,10 +7,9 @@ import Select from '../Select';
 const StyledSortPanel = styled.div`
   display: flex;
   justify-content: flex-end;
-  flex-wrap: wrap;
   align-items: center;
+  flex: 0 0 350px;
   font-size: 20px;
-  margin: 8px;
 `;
 
 const StyledSortText = styled.div`
@@ -31,7 +30,15 @@ const SortPanel = ({
   return (
     <StyledSortPanel>
       <StyledSortText color={mainColors[bgColor]}>SORT BY</StyledSortText>
-      <Select optionList={sortList} height={height} bgColor={bgColor} textColor={textColor} />
+      <Select
+        placeholder="Select sort"
+        value={sortList[0]}
+        onChange={() => {}}
+        optionList={sortList}
+        height={height}
+        bgColor={bgColor}
+        textColor={textColor}
+      />
     </StyledSortPanel>
   );
 };
@@ -45,7 +52,7 @@ SortPanel.propTypes = {
 
 SortPanel.defaultProps = {
   sortList: [],
-  height: '40px',
+  height: '50px',
   bgColor: 'darkGray',
   textColor: 'light',
 };

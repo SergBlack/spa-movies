@@ -20,9 +20,11 @@ const StyledMovieCard = styled.div`
   flex-direction: column;
   margin: 0 16px 16px 16px;
   width: calc(1/5 * 100% - 32px);
+  transition-duration: 300ms;
   
   :hover {
     cursor: pointer;
+    transition-duration: 300ms;
     transform: scale(1.01);
   }
   

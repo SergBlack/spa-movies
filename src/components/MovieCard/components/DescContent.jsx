@@ -4,6 +4,8 @@ import { string } from 'prop-types';
 
 import Title from '../../Title';
 
+import { DATE_NOT_SET, GENRES_NOT_SET, TITLE_NOT_SET } from '../../../constants/textMessages';
+
 const DescContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -18,11 +20,11 @@ const Paragraph = styled.div`
 const DescContent = ({ title, genres, releaseDate }) => (
   <DescContainer>
     <div>
-      <Title size="20px" content={title || 'No title set'} />
-      <Paragraph>{genres || 'No genres set'}</Paragraph>
+      <Title size="20px" content={title || TITLE_NOT_SET} />
+      <Paragraph>{genres || GENRES_NOT_SET}</Paragraph>
     </div>
     <div>
-      {releaseDate ? new Date(releaseDate).getFullYear() : 'N/A'}
+      {releaseDate ? new Date(releaseDate).getFullYear() : DATE_NOT_SET}
     </div>
   </DescContainer>
 );

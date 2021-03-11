@@ -18,7 +18,7 @@ const StyledButton = styled.button`
   color: ${({ textColor }) => textColor};
   font-size: 20px;
   text-transform: uppercase;
-  border-radius: ${({ type }) => (type === 'square' ? '5px' : '50%')};
+  border-radius: ${({ shape }) => (shape === 'square' ? '5px' : '50%')};
   border: none;
   padding: 0;
 
@@ -44,7 +44,7 @@ const Button = ({
   height,
   width,
   color,
-  type,
+  shape,
   opacity,
   disabled,
   onClick,
@@ -53,12 +53,13 @@ const Button = ({
 
   return (
     <StyledButton
+      type="button"
       height={height}
       width={width}
       bgColor={mainColors[color]}
       textColor={textColorsDependBgColor[color]}
       hoverColor={shadesMainColors[color]}
-      type={type}
+      shape={shape}
       opacity={opacity}
       disabled={disabled}
       onClick={onClick}
@@ -82,7 +83,7 @@ Button.propTypes = {
   height: string,
   width: string,
   color: string,
-  type: string,
+  shape: string,
   opacity: number,
   disabled: bool,
   onClick: func,
@@ -94,7 +95,7 @@ Button.defaultProps = {
   height: '60px',
   width: '200px',
   color: 'red',
-  type: 'square',
+  shape: 'square',
   opacity: 1,
   disabled: false,
   onClick: () => {},

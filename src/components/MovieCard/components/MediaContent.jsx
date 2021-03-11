@@ -42,7 +42,7 @@ const MediaContent = ({
           height="40px"
           width="40px"
           color="dark"
-          type="circle"
+          shape="circle"
           onClick={onOpenDetailsClick}
         />
       </ButtonWrapper>

@@ -8,8 +8,8 @@ const StyledSortPanel = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  flex: 0 0 350px;
-  font-size: 20px;
+  flex: 0 0 300px;
+  font-size: 18px;
 `;
 
 const StyledSortText = styled.div`

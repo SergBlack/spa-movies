@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
   #root {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
     justify-content: flex-start;
     align-items: center;
   }

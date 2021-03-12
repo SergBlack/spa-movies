@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import { string } from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import {
+  arrayOf,
+  number,
+  shape,
+  string,
+} from 'prop-types';
 import styled from 'styled-components';
 
 import Form from '../components/Form';
@@ -16,37 +21,44 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
-// TODO: refactoring MovieForm
-const AddMovieForm = ({ formTitle }) => {
-  const [newMovie, setNewMovie] = useState(INITIAL_STATE);
+const MovieForm = ({ formTitle, movie }) => {
+  const [editedMovie, setEditedMovie] = useState(INITIAL_STATE);
+
+  useEffect(() => {
+    if (movie) {
+      setEditedMovie(movie);
+    }
+  }, [movie]);
 
   // TODO: replace with redux action
-  const handleSubmit = () => {
+  const handleSave = (e) => {
+    e.stopPropagation();
     // eslint-disable-next-line no-alert
-    alert(`You are submitting: ${JSON.stringify(newMovie)}`);
+    alert(`You are submitting: ${JSON.stringify(editedMovie)}`);
   };
 
-  const handleReset = () => {
-    setNewMovie(INITIAL_STATE);
+  const handleReset = (e) => {
+    e.stopPropagation();
+    setEditedMovie(INITIAL_STATE);
   };
 
   const handleInput = (e) => {
-    setNewMovie({ ...newMovie, [e.target.name]: e.target.value });
+    setEditedMovie({ ...editedMovie, [e.target.name]: e.target.value });
   };
 
   const handleSelect = (newGenre) => {
-    if (newMovie.genres.includes(newGenre)) {
-      const filteredGenres = newMovie.genres.filter((genre) => genre !== newGenre);
-      setNewMovie({ ...newMovie, genres: filteredGenres });
+    if (editedMovie.genres.includes(newGenre)) {
+      const filteredGenres = editedMovie.genres.filter((genre) => genre !== newGenre);
+      setEditedMovie({ ...editedMovie, genres: filteredGenres });
       return;
     }
-    setNewMovie({ ...newMovie, genres: [...newMovie.genres, newGenre] });
+    setEditedMovie({ ...editedMovie, genres: [...editedMovie.genres, newGenre] });
   };
 
   return (
     <Form title={formTitle}>
       <Input
-        value={newMovie.title}
+        value={editedMovie.title}
         onChange={handleInput}
         name="title"
         label="title"
@@ -55,7 +67,7 @@ const AddMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.release_date}
+        value={editedMovie.release_date}
         onChange={handleInput}
         name="release_date"
         type="date"
@@ -64,7 +76,7 @@ const AddMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.poster_path}
+        value={editedMovie.poster_path}
         onChange={handleInput}
         name="poster_path"
         label="movie URL"
@@ -73,17 +85,17 @@ const AddMovieForm = ({ formTitle }) => {
       />
 
       <Select
-        value={newMovie.genres.join(', ')}
+        value={editedMovie.genres.join(', ')}
         placeholder="Select genre"
         onChange={handleSelect}
         label="genre"
         optionList={GENRES}
-        selectedList={newMovie.genres}
+        selectedList={editedMovie.genres}
         height="60px"
       />
 
       <Input
-        value={newMovie.overview}
+        value={editedMovie.overview}
         onChange={handleInput}
         name="overview"
         label="overview"
@@ -92,7 +104,7 @@ const AddMovieForm = ({ formTitle }) => {
       />
 
       <Input
-        value={newMovie.runtime}
+        value={editedMovie.runtime}
         onChange={handleInput}
         name="runtime"
         label="runtime"
@@ -102,18 +114,33 @@ const AddMovieForm = ({ formTitle }) => {
 
       <ButtonWrapper>
         <Button text="reset" onClick={handleReset} color="gray" />
-        <Button text="submit" onClick={handleSubmit} />
+        <Button text="save" onClick={handleSave} />
       </ButtonWrapper>
     </Form>
   );
 };
 
-AddMovieForm.propTypes = {
+MovieForm.propTypes = {
   formTitle: string,
+  movie: shape({
+    id: number,
+    title: string,
+    tagline: string,
+    vote_average: number,
+    vote_count: number,
+    release_date: string,
+    poster_path: string,
+    overview: string,
+    budget: number,
+    revenue: number,
+    genres: arrayOf(string),
+    runtime: number,
+  }),
 };
 
-AddMovieForm.defaultProps = {
+MovieForm.defaultProps = {
   formTitle: '',
+  movie: null,
 };
 
-export default AddMovieForm;
+export default MovieForm;

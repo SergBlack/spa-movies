@@ -2,7 +2,7 @@ import React from 'react';
 import { string, bool, func } from 'prop-types';
 import styled from 'styled-components';
 
-const OptionContainer = styled.div`
+const OptionWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   padding: 0 16px;
@@ -20,7 +20,7 @@ const StyledCheckbox = styled.input`
 `;
 
 const OptionItem = ({ item, selected, onChange }) => (
-  <OptionContainer>
+  <OptionWrapper>
     <StyledCheckbox
       type="checkbox"
       checked={selected}
@@ -32,7 +32,7 @@ const OptionItem = ({ item, selected, onChange }) => (
     >
       {item}
     </StyledOption>
-  </OptionContainer>
+  </OptionWrapper>
 );
 
 OptionItem.propTypes = {

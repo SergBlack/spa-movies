@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import {
   arrayOf,
+  func,
   number,
   shape,
   string,
@@ -8,9 +9,9 @@ import {
 import styled, { ThemeContext } from 'styled-components';
 
 import MediaContent from './components/MediaContent';
-import DescContent from './components/DescContent';
+import TextContent from './components/TextContent';
 import Modal from '../Modal';
-import EditMovieForm from '../../forms/EditMovieForm';
+import MovieForm from '../../forms/MovieForm';
 import DeleteMovieForm from '../../forms/DeleteMovieForm';
 
 import useModal from '../../hooks/useModal';
@@ -45,18 +46,20 @@ const StyledMovieCard = styled.div`
   }
 `;
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, onClick }) => {
   const [isShowCardDetails, setShowCardDetails] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
   const { isOpen, open, close } = useModal();
   const { mainColors } = useContext(ThemeContext);
 
-  const onOpenDetailsClick = () => {
+  const onOpenDetailsClick = (e) => {
+    e.stopPropagation();
     setShowCardDetails(true);
   };
 
-  const onCloseDetailsClick = () => {
+  const onCloseDetailsClick = (e) => {
+    e.stopPropagation();
     setShowCardDetails(false);
   };
 
@@ -69,12 +72,14 @@ const MovieCard = ({ movie }) => {
     setShowCardDetails(false);
   };
 
-  const onOpenModalClick = (modal) => {
+  const onOpenModalClick = (e, modal) => {
+    e.stopPropagation();
     setCurrentModal(modal);
     open();
   };
 
-  const onCloseModalClick = () => {
+  const onCloseModalClick = (e) => {
+    e.stopPropagation();
     setCurrentModal(null);
     close();
   };
@@ -83,6 +88,7 @@ const MovieCard = ({ movie }) => {
     <StyledMovieCard
       onMouseEnter={onMouseEnterCard}
       onMouseLeave={onMouseLeaveCard}
+      onClick={() => onClick(movie.id)}
     >
       <MediaContent
         posterPath={movie.poster_path}
@@ -92,13 +98,13 @@ const MovieCard = ({ movie }) => {
         onCloseDetailsClick={onCloseDetailsClick}
         onClick={onOpenModalClick}
       />
-      <DescContent
+      <TextContent
         title={movie.title}
         releaseDate={movie.release_date}
         genres={movie.genres.join(', ')}
       />
       <Modal isOpen={isOpen} close={onCloseModalClick} color={mainColors.dark}>
-        {currentModal === 'edit' && <EditMovieForm formTitle="edit movie" movie={movie} />}
+        {currentModal === 'edit' && <MovieForm formTitle="edit movie" movie={movie} />}
         {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
       </Modal>
     </StyledMovieCard>
@@ -120,6 +126,7 @@ MovieCard.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
+  onClick: func.isRequired,
 };
 
 MovieCard.defaultProps = {

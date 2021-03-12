@@ -9,7 +9,7 @@ import DetailsIcon from '../../../assets/images/details.svg';
 import CloseIcon from '../../../assets/images/close.svg';
 import NotFound from '../../../assets/images/not-found.png';
 
-const ImageContainer = styled.div`
+const ImageWrapper = styled.div`
   width: 100%;
   position: relative;
   display: flex;
@@ -33,7 +33,7 @@ const MediaContent = ({
   onCloseDetailsClick,
   onClick,
 }) => (
-  <ImageContainer>
+  <ImageWrapper>
     <Image src={posterPath || NotFound} alt="Poster" />
     {isHover && (
       <ButtonWrapper>
@@ -61,18 +61,18 @@ const MediaContent = ({
           width="100%"
           height="40px"
           color="dark"
-          onClick={() => onClick('edit')}
+          onClick={(e) => onClick(e, 'edit')}
         />
         <Button
           text="delete"
           width="100%"
           height="40px"
           color="dark"
-          onClick={() => onClick('delete')}
+          onClick={(e) => onClick(e, 'delete')}
         />
       </Dropdown>
     )}
-  </ImageContainer>
+  </ImageWrapper>
 );
 
 MediaContent.propTypes = {

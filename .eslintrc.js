@@ -25,4 +25,11 @@ module.exports = {
     'max-len': ['error', { code: 100 }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: './webpack.common.js',
+      },
+    },
+  },
 };

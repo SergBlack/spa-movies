@@ -21,6 +21,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@constants': path.resolve(__dirname, 'src/constants'),
+      '@forms': path.resolve(__dirname, 'src/forms'),
+      '@helpers': path.resolve(__dirname, 'src/helpers'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+    },
   },
   plugins: [
     new HTMLWebpackPlugin({

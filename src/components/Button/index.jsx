@@ -39,7 +39,7 @@ const StyledImage = styled.img`
   width: 70%;
 `;
 
-const Button = ({
+const Button = React.memo(({
   text,
   icon,
   height,
@@ -78,7 +78,7 @@ const Button = ({
         : text}
     </StyledButton>
   );
-};
+});
 
 Button.propTypes = {
   text: string,

@@ -37,7 +37,7 @@ const HomePage = () => {
   const [state, setState] = useState([]);
   const [isShowMovieInfo, setIsShowMovieInfo] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { isOpen, close, open } = useModal();
+  const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
   const movieInfo = useRef();
 
@@ -60,7 +60,7 @@ const HomePage = () => {
       <HeaderWrapper ref={movieInfo}>
         {isShowMovieInfo
           ? <MovieInfo selected={selectedMovie} onClick={onCloseMovieInfo} />
-          : <Header onClick={open} />}
+          : <Header onClick={toggle} />}
       </HeaderWrapper>
       <Main
         data={state}
@@ -69,7 +69,7 @@ const HomePage = () => {
         onCardClick={onCardClick}
       />
       <Footer />
-      <Modal isOpen={isOpen} close={close} color={mainColors.dark}>
+      <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
         <MovieForm formTitle="add movie" />
       </Modal>
     </>

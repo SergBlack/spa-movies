@@ -1,4 +1,4 @@
-import React, { useContext, memo } from 'react';
+import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import {
   bool,
@@ -40,7 +40,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = ({
+const Input = React.memo(({
   value,
   onChange,
   name,
@@ -72,7 +72,7 @@ const Input = ({
       />
     </InputWrapper>
   );
-};
+});
 
 Input.propTypes = {
   value: oneOfType([string, number]),
@@ -100,5 +100,4 @@ Input.defaultProps = {
   disabled: false,
 };
 
-const MemorizedInput = memo(Input);
-export default MemorizedInput;
+export default Input;

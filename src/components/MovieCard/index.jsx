@@ -49,7 +49,7 @@ const MovieCard = ({ movie, onClick }) => {
   const [isShowCardDetails, setShowCardDetails] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
-  const { isOpen, open, close } = useModal();
+  const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
 
   const onOpenDetailsClick = (e) => {
@@ -74,13 +74,13 @@ const MovieCard = ({ movie, onClick }) => {
   const onOpenModalClick = (e, modal) => {
     e.stopPropagation();
     setCurrentModal(modal);
-    open();
+    toggle();
   };
 
   const onCloseModalClick = (e) => {
     e.stopPropagation();
     setCurrentModal(null);
-    close();
+    toggle();
   };
 
   return (
@@ -102,7 +102,7 @@ const MovieCard = ({ movie, onClick }) => {
         releaseDate={movie.release_date}
         genres={movie.genres.join(', ')}
       />
-      <Modal isOpen={isOpen} close={onCloseModalClick} color={mainColors.dark}>
+      <Modal isOpen={isOpen} toggle={onCloseModalClick} color={mainColors.dark}>
         {currentModal === 'edit' && <MovieForm formTitle="edit movie" movie={movie} />}
         {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
       </Modal>

@@ -7,10 +7,10 @@ import {
 } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import FilterPanel from '../FilterPanel';
-import SortPanel from '../SortPanel';
-import Counter from '../Counter';
-import MovieList from '../MovieList';
+import FilterPanel from '@components/FilterPanel';
+import SortPanel from '@components/SortPanel';
+import Counter from '@components/Counter';
+import MovieList from '@components/MovieList';
 
 const StyledMain = styled.main`
   min-height: 700px;

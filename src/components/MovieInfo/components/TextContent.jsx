@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { number, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import Title from '../../Title';
+import Title from '@components/Title';
 
-import getYear from '../../../helpers/getYear';
-import getMaxStringLength from '../../../helpers/getMaxStringLength';
-import { OVERVIEW_NOT_SET, TITLE_NOT_SET } from '../../../constants/textMessages';
+import getYear from '@helpers/getYear';
+import getMaxStringLength from '@helpers/getMaxStringLength';
+import { OVERVIEW_NOT_SET, TITLE_NOT_SET } from '@constants/textMessages';
 
 const InfoWrapper = styled.div`
   display: flex;

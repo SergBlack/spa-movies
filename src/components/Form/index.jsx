@@ -2,7 +2,7 @@ import React from 'react';
 import { node, string } from 'prop-types';
 import styled from 'styled-components';
 
-import Title from '../Title';
+import Title from '@components/Title';
 
 const StyledForm = styled.div`
   display: flex;

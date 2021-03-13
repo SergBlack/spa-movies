@@ -8,13 +8,13 @@ import {
 } from 'prop-types';
 import styled from 'styled-components';
 
-import Logo from '../Logo';
-import Button from '../Button';
-import TextContent from './components/TextContent';
-import MediaContent from './components/MediaContent';
+import Logo from '@components/Logo';
+import Button from '@components/Button';
+import TextContent from '@components/MovieInfo/components/TextContent';
+import MediaContent from '@components/MovieInfo/components/MediaContent';
 
-import LogoImage from '../../assets/images/logo.svg';
-import SearchIcon from '../../assets/images/search.svg';
+import LogoImage from '@assets/images/logo.svg';
+import SearchIcon from '@assets/images/search.svg';
 
 const StyledMovieInfo = styled.div`
   height: 100%;

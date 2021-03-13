@@ -8,7 +8,7 @@ import {
 } from 'prop-types';
 import styled from 'styled-components';
 
-import MovieCard from '../MovieCard';
+import MovieCard from '@components/MovieCard';
 
 const StyledMovieList = styled.div`
   display: flex;

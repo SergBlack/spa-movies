@@ -7,14 +7,13 @@ import {
   string,
 } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
+import Modal from '@components/Modal';
+import MovieForm from '@forms/MovieForm';
+import DeleteMovieForm from '@forms/DeleteMovieForm';
+import MediaContent from '@components/MovieCard/components/MediaContent';
+import TextContent from '@components/MovieCard/components/TextContent';
 
-import MediaContent from './components/MediaContent';
-import TextContent from './components/TextContent';
-import Modal from '../Modal';
-import MovieForm from '../../forms/MovieForm';
-import DeleteMovieForm from '../../forms/DeleteMovieForm';
-
-import useModal from '../../hooks/useModal';
+import useModal from '@hooks/useModal';
 
 const StyledMovieCard = styled.div`
   display: flex;

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { string } from 'prop-types';
 
-import Title from '../../Title';
+import Title from '@components/Title';
 
-import getYear from '../../../helpers/getYear';
-import { GENRES_NOT_SET, TITLE_NOT_SET } from '../../../constants/textMessages';
+import getYear from '@helpers/getYear';
+import { GENRES_NOT_SET, TITLE_NOT_SET } from '@constants/textMessages';
 
 const TextWrapper = styled.div`
   display: flex;

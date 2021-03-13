@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { string, bool, func } from 'prop-types';
 
-import Button from '../../Button';
-import Dropdown from '../../Dropdown';
+import Button from '@components/Button';
+import Dropdown from '@components/Dropdown';
 
-import DetailsIcon from '../../../assets/images/details.svg';
-import CloseIcon from '../../../assets/images/close.svg';
-import NotFound from '../../../assets/images/not-found.png';
+import DetailsIcon from '@assets/images/details.svg';
+import CloseIcon from '@assets/images/close.svg';
+import NotFound from '@assets/images/not-found.png';
 
 const ImageWrapper = styled.div`
   width: 100%;

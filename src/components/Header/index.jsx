@@ -2,12 +2,12 @@ import React from 'react';
 import { func } from 'prop-types';
 import styled from 'styled-components';
 
-import Logo from '../Logo';
-import Button from '../Button';
-import Title from '../Title';
-import Input from '../Input';
+import Logo from '@components/Logo';
+import Button from '@components/Button';
+import Title from '@components/Title';
+import Input from '@components/Input';
 
-import LogoImage from '../../assets/images/logo.svg';
+import LogoImage from '@assets/images/logo.svg';
 
 const TopContent = styled.div`
   display: flex;

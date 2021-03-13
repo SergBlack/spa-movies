@@ -6,16 +6,16 @@ import React, {
 } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
-import Header from '../../components/Header';
-import MovieInfo from '../../components/MovieInfo';
-import Main from '../../components/Main';
-import Footer from '../../components/Footer';
-import Modal from '../../components/Modal';
-import MovieForm from '../../forms/MovieForm';
+import Header from '@components/Header';
+import MovieInfo from '@components/MovieInfo';
+import Main from '@components/Main';
+import Footer from '@components/Footer';
+import Modal from '@components/Modal';
+import MovieForm from '@forms/MovieForm';
 
-import useModal from '../../hooks/useModal';
+import useModal from '@hooks/useModal';
 
-import BackgroundImage from '../../assets/images/header-background.jpg';
+import BackgroundImage from '@assets/images/header-background.jpg';
 
 // TODO: replace with real data
 import movies from './movies.json';
@@ -34,36 +34,36 @@ const HeaderWrapper = styled.header`
 `;
 
 const HomePage = () => {
-  const [data, setData] = useState([]);
-  const [isMovieInfoShow, setIsMovieInfoShow] = useState(false);
+  const [state, setState] = useState([]);
+  const [isShowMovieInfo, setIsShowMovieInfo] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { isOpen, close, open } = useModal();
   const { mainColors } = useContext(ThemeContext);
   const movieInfo = useRef();
 
   useEffect(() => {
-    setData(movies);
+    setState(movies);
   }, []);
 
   const onCardClick = (id) => {
     movieInfo.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    setIsMovieInfoShow(true);
+    setIsShowMovieInfo(true);
     setSelectedMovie(...movies.filter((movie) => movie.id === id));
   };
 
   const onCloseMovieInfo = () => {
-    setIsMovieInfoShow(false);
+    setIsShowMovieInfo(false);
   };
 
   return (
     <>
       <HeaderWrapper ref={movieInfo}>
-        {isMovieInfoShow
+        {isShowMovieInfo
           ? <MovieInfo selected={selectedMovie} onClick={onCloseMovieInfo} />
           : <Header onClick={open} />}
       </HeaderWrapper>
       <Main
-        data={data}
+        data={state}
         filtersList={filtersList}
         sortList={sortList}
         onCardClick={onCardClick}

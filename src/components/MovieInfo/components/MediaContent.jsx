@@ -2,7 +2,7 @@ import React from 'react';
 import { string } from 'prop-types';
 import styled from 'styled-components';
 
-import NotFound from '../../../assets/images/not-found.png';
+import NotFound from '@assets/images/not-found.png';
 
 const ImageWrapper = styled.div`
 `;

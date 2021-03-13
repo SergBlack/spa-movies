@@ -2,9 +2,9 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
-import Button from '../Button';
+import Button from '@components/Button';
 
-import CloseIcon from '../../assets/images/close.svg';
+import CloseIcon from '@assets/images/close.svg';
 
 const StyledOverlay = styled.div`
   position: fixed;

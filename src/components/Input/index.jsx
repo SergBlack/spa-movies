@@ -8,7 +8,7 @@ import {
   oneOfType,
 } from 'prop-types';
 
-import Label from '../Label';
+import Label from '@components/Label';
 
 const InputWrapper = styled.div`
   display: flex;

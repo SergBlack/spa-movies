@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { arrayOf, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import Select from '../Select';
+import Select from '@components/Select';
 
 const StyledSortPanel = styled.div`
   display: flex;

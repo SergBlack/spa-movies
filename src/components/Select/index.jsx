@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, memo } from 'react';
 import { arrayOf, func, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -105,4 +105,5 @@ Select.defaultProps = {
   textColor: 'light',
 };
 
-export default Select;
+const MemorizedSelect = memo(Select);
+export default MemorizedSelect;

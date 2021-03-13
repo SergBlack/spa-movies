@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import {
   arrayOf,
   number,
@@ -7,13 +7,12 @@ import {
 } from 'prop-types';
 import styled from 'styled-components';
 
-import Form from '../components/Form';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import Select from '../components/Select';
+import Form from '@components/Form';
+import Input from '@components/Input';
+import Button from '@components/Button';
+import Select from '@components/Select';
 
-import INITIAL_STATE from '../constants/initialState';
-import GENRES from '../constants/genres';
+import GENRES from '@constants/genres';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -21,12 +20,44 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
+const initialState = {
+  title: '',
+  release_date: '',
+  poster_path: '',
+  genres: [],
+  overview: '',
+  runtime: '',
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'RESET':
+      return initialState;
+    case 'SET_MOVIE_FROM_PROPS':
+      return action.payload;
+    case 'HANDLE_INPUT': {
+      const { name, value } = action.payload;
+      return { ...state, [name]: value };
+    }
+    case 'HANDLE_SELECT': {
+      const newGenre = action.payload;
+      if (state.genres.includes(newGenre)) {
+        const filteredGenres = state.genres.filter((genre) => genre !== newGenre);
+        return { ...state, genres: filteredGenres };
+      }
+      return { ...state, genres: [...state.genres, newGenre] };
+    }
+    default:
+      return state;
+  }
+};
+
 const MovieForm = ({ formTitle, movie }) => {
-  const [editedMovie, setEditedMovie] = useState(INITIAL_STATE);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     if (movie) {
-      setEditedMovie(movie);
+      dispatch({ type: 'SET_MOVIE_FROM_PROPS', payload: movie });
     }
   }, [movie]);
 
@@ -34,31 +65,28 @@ const MovieForm = ({ formTitle, movie }) => {
   const handleSave = (e) => {
     e.stopPropagation();
     // eslint-disable-next-line no-alert
-    alert(`You are submitting: ${JSON.stringify(editedMovie)}`);
+    alert(`You are submitting: ${JSON.stringify(state)}`);
   };
 
-  const handleReset = (e) => {
-    e.stopPropagation();
-    setEditedMovie(INITIAL_STATE);
-  };
+  const handleReset = useCallback(
+    () => { dispatch({ type: 'RESET' }); },
+    [dispatch],
+  );
 
-  const handleInput = (e) => {
-    setEditedMovie({ ...editedMovie, [e.target.name]: e.target.value });
-  };
+  const handleInput = useCallback(
+    (e) => dispatch({ type: 'HANDLE_INPUT', payload: e.target }),
+    [dispatch],
+  );
 
-  const handleSelect = (newGenre) => {
-    if (editedMovie.genres.includes(newGenre)) {
-      const filteredGenres = editedMovie.genres.filter((genre) => genre !== newGenre);
-      setEditedMovie({ ...editedMovie, genres: filteredGenres });
-      return;
-    }
-    setEditedMovie({ ...editedMovie, genres: [...editedMovie.genres, newGenre] });
-  };
+  const handleSelect = useCallback(
+    (newGenre) => { dispatch({ type: 'HANDLE_SELECT', payload: newGenre }); },
+    [dispatch],
+  );
 
   return (
     <Form title={formTitle}>
       <Input
-        value={editedMovie.title}
+        value={state.title}
         onChange={handleInput}
         name="title"
         label="title"
@@ -67,7 +95,7 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={editedMovie.release_date}
+        value={state.release_date}
         onChange={handleInput}
         name="release_date"
         type="date"
@@ -76,7 +104,7 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={editedMovie.poster_path}
+        value={state.poster_path}
         onChange={handleInput}
         name="poster_path"
         label="movie URL"
@@ -85,17 +113,17 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Select
-        value={editedMovie.genres.join(', ')}
+        value={state.genres.join(', ')}
         placeholder="Select genre"
         onChange={handleSelect}
         label="genre"
         optionList={GENRES}
-        selectedList={editedMovie.genres}
+        selectedList={state.genres}
         height="60px"
       />
 
       <Input
-        value={editedMovie.overview}
+        value={state.overview}
         onChange={handleInput}
         name="overview"
         label="overview"
@@ -104,7 +132,7 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={editedMovie.runtime}
+        value={state.runtime}
         onChange={handleInput}
         name="runtime"
         label="runtime"

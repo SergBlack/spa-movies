@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import {
   bool,
@@ -100,4 +100,5 @@ Input.defaultProps = {
   disabled: false,
 };
 
-export default Input;
+const MemorizedInput = memo(Input);
+export default MemorizedInput;

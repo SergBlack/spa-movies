@@ -54,7 +54,7 @@ const StyledModalBody = styled.div`
 
 const Modal = ({
   isOpen,
-  close,
+  toggle,
   color,
   children,
 }) => (
@@ -65,15 +65,13 @@ const Modal = ({
         <StyledWrapper>
           <StyledModal color={color}>
             <StyledModalHeader>
-              {close && (
-                <Button
-                  icon={CloseIcon}
-                  onClick={close}
-                  height="35px"
-                  width="35px"
-                  color="dark"
-                />
-              )}
+              <Button
+                icon={CloseIcon}
+                onClick={toggle}
+                height="35px"
+                width="35px"
+                color="dark"
+              />
             </StyledModalHeader>
             <StyledModalBody>{children}</StyledModalBody>
           </StyledModal>

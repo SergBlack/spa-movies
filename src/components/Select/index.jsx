@@ -1,4 +1,4 @@
-import React, { useContext, useState, memo } from 'react';
+import React, { useContext, useState } from 'react';
 import { arrayOf, func, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -40,7 +40,7 @@ const StyledImage = styled.img`
 `;
 
 // TODO: add single select mode
-const Select = ({
+const Select = React.memo(({
   value,
   placeholder,
   onChange,
@@ -80,7 +80,7 @@ const Select = ({
       )}
     </SelectWrapper>
   );
-};
+});
 
 Select.propTypes = {
   value: string,
@@ -105,5 +105,4 @@ Select.defaultProps = {
   textColor: 'light',
 };
 
-const MemorizedSelect = memo(Select);
-export default MemorizedSelect;
+export default Select;

@@ -31,7 +31,7 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'RESET':
+    case 'RESET_FORM':
       return initialState;
     case 'SET_MOVIE_FROM_PROPS':
       return action.payload;
@@ -69,7 +69,7 @@ const MovieForm = ({ formTitle, movie }) => {
   };
 
   const handleReset = useCallback(
-    () => { dispatch({ type: 'RESET' }); },
+    () => { dispatch({ type: 'RESET_FORM' }); },
     [dispatch],
   );
 

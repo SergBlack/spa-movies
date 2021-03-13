@@ -34,21 +34,21 @@ const HeaderWrapper = styled.header`
 `;
 
 const HomePage = () => {
-  const [state, setState] = useState([]);
+  const [movie, setMovie] = useState([]);
   const [isShowMovieInfo, setIsShowMovieInfo] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { isOpen, close, open } = useModal();
+  const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
   const movieInfo = useRef();
 
   useEffect(() => {
-    setState(movies);
+    setMovie(movies);
   }, []);
 
   const onCardClick = (id) => {
     movieInfo.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
     setIsShowMovieInfo(true);
-    setSelectedMovie(...movies.filter((movie) => movie.id === id));
+    setSelectedMovie(...movies.filter((movieItem) => movieItem.id === id));
   };
 
   const onCloseMovieInfo = () => {
@@ -60,16 +60,16 @@ const HomePage = () => {
       <HeaderWrapper ref={movieInfo}>
         {isShowMovieInfo
           ? <MovieInfo selected={selectedMovie} onClick={onCloseMovieInfo} />
-          : <Header onClick={open} />}
+          : <Header onClick={toggle} />}
       </HeaderWrapper>
       <Main
-        data={state}
+        data={movie}
         filtersList={filtersList}
         sortList={sortList}
         onCardClick={onCardClick}
       />
       <Footer />
-      <Modal isOpen={isOpen} close={close} color={mainColors.dark}>
+      <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
         <MovieForm formTitle="add movie" />
       </Modal>
     </>

@@ -5,7 +5,7 @@ import styled, { ThemeContext } from 'styled-components';
 import Title from '@components/Title';
 
 import getYear from '@helpers/getYear';
-import getMaxStringLength from '@helpers/getMaxStringLength';
+import trimStringByLength from '@helpers/trimStringByLength';
 import { OVERVIEW_NOT_SET, TITLE_NOT_SET } from '@constants/textMessages';
 
 const InfoWrapper = styled.div`
@@ -82,7 +82,7 @@ const TextContent = ({
         </StyledDate>
       </DateWrapper>
       <TextWrapper>
-        {getMaxStringLength(overview, 500) || OVERVIEW_NOT_SET}
+        {trimStringByLength(overview, 500) || OVERVIEW_NOT_SET}
       </TextWrapper>
     </InfoWrapper>
   );

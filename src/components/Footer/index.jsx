@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import Logo from '../Logo';
+import Logo from '@components/Logo';
 
-import LogoImage from '../../assets/images/logo.svg';
+import LogoImage from '@assets/images/logo.svg';
 
 const StyledFooter = styled.footer`
   display: flex;

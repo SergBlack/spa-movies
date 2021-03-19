@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { arrayOf, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import Select from '../Select';
+import Select from '@components/Select';
 
 const StyledSortPanel = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  flex: 0 0 350px;
-  font-size: 20px;
+  flex: 0 0 300px;
+  font-size: 18px;
 `;
 
 const StyledSortText = styled.div`

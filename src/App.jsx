@@ -2,11 +2,11 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import ErrorBoundary from './components/ErrorBoundary';
+import HomePage from '@pages/HomePage';
+import LoginPage from '@pages/LoginPage';
+import ErrorBoundary from '@components/ErrorBoundary';
 
-import RobotoRegular from './assets/fonts/Roboto-Regular.woff2';
+import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
 
 const theme = {
   mainColors: {
@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
   #root {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
     justify-content: flex-start;
     align-items: center;
   }

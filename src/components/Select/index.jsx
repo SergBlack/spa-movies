@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { arrayOf, func, string } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import Label from '../Label';
-import OptionList from './components/OptionList';
+import Label from '@components/Label';
+import OptionList from '@components/Select/components/OptionList';
 
-import ArrowDown from '../../assets/images/arrowDown.svg';
-import ArrowUp from '../../assets/images/arrowUp.svg';
+import ArrowDown from '@assets/images/arrowDown.svg';
+import ArrowUp from '@assets/images/arrowUp.svg';
 
 const SelectWrapper = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const StyledImage = styled.img`
 `;
 
 // TODO: add single select mode
-const Select = ({
+const Select = React.memo(({
   value,
   placeholder,
   onChange,
@@ -80,7 +80,7 @@ const Select = ({
       )}
     </SelectWrapper>
   );
-};
+});
 
 Select.propTypes = {
   value: string,

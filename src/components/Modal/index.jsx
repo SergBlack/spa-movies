@@ -2,9 +2,9 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
-import Button from '../Button';
+import Button from '@components/Button';
 
-import CloseIcon from '../../assets/images/close.svg';
+import CloseIcon from '@assets/images/close.svg';
 
 const StyledOverlay = styled.div`
   position: fixed;
@@ -54,7 +54,7 @@ const StyledModalBody = styled.div`
 
 const Modal = ({
   isOpen,
-  close,
+  toggle,
   color,
   children,
 }) => (
@@ -65,15 +65,13 @@ const Modal = ({
         <StyledWrapper>
           <StyledModal color={color}>
             <StyledModalHeader>
-              {close && (
-                <Button
-                  icon={CloseIcon}
-                  onClick={close}
-                  height="35px"
-                  width="35px"
-                  color="dark"
-                />
-              )}
+              <Button
+                icon={CloseIcon}
+                onClick={toggle}
+                height="35px"
+                width="35px"
+                color="dark"
+              />
             </StyledModalHeader>
             <StyledModalBody>{children}</StyledModalBody>
           </StyledModal>

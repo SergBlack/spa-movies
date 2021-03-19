@@ -8,7 +8,7 @@ import {
   oneOfType,
 } from 'prop-types';
 
-import Label from '../Label';
+import Label from '@components/Label';
 
 const InputWrapper = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = ({
+const Input = React.memo(({
   value,
   onChange,
   name,
@@ -72,7 +72,7 @@ const Input = ({
       />
     </InputWrapper>
   );
-};
+});
 
 Input.propTypes = {
   value: oneOfType([string, number]),

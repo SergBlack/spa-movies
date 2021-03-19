@@ -12,7 +12,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const DeleteMovieForm = ({ formTitle }) => {
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.stopPropagation();
     // eslint-disable-next-line no-alert
     alert('Movie deleted');
   };

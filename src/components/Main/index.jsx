@@ -1,11 +1,16 @@
 import React, { useState, useContext } from 'react';
-import { arrayOf, shape, string } from 'prop-types';
+import {
+  arrayOf,
+  shape,
+  string,
+  func,
+} from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
-import FilterPanel from '../FilterPanel';
-import SortPanel from '../SortPanel';
-import Counter from '../Counter';
-import MovieList from '../MovieList';
+import FilterPanel from '@components/FilterPanel';
+import SortPanel from '@components/SortPanel';
+import Counter from '@components/Counter';
+import MovieList from '@components/MovieList';
 
 const StyledMain = styled.main`
   min-height: 700px;
@@ -23,7 +28,9 @@ const StyledFilterBlock = styled.div`
   border-bottom: ${({ color }) => `2px solid ${color}`};
 `;
 
-const Main = ({ data, filtersList, sortList }) => {
+const Main = ({
+  data, filtersList, sortList, onCardClick,
+}) => {
   const [currentFilter, setCurrentFilter] = useState('ALL');
   const { mainColors } = useContext(ThemeContext);
 
@@ -43,7 +50,7 @@ const Main = ({ data, filtersList, sortList }) => {
       </StyledFilterBlock>
 
       <Counter count={data.length} text="movies found" />
-      <MovieList movies={data} />
+      <MovieList movies={data} onCardClick={onCardClick} />
     </StyledMain>
   );
 };
@@ -52,6 +59,7 @@ Main.propTypes = {
   data: arrayOf(shape({})),
   filtersList: arrayOf(string),
   sortList: arrayOf(string),
+  onCardClick: func.isRequired,
 };
 
 Main.defaultProps = {

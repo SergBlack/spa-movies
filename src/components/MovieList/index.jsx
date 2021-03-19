@@ -4,10 +4,11 @@ import {
   shape,
   number,
   string,
+  func,
 } from 'prop-types';
 import styled from 'styled-components';
 
-import MovieCard from '../MovieCard';
+import MovieCard from '@components/MovieCard';
 
 const StyledMovieList = styled.div`
   display: flex;
@@ -16,10 +17,10 @@ const StyledMovieList = styled.div`
   margin: 0 32px;
 `;
 
-const MovieList = ({ movies }) => (
+const MovieList = ({ movies, onCardClick }) => (
   <StyledMovieList>
     {movies.map((movie) => (
-      <MovieCard key={movie.id} movie={movie} />
+      <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />
     ))}
   </StyledMovieList>
 );
@@ -41,6 +42,7 @@ MovieList.propTypes = {
       runtime: number,
     }),
   ),
+  onCardClick: func.isRequired,
 };
 
 MovieList.defaultProps = {

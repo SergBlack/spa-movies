@@ -2,7 +2,7 @@ import React from 'react';
 import { node, string } from 'prop-types';
 import styled from 'styled-components';
 
-import Title from '../Title';
+import Title from '@components/Title';
 
 const StyledForm = styled.div`
   display: flex;
@@ -10,16 +10,16 @@ const StyledForm = styled.div`
   width: 80%;
 `;
 
-const TitleContainer = styled.div`
+const TitleWrapper = styled.div`
   display: flex;
   margin: 20px 0;
 `;
 
 const Form = ({ title, children }) => (
   <StyledForm>
-    <TitleContainer>
+    <TitleWrapper>
       <Title content={title} size="30px" uppercase />
-    </TitleContainer>
+    </TitleWrapper>
     {children}
   </StyledForm>
 );

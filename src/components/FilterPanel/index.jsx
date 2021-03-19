@@ -8,11 +8,12 @@ const StyledFilterBar = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin: 16px -12px;
-  font-size: 20px;
+  font-size: 18px;
+  flex: 1 1 300px;
 `;
 
 const StyledFilterItem = styled.div`
-  margin: 0 12px;
+  margin: 0 8px;
   color: ${({ color, active }) => active && color};
   border-bottom: ${({ color, active }) => active && `2px solid ${color}`};
   

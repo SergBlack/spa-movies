@@ -7,6 +7,10 @@ import {
   SELECTED_MOVIE_LOADED,
   LOAD_MOVIES,
   LOAD_SELECTED_MOVIE,
+  SET_EDITED_MOVIE_TO_FORM,
+  RESET_FORM,
+  HANDLE_INPUT,
+  HANDLE_SELECT,
 } from '@/redux/types';
 
 const API_URL = 'http://127.0.0.1:4000/';
@@ -15,12 +19,12 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export const moviesLoadingAC = () => ({ type: MOVIES_LOADING });
-export const moviesLoadedAC = () => ({ type: MOVIES_LOADED });
-export const loadMoviesAC = (data) => ({ type: LOAD_MOVIES, payload: data });
-export const selectedMovieLoadingAC = () => ({ type: SELECTED_MOVIE_LOADING });
-export const selectedMovieLoadedAC = () => ({ type: SELECTED_MOVIE_LOADED });
-export const loadSelectedMovieAC = (data) => ({ type: LOAD_SELECTED_MOVIE, payload: data });
+const moviesLoadingAC = () => ({ type: MOVIES_LOADING });
+const moviesLoadedAC = () => ({ type: MOVIES_LOADED });
+const loadMoviesAC = (data) => ({ type: LOAD_MOVIES, payload: data });
+const selectedMovieLoadingAC = () => ({ type: SELECTED_MOVIE_LOADING });
+const selectedMovieLoadedAC = () => ({ type: SELECTED_MOVIE_LOADED });
+const loadSelectedMovieAC = (data) => ({ type: LOAD_SELECTED_MOVIE, payload: data });
 
 export const loadMovies = () => async (dispatch) => {
   dispatch(moviesLoadingAC());
@@ -58,3 +62,8 @@ export const addMovie = () => async (dispatch) => {
     dispatch(selectedMovieLoadedAC());
   }
 };
+
+export const setEditedMovieToForm = (data) => ({ type: SET_EDITED_MOVIE_TO_FORM, payload: data });
+export const resetForm = () => ({ type: RESET_FORM });
+export const handleFormInput = (key, value) => ({ type: HANDLE_INPUT, payload: { [key]: value } });
+export const handleFormSelect = (data) => ({ type: HANDLE_SELECT, payload: data });

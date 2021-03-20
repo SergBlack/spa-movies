@@ -4,10 +4,10 @@ import { string, bool, func } from 'prop-types';
 
 import Button from '@components/Button';
 import Dropdown from '@components/Dropdown';
+import Image from '@components/Img';
 
 import DetailsIcon from '@assets/images/details.svg';
 import CloseIcon from '@assets/images/close.svg';
-import NotFound from '@assets/images/not-found.png';
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -21,10 +21,6 @@ const ButtonWrapper = styled.div`
   right: 20px;
 `;
 
-const Image = styled.img`
-  width: 100%;
-`;
-
 const MediaContent = ({
   posterPath,
   isHover,
@@ -34,7 +30,7 @@ const MediaContent = ({
   onClick,
 }) => (
   <ImageWrapper>
-    <Image src={posterPath || NotFound} alt="Poster" />
+    <Image posterPath={posterPath} />
     {isHover && (
       <ButtonWrapper>
         <Button

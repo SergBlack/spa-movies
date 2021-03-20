@@ -19,14 +19,16 @@ import TextContent from '@components/MovieCard/components/TextContent';
 const StyledMovieCard = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 16px 16px 16px;
+  margin: 0 16px 32px 16px;
   width: calc(1/5 * 100% - 32px);
   transition-duration: 300ms;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
   
   :hover {
     cursor: pointer;
     transition-duration: 300ms;
     transform: scale(1.01);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   }
   
   @media screen and (max-width: 1920px) {

@@ -9,9 +9,10 @@ import { GENRES_NOT_SET, TITLE_NOT_SET } from '@constants/textMessages';
 
 const TextWrapper = styled.div`
   display: flex;
+  flex-grow: 1;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 10px 0;
+  align-items: center;
+  padding: 10px;
 `;
 
 const Paragraph = styled.div`

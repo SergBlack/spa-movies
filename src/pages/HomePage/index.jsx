@@ -5,6 +5,10 @@ import React, {
   useRef,
 } from 'react';
 import styled, { ThemeContext } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchMovies } from '@/redux/actions';
+import { selectIsLoading, selectMovies } from '@/redux/selectors';
 
 import Header from '@components/Header';
 import MovieInfo from '@components/MovieInfo';
@@ -16,9 +20,6 @@ import MovieForm from '@forms/MovieForm';
 import useModal from '@hooks/useModal';
 
 import BackgroundImage from '@assets/images/header-background.jpg';
-
-// TODO: replace with real data
-import movies from './movies.json';
 
 // TODO: replace with real data
 const filtersList = ['ALL', 'ACTION', 'ADVENTURE', 'DRAMA', 'MYSTERY', 'THRILLER'];
@@ -34,16 +35,19 @@ const HeaderWrapper = styled.header`
 `;
 
 const HomePage = () => {
-  const [movie, setMovie] = useState([]);
   const [isShowMovieInfo, setIsShowMovieInfo] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
   const movieInfo = useRef();
 
+  const dispatch = useDispatch();
+  const movies = useSelector(selectMovies);
+  const loading = useSelector(selectIsLoading);
+
   useEffect(() => {
-    setMovie(movies);
-  }, []);
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   const onCardClick = (id) => {
     movieInfo.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -62,12 +66,16 @@ const HomePage = () => {
           ? <MovieInfo selected={selectedMovie} onClick={onCloseMovieInfo} />
           : <Header onClick={toggle} />}
       </HeaderWrapper>
-      <Main
-        data={movie}
-        filtersList={filtersList}
-        sortList={sortList}
-        onCardClick={onCardClick}
-      />
+      {loading
+        ? <div>Loading...</div>
+        : (
+          <Main
+            data={movies}
+            filtersList={filtersList}
+            sortList={sortList}
+            onCardClick={onCardClick}
+          />
+        )}
       <Footer />
       <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
         <MovieForm formTitle="add movie" />

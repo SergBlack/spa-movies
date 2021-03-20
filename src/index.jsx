@@ -1,19 +1,27 @@
 import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from '@/redux/configureStore';
 
 import App from './App';
 
-ReactDOM.render(
+const store = configureStore();
+
+const renderApp = () => render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </StrictMode>,
   document.getElementById('root'),
 );
 
 // включить режим hot module replacement
-if (module.hot) {
-  module.hot.accept();
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./App', renderApp);
 }
+
+renderApp();

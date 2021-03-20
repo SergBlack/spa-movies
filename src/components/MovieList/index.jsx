@@ -4,8 +4,8 @@ import {
   shape,
   number,
   string,
-  func,
 } from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import MovieCard from '@components/MovieCard';
@@ -17,13 +17,22 @@ const StyledMovieList = styled.div`
   margin: 0 32px;
 `;
 
-const MovieList = ({ movies, onCardClick }) => (
-  <StyledMovieList>
-    {movies.map((movie) => (
-      <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />
-    ))}
-  </StyledMovieList>
-);
+const MovieList = ({ movies, movieInfoRef }) => {
+  const history = useHistory();
+
+  const onCardClick = (id) => {
+    movieInfoRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    history.push(`/movies/${id}`);
+  };
+
+  return (
+    <StyledMovieList>
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />
+      ))}
+    </StyledMovieList>
+  );
+};
 
 MovieList.propTypes = {
   movies: arrayOf(
@@ -42,7 +51,7 @@ MovieList.propTypes = {
       runtime: number,
     }),
   ),
-  onCardClick: func.isRequired,
+  movieInfoRef: shape({}).isRequired,
 };
 
 MovieList.defaultProps = {

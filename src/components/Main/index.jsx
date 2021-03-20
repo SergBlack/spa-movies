@@ -1,11 +1,14 @@
-import React, { useState, useContext } from 'react';
-import {
-  arrayOf,
-  shape,
-  string,
-  func,
-} from 'prop-types';
+import React, { useState, useContext, useEffect } from 'react';
+import { shape } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
+
+import {
+  selectMovies,
+  selectIsLoadingMovies,
+  selectTotalAmount,
+} from '@/redux/selectors';
+import { loadMovies } from '@/redux/actions';
 
 import FilterPanel from '@components/FilterPanel';
 import SortPanel from '@components/SortPanel';
@@ -28,11 +31,21 @@ const StyledFilterBlock = styled.div`
   border-bottom: ${({ color }) => `2px solid ${color}`};
 `;
 
-const Main = ({
-  data, filtersList, sortList, onCardClick,
-}) => {
+// TODO: replace with real data
+const filtersList = ['ALL', 'ACTION', 'ADVENTURE', 'DRAMA', 'MYSTERY', 'THRILLER'];
+const sortList = ['RELEASE DATE', 'RATING'];
+
+const Main = ({ movieInfoRef }) => {
   const [currentFilter, setCurrentFilter] = useState('ALL');
   const { mainColors } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const movies = useSelector(selectMovies);
+  const totalAmount = useSelector(selectTotalAmount);
+  const isLoadingMovies = useSelector(selectIsLoadingMovies);
+
+  useEffect(() => {
+    dispatch(loadMovies());
+  }, [dispatch]);
 
   const onFilterClick = (value) => {
     setCurrentFilter(value);
@@ -49,23 +62,18 @@ const Main = ({
         <SortPanel sortList={sortList} />
       </StyledFilterBlock>
 
-      <Counter count={data.length} text="movies found" />
-      <MovieList movies={data} onCardClick={onCardClick} />
+      <Counter count={totalAmount} text="movies found" />
+      {
+        isLoadingMovies
+          ? <div>Loading movies...</div>
+          : <MovieList movies={movies} movieInfoRef={movieInfoRef} />
+      }
     </StyledMain>
   );
 };
 
 Main.propTypes = {
-  data: arrayOf(shape({})),
-  filtersList: arrayOf(string),
-  sortList: arrayOf(string),
-  onCardClick: func.isRequired,
-};
-
-Main.defaultProps = {
-  data: [],
-  filtersList: [],
-  sortList: [],
+  movieInfoRef: shape({}).isRequired,
 };
 
 export default Main;

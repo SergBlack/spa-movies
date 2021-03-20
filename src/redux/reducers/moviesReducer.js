@@ -1,5 +1,6 @@
 import {
-  FETCH_MOVIES,
+  LOAD_MOVIES,
+  LOAD_SELECTED_MOVIE,
   ADD_MOVIE,
   UPDATE_MOVIE,
   DELETE_MOVIE,
@@ -10,12 +11,17 @@ const initialState = {
   totalAmount: 0,
   limit: 10,
   offset: 0,
+  selectedMovie: {},
 };
 
 const moviesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_MOVIES: {
+    case LOAD_MOVIES: {
       return { ...state, ...action.payload };
+    }
+
+    case LOAD_SELECTED_MOVIE: {
+      return { ...state, selectedMovie: action.payload };
     }
 
     case ADD_MOVIE: {

@@ -1,17 +1,31 @@
-import { END_LOADING, START_LOADING } from '../types';
+import {
+  MOVIES_LOADING,
+  MOVIES_LOADED,
+  SELECTED_MOVIE_LOADING,
+  SELECTED_MOVIE_LOADED,
+} from '../types';
 
 const initialState = {
-  loading: true,
+  isLoadingMovies: true,
+  isLoadingSelectedMovie: false,
 };
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case START_LOADING: {
-      return { ...state, loading: true };
+    case MOVIES_LOADING: {
+      return { ...state, isLoadingMovies: true };
     }
 
-    case END_LOADING: {
-      return { ...state, loading: false };
+    case MOVIES_LOADED: {
+      return { ...state, isLoadingMovies: false };
+    }
+
+    case SELECTED_MOVIE_LOADING: {
+      return { ...state, isLoadingSelectedMovie: true };
+    }
+
+    case SELECTED_MOVIE_LOADED: {
+      return { ...state, isLoadingSelectedMovie: false };
     }
 
     default: return state;

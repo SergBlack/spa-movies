@@ -7,6 +7,10 @@ export const END_SELECTED_MOVIE_LOADING = 'END_SELECTED_MOVIE_LOADING';
 // movies reducer
 export const LOADED_MOVIES = 'LOADED_MOVIES';
 export const LOADED_SELECTED_MOVIE = 'LOADED_SELECTED_MOVIE';
+export const SET_SORT_PARAMS = 'SET_SORT_PARAMS';
+export const SET_CURRENT_SORT = 'SET_CURRENT_SORT';
+export const SET_FILTER_PARAMS = 'SET_FILTER_PARAMS';
+export const SET_CURRENT_FILTER = 'SET_CURRENT_FILTER';
 
 // movie form reducer
 export const RESET_FORM = 'RESET_FORM';

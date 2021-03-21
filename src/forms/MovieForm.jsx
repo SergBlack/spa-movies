@@ -113,6 +113,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
         optionList={GENRES}
         selectedList={selectedEditedMovie.genres}
         height="60px"
+        multiple
       />
 
       <Input

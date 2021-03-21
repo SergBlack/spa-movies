@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { arrayOf, string } from 'prop-types';
+import { arrayOf, string, func } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 import Select from '@components/Select';
@@ -20,10 +20,12 @@ const StyledSortText = styled.div`
 `;
 
 const SortPanel = ({
+  current,
   sortList,
   height,
   bgColor,
   textColor,
+  onChange,
 }) => {
   const { mainColors } = useContext(ThemeContext);
 
@@ -32,9 +34,10 @@ const SortPanel = ({
       <StyledSortText color={mainColors[bgColor]}>SORT BY</StyledSortText>
       <Select
         placeholder="Select sort"
-        value={sortList[0]}
-        onChange={() => {}}
+        value={current}
+        onChange={onChange}
         optionList={sortList}
+        selected={current}
         height={height}
         bgColor={bgColor}
         textColor={textColor}
@@ -44,13 +47,16 @@ const SortPanel = ({
 };
 
 SortPanel.propTypes = {
+  current: string,
   sortList: arrayOf(string),
   height: string,
   bgColor: string,
   textColor: string,
+  onChange: func.isRequired,
 };
 
 SortPanel.defaultProps = {
+  current: '',
   sortList: [],
   height: '50px',
   bgColor: 'darkGray',

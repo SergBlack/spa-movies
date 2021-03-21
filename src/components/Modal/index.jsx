@@ -62,7 +62,7 @@ const Modal = ({
     ? createPortal(
       <>
         <StyledOverlay color={color} />
-        <StyledWrapper>
+        <StyledWrapper onClick={(e) => { e.stopPropagation(); }}>
           <StyledModal color={color}>
             <StyledModalHeader>
               <Button

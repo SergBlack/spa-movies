@@ -42,7 +42,7 @@ const HomePage = () => {
       <Main movieInfoRef={movieInfoRef} />
       <Footer />
       <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
-        <MovieForm formTitle="add movie" />
+        <MovieForm formTitle="add movie" close={toggle} />
       </Modal>
     </>
   );

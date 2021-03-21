@@ -1,8 +1,8 @@
 import {
-  MOVIES_LOADING,
-  MOVIES_LOADED,
-  SELECTED_MOVIE_LOADING,
-  SELECTED_MOVIE_LOADED,
+  START_MOVIES_LOADING,
+  END_MOVIES_LOADING,
+  START_SELECTED_MOVIE_LOADING,
+  END_SELECTED_MOVIE_LOADING,
 } from '../types';
 
 const initialState = {
@@ -12,19 +12,19 @@ const initialState = {
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case MOVIES_LOADING: {
+    case START_MOVIES_LOADING: {
       return { ...state, isLoadingMovies: true };
     }
 
-    case MOVIES_LOADED: {
+    case END_MOVIES_LOADING: {
       return { ...state, isLoadingMovies: false };
     }
 
-    case SELECTED_MOVIE_LOADING: {
+    case START_SELECTED_MOVIE_LOADING: {
       return { ...state, isLoadingSelectedMovie: true };
     }
 
-    case SELECTED_MOVIE_LOADED: {
+    case END_SELECTED_MOVIE_LOADING: {
       return { ...state, isLoadingSelectedMovie: false };
     }
 

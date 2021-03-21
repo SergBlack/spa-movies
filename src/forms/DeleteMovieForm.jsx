@@ -1,6 +1,10 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, number, func } from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { deleteMovie, loadMovies } from '@/redux/actions';
 
 import Form from '../components/Form';
 import Button from '../components/Button';
@@ -11,11 +15,18 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
-const DeleteMovieForm = ({ formTitle }) => {
-  const handleSubmit = (e) => {
-    e.stopPropagation();
-    // eslint-disable-next-line no-alert
-    alert('Movie deleted');
+const DeleteMovieForm = ({ formTitle, id, close }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const afterSuccess = () => {
+    close();
+    history.push('/');
+    dispatch(loadMovies());
+  };
+
+  const handleSubmit = () => {
+    dispatch(deleteMovie(id, () => afterSuccess()));
   };
 
   return (
@@ -30,6 +41,8 @@ const DeleteMovieForm = ({ formTitle }) => {
 
 DeleteMovieForm.propTypes = {
   formTitle: string,
+  id: number.isRequired,
+  close: func.isRequired,
 };
 
 DeleteMovieForm.defaultProps = {

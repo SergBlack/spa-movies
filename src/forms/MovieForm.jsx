@@ -4,9 +4,11 @@ import {
   number,
   shape,
   string,
+  func,
 } from 'prop-types';
-import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 import { selectEditedMovie } from '@/redux/selectors';
 import {
@@ -14,6 +16,8 @@ import {
   resetForm,
   handleFormInput,
   handleFormSelect,
+  addMovie,
+  updateMovie, loadMovies,
 } from '@/redux/actions';
 import GENRES from '@constants/genres';
 
@@ -28,9 +32,10 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
-const MovieForm = ({ formTitle, movie }) => {
+const MovieForm = ({ formTitle, movie, close }) => {
   const selectedEditedMovie = useSelector(selectEditedMovie);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (movie) {
@@ -38,20 +43,31 @@ const MovieForm = ({ formTitle, movie }) => {
     }
   }, [dispatch, movie]);
 
-  // TODO: replace with redux action
-  const handleSave = (e) => {
-    e.stopPropagation();
-    // eslint-disable-next-line no-alert
-    alert(`You are submitting: ${JSON.stringify(selectedEditedMovie)}`);
-  };
-
   const handleReset = useCallback(
     () => { dispatch(resetForm()); },
     [dispatch],
   );
 
+  const afterSuccess = (id) => {
+    handleReset();
+    close();
+    history.push(`/movies/${id}`);
+    dispatch(loadMovies());
+  };
+
+  const handleSave = () => {
+    if (selectedEditedMovie.id) {
+      dispatch(updateMovie(selectedEditedMovie, (id) => afterSuccess(id)));
+    } else {
+      dispatch(addMovie(selectedEditedMovie, (id) => afterSuccess(id)));
+    }
+  };
+
   const handleInput = useCallback(
-    (e) => { dispatch(handleFormInput(e.target.name, e.target.value)); },
+    (e) => {
+      const { type, name, value } = e.target;
+      dispatch(handleFormInput(name, type === 'number' ? Number(value) : value));
+    },
     [dispatch],
   );
 
@@ -109,12 +125,22 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
+        value={selectedEditedMovie.tagline}
+        onChange={handleInput}
+        name="tagline"
+        label="tagline"
+        placeholder="Tagline text goes here"
+        color="darkGray"
+      />
+
+      <Input
         value={selectedEditedMovie.runtime}
         onChange={handleInput}
         name="runtime"
         label="runtime"
         placeholder="Runtime text goes here"
         color="darkGray"
+        type="number"
       />
 
       <ButtonWrapper>
@@ -141,11 +167,13 @@ MovieForm.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
+  close: func,
 };
 
 MovieForm.defaultProps = {
   formTitle: '',
   movie: null,
+  close: () => {},
 };
 
 export default MovieForm;

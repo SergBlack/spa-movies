@@ -1,12 +1,12 @@
 import axios from 'axios';
 import logger from '@helpers/logger';
 import {
-  MOVIES_LOADING,
-  MOVIES_LOADED,
-  SELECTED_MOVIE_LOADING,
-  SELECTED_MOVIE_LOADED,
-  LOAD_MOVIES,
-  LOAD_SELECTED_MOVIE,
+  START_MOVIES_LOADING,
+  END_MOVIES_LOADING,
+  START_SELECTED_MOVIE_LOADING,
+  END_SELECTED_MOVIE_LOADING,
+  LOADED_MOVIES,
+  LOADED_SELECTED_MOVIE,
   SET_EDITED_MOVIE_TO_FORM,
   RESET_FORM,
   HANDLE_INPUT,
@@ -19,22 +19,22 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-const moviesLoadingAC = () => ({ type: MOVIES_LOADING });
-const moviesLoadedAC = () => ({ type: MOVIES_LOADED });
-const loadMoviesAC = (data) => ({ type: LOAD_MOVIES, payload: data });
-const selectedMovieLoadingAC = () => ({ type: SELECTED_MOVIE_LOADING });
-const selectedMovieLoadedAC = () => ({ type: SELECTED_MOVIE_LOADED });
-const loadSelectedMovieAC = (data) => ({ type: LOAD_SELECTED_MOVIE, payload: data });
+const moviesLoadingAC = () => ({ type: START_MOVIES_LOADING });
+const moviesLoadedAC = () => ({ type: END_MOVIES_LOADING });
+const loadedMoviesAC = (data) => ({ type: LOADED_MOVIES, payload: data });
+const selectedMovieLoadingAC = () => ({ type: START_SELECTED_MOVIE_LOADING });
+const selectedMovieLoadedAC = () => ({ type: END_SELECTED_MOVIE_LOADING });
+const loadedSelectedMovieAC = (data) => ({ type: LOADED_SELECTED_MOVIE, payload: data });
 
 export const loadMovies = () => async (dispatch) => {
   dispatch(moviesLoadingAC());
 
   try {
     const response = await axios.get(`${API_URL}movies`, { headers });
-    dispatch(loadMoviesAC(response.data));
-    dispatch(moviesLoadedAC());
+    dispatch(loadedMoviesAC(response.data));
   } catch (e) {
     logger(e);
+  } finally {
     dispatch(moviesLoadedAC());
   }
 };
@@ -44,22 +44,46 @@ export const loadSelectedMovie = (id) => async (dispatch) => {
 
   try {
     const response = await axios.get(`${API_URL}movies/${id}`, { headers });
-    dispatch(loadSelectedMovieAC(response.data));
-    dispatch(selectedMovieLoadedAC());
+    dispatch(loadedSelectedMovieAC(response.data));
   } catch (e) {
     logger(e);
+  } finally {
     dispatch(selectedMovieLoadedAC());
   }
 };
 
-export const addMovie = () => async (dispatch) => {
+export const addMovie = (movie, afterSuccess) => async (dispatch) => {
   dispatch(selectedMovieLoadingAC());
 
   try {
-    // add
+    const response = await axios.post(`${API_URL}movies`, movie, { headers });
+    afterSuccess(response.data.id);
   } catch (e) {
     logger(e);
+  } finally {
     dispatch(selectedMovieLoadedAC());
+  }
+};
+
+export const updateMovie = (movie, afterSuccess) => async (dispatch) => {
+  dispatch(selectedMovieLoadingAC());
+
+  try {
+    const response = await axios.put(`${API_URL}movies`, movie, { headers });
+    afterSuccess(response.data.id);
+  } catch (e) {
+    logger(e);
+  } finally {
+    dispatch(selectedMovieLoadedAC());
+  }
+};
+
+export const deleteMovie = (id, afterSuccess) => async () => {
+  try {
+    await axios.delete(`${API_URL}movies/${id}`, { headers });
+    afterSuccess();
+  } catch (e) {
+    logger(e);
   }
 };
 

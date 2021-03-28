@@ -1,16 +1,34 @@
-import React, { useState, useContext } from 'react';
-import {
-  arrayOf,
-  shape,
-  string,
-  func,
-} from 'prop-types';
+import React, { useContext, useEffect } from 'react';
+import { shape } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
+
+import {
+  selectMovies,
+  selectIsLoadingMovies,
+  selectTotalAmount,
+  selectCurrentSort,
+  selectSortParams,
+  selectCurrentFilter,
+  selectFilterParams,
+} from '@/redux/selectors';
+import {
+  loadMovies,
+  setCurrentFilter,
+  setCurrentSort,
+  setFilterParams,
+  setSortParams,
+} from '@/redux/actions/movieActions';
+import objectParamsToQueryString from '@helpers/objectParamsToQueryString';
 
 import FilterPanel from '@components/FilterPanel';
 import SortPanel from '@components/SortPanel';
 import Counter from '@components/Counter';
 import MovieList from '@components/MovieList';
+
+import GENRES from '@constants/genres';
+import { SORT_LIST, SORT_MAP } from '@constants/sort';
 
 const StyledMain = styled.main`
   min-height: 700px;
@@ -28,44 +46,59 @@ const StyledFilterBlock = styled.div`
   border-bottom: ${({ color }) => `2px solid ${color}`};
 `;
 
-const Main = ({
-  data, filtersList, sortList, onCardClick,
-}) => {
-  const [currentFilter, setCurrentFilter] = useState('ALL');
+const Main = ({ movieInfoRef }) => {
   const { mainColors } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const movies = useSelector(selectMovies);
+  const totalAmount = useSelector(selectTotalAmount);
+  const isLoadingMovies = useSelector(selectIsLoadingMovies);
+  const currentSort = useSelector(selectCurrentSort);
+  const sortParams = useSelector(selectSortParams);
+  const currentFilter = useSelector(selectCurrentFilter);
+  const filterParams = useSelector(selectFilterParams);
+
+  useEffect(() => {
+    const params = objectParamsToQueryString({ ...sortParams, ...filterParams });
+    dispatch(loadMovies(params));
+    history.push(`/movies${params}`);
+  }, [dispatch, sortParams, filterParams, history]);
+
+  const onSortChange = (type) => {
+    dispatch(setCurrentSort(type));
+    const params = SORT_MAP[type] ?? '';
+    dispatch(setSortParams(params));
+  };
 
   const onFilterClick = (value) => {
-    setCurrentFilter(value);
+    dispatch(setCurrentFilter(value));
+    const params = value === 'All' ? {} : { searchBy: 'genres', filter: value.toLowerCase() };
+    dispatch(setFilterParams(params));
   };
 
   return (
     <StyledMain>
       <StyledFilterBlock color={mainColors.gray}>
         <FilterPanel
-          filtersList={filtersList}
+          filtersList={GENRES}
           currentFilter={currentFilter}
           onClick={onFilterClick}
         />
-        <SortPanel sortList={sortList} />
+        <SortPanel current={currentSort} sortList={SORT_LIST} onChange={onSortChange} />
       </StyledFilterBlock>
 
-      <Counter count={data.length} text="movies found" />
-      <MovieList movies={data} onCardClick={onCardClick} />
+      <Counter count={totalAmount} text="movies found" />
+      {
+        isLoadingMovies
+          ? <div>Loading movies...</div>
+          : <MovieList movies={movies} movieInfoRef={movieInfoRef} />
+      }
     </StyledMain>
   );
 };
 
 Main.propTypes = {
-  data: arrayOf(shape({})),
-  filtersList: arrayOf(string),
-  sortList: arrayOf(string),
-  onCardClick: func.isRequired,
-};
-
-Main.defaultProps = {
-  data: [],
-  filtersList: [],
-  sortList: [],
+  movieInfoRef: shape({}).isRequired,
 };
 
 export default Main;

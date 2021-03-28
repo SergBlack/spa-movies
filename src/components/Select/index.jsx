@@ -1,5 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { arrayOf, func, string } from 'prop-types';
+import {
+  arrayOf,
+  func,
+  string,
+  bool,
+} from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 import Label from '@components/Label';
@@ -39,18 +44,19 @@ const StyledImage = styled.img`
   width: 8%;
 `;
 
-// TODO: add single select mode
 const Select = React.memo(({
   value,
   placeholder,
   onChange,
   label,
   optionList,
+  selected,
   selectedList,
   height,
   bgColor,
   listBgColor,
   textColor,
+  multiple,
 }) => {
   const [isListOpen, setIsListOpen] = useState(false);
   const { mainColors } = useContext(ThemeContext);
@@ -73,9 +79,12 @@ const Select = React.memo(({
       {isListOpen && (
         <OptionList
           optionList={optionList}
+          selected={selected}
           selectedList={selectedList}
           listBgColor={listBgColor}
           onChange={onChange}
+          onClose={() => setIsListOpen(false)}
+          multiple={multiple}
         />
       )}
     </SelectWrapper>
@@ -88,21 +97,25 @@ Select.propTypes = {
   onChange: func.isRequired,
   label: string,
   optionList: arrayOf(string).isRequired,
+  selected: string,
   selectedList: arrayOf(string),
   height: string,
   bgColor: string,
   listBgColor: string,
   textColor: string,
+  multiple: bool,
 };
 
 Select.defaultProps = {
   value: '',
   label: '',
+  selected: '',
   selectedList: [],
   height: '50px',
   bgColor: 'darkGray',
   listBgColor: 'dark',
   textColor: 'light',
+  multiple: false,
 };
 
 export default Select;

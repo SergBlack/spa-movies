@@ -2,18 +2,17 @@ import React from 'react';
 import { string } from 'prop-types';
 import styled from 'styled-components';
 
-import NotFound from '@assets/images/not-found.png';
+import Image from '@components/Img';
 
 const ImageWrapper = styled.div`
-`;
-
-const Image = styled.img`
+  display: flex;
   height: 320px;
+  flex: 1 0 210px;
 `;
 
 const MediaContent = ({ posterPath }) => (
   <ImageWrapper>
-    <Image src={posterPath || NotFound} alt="Poster" />
+    <Image posterPath={posterPath} />
   </ImageWrapper>
 );
 

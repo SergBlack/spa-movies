@@ -1,12 +1,10 @@
-import React from 'react';
-import {
-  arrayOf,
-  number,
-  shape,
-  string,
-  func,
-} from 'prop-types';
+import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectSelectedMovie, selectIsLoadingSelectedMovie } from '@/redux/selectors';
+import { loadSelectedMovie } from '@/redux/actions/movieActions';
 
 import Logo from '@components/Logo';
 import Button from '@components/Button';
@@ -34,53 +32,53 @@ const MainContent = styled.div`
   padding: 0 30px;
 `;
 
-const MovieInfo = ({ selected, onClick }) => (
-  <StyledMovieInfo>
-    <TopContent>
-      <Logo src={LogoImage} />
-      <Button
-        icon={SearchIcon}
-        transparent
-        width="60px"
-        shape="circle"
-        onClick={onClick}
-      />
-    </TopContent>
+const MovieInfo = () => {
+  const dispatch = useDispatch();
+  const selectedMovie = useSelector(selectSelectedMovie);
+  const isLoadingSelectedMovie = useSelector(selectIsLoadingSelectedMovie);
+  const { id } = useParams();
+  const history = useHistory();
 
-    <MainContent>
-      <MediaContent posterPath={selected.poster_path} />
-      <TextContent
-        title={selected.title}
-        voteAverage={selected.vote_average}
-        tagline={selected.tagline}
-        releaseDate={selected.release_date}
-        runtime={selected.runtime}
-        overview={selected.overview}
-      />
-    </MainContent>
-  </StyledMovieInfo>
-);
+  useEffect(() => {
+    dispatch(loadSelectedMovie(id));
+  }, [dispatch, id]);
 
-MovieInfo.propTypes = {
-  selected: shape({
-    id: number,
-    title: string,
-    tagline: string,
-    vote_average: number,
-    vote_count: number,
-    release_date: string,
-    poster_path: string,
-    overview: string,
-    budget: number,
-    revenue: number,
-    genres: arrayOf(string),
-    runtime: number,
-  }),
-  onClick: func.isRequired,
-};
+  const onSearchButtonClick = () => {
+    history.push('/');
+  };
 
-MovieInfo.defaultProps = {
-  selected: {},
+  return (
+    <>
+      {isLoadingSelectedMovie
+        ? <div>Loading...</div>
+        : (
+          <StyledMovieInfo>
+            <TopContent>
+              <Logo src={LogoImage} />
+              <Button
+                icon={SearchIcon}
+                transparent
+                width="60px"
+                shape="circle"
+                onClick={onSearchButtonClick}
+              />
+            </TopContent>
+
+            <MainContent>
+              <MediaContent posterPath={selectedMovie.poster_path} />
+              <TextContent
+                title={selectedMovie.title}
+                voteAverage={selectedMovie.vote_average}
+                tagline={selectedMovie.tagline}
+                releaseDate={selectedMovie.release_date}
+                runtime={selectedMovie.runtime}
+                overview={selectedMovie.overview}
+              />
+            </MainContent>
+          </StyledMovieInfo>
+        )}
+    </>
+  );
 };
 
 export default MovieInfo;

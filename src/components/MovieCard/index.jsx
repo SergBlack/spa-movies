@@ -6,26 +6,31 @@ import {
   shape,
   string,
 } from 'prop-types';
+import { useDispatch } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
+
+import useModal from '@hooks/useModal';
+import { resetForm } from '@/redux/actions/formActions';
+
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';
 import DeleteMovieForm from '@forms/DeleteMovieForm';
 import MediaContent from '@components/MovieCard/components/MediaContent';
 import TextContent from '@components/MovieCard/components/TextContent';
 
-import useModal from '@hooks/useModal';
-
 const StyledMovieCard = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 16px 16px 16px;
+  margin: 0 16px 32px 16px;
   width: calc(1/5 * 100% - 32px);
   transition-duration: 300ms;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
   
   :hover {
     cursor: pointer;
     transition-duration: 300ms;
     transform: scale(1.01);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   }
   
   @media screen and (max-width: 1920px) {
@@ -51,6 +56,7 @@ const MovieCard = ({ movie, onClick }) => {
   const [currentModal, setCurrentModal] = useState(null);
   const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   const onOpenDetailsClick = (e) => {
     e.stopPropagation();
@@ -80,6 +86,7 @@ const MovieCard = ({ movie, onClick }) => {
   const onCloseModalClick = (e) => {
     e.stopPropagation();
     setCurrentModal(null);
+    dispatch(resetForm());
     toggle();
   };
 
@@ -103,8 +110,12 @@ const MovieCard = ({ movie, onClick }) => {
         genres={movie.genres.join(', ')}
       />
       <Modal isOpen={isOpen} toggle={onCloseModalClick} color={mainColors.dark}>
-        {currentModal === 'edit' && <MovieForm formTitle="edit movie" movie={movie} />}
-        {currentModal === 'delete' && <DeleteMovieForm formTitle="delete movie" />}
+        {currentModal === 'edit' && (
+          <MovieForm formTitle="edit movie" movie={movie} close={toggle} />
+        )}
+        {currentModal === 'delete' && (
+          <DeleteMovieForm formTitle="delete movie" id={movie.id} close={toggle} />
+        )}
       </Modal>
     </StyledMovieCard>
   );

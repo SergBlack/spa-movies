@@ -1,4 +1,5 @@
 const GENRES = [
+  'All',
   'Action',
   'Adventure',
   'Animation',

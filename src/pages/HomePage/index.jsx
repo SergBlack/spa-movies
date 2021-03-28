@@ -1,10 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-} from 'react';
+import React, { useContext, useRef } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
+
+import useModal from '@hooks/useModal';
 
 import Header from '@components/Header';
 import MovieInfo from '@components/MovieInfo';
@@ -13,16 +11,7 @@ import Footer from '@components/Footer';
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';
 
-import useModal from '@hooks/useModal';
-
 import BackgroundImage from '@assets/images/header-background.jpg';
-
-// TODO: replace with real data
-import movies from './movies.json';
-
-// TODO: replace with real data
-const filtersList = ['ALL', 'ACTION', 'ADVENTURE', 'DRAMA', 'MYSTERY', 'THRILLER'];
-const sortList = ['RELEASE DATE', 'TITLE'];
 
 const HeaderWrapper = styled.header`
   height: 450px;
@@ -34,43 +23,26 @@ const HeaderWrapper = styled.header`
 `;
 
 const HomePage = () => {
-  const [movie, setMovie] = useState([]);
-  const [isShowMovieInfo, setIsShowMovieInfo] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
-  const movieInfo = useRef();
-
-  useEffect(() => {
-    setMovie(movies);
-  }, []);
-
-  const onCardClick = (id) => {
-    movieInfo.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    setIsShowMovieInfo(true);
-    setSelectedMovie(...movies.filter((movieItem) => movieItem.id === id));
-  };
-
-  const onCloseMovieInfo = () => {
-    setIsShowMovieInfo(false);
-  };
+  const movieInfoRef = useRef();
 
   return (
     <>
-      <HeaderWrapper ref={movieInfo}>
-        {isShowMovieInfo
-          ? <MovieInfo selected={selectedMovie} onClick={onCloseMovieInfo} />
-          : <Header onClick={toggle} />}
+      <HeaderWrapper ref={movieInfoRef}>
+        <Switch>
+          <Route exact path={['/', '/movies']}>
+            <Header onClick={toggle} />
+          </Route>
+          <Route path="/movies/:id">
+            <MovieInfo />
+          </Route>
+        </Switch>
       </HeaderWrapper>
-      <Main
-        data={movie}
-        filtersList={filtersList}
-        sortList={sortList}
-        onCardClick={onCardClick}
-      />
+      <Main movieInfoRef={movieInfoRef} />
       <Footer />
       <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
-        <MovieForm formTitle="add movie" />
+        <MovieForm formTitle="add movie" close={toggle} />
       </Modal>
     </>
   );

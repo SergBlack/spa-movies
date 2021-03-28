@@ -1,5 +1,10 @@
 import React, { useContext } from 'react';
-import { arrayOf, func, string } from 'prop-types';
+import {
+  arrayOf,
+  func,
+  string,
+  bool,
+} from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 
 import OptionItem from './OptionItem';
@@ -22,10 +27,13 @@ const StyledOptionList = styled.div`
 
 const OptionList = ({
   optionList,
+  selected,
   selectedList,
   listBgColor,
   textColor,
   onChange,
+  onClose,
+  multiple,
 }) => {
   const { mainColors } = useContext(ThemeContext);
 
@@ -39,8 +47,10 @@ const OptionList = ({
         <OptionItem
           key={item}
           item={item}
-          selected={selectedList.includes(item)}
+          selected={item === selected || selectedList.includes(item)}
           onChange={onChange}
+          onClose={onClose}
+          multiple={multiple}
         />
       ))}
     </StyledOptionList>
@@ -49,16 +59,21 @@ const OptionList = ({
 
 OptionList.propTypes = {
   optionList: arrayOf(string).isRequired,
+  selected: string,
   selectedList: arrayOf(string),
   listBgColor: string,
   textColor: string,
   onChange: func.isRequired,
+  onClose: func.isRequired,
+  multiple: bool,
 };
 
 OptionList.defaultProps = {
+  selected: '',
   selectedList: [],
   listBgColor: 'dark',
   textColor: 'light',
+  multiple: false,
 };
 
 export default OptionList;

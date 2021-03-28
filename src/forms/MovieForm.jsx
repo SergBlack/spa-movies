@@ -1,18 +1,29 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   arrayOf,
   number,
   shape,
   string,
+  func,
 } from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+
+import { selectEditedMovie } from '@/redux/selectors';
+import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
+import {
+  setEditedMovieToForm,
+  resetForm,
+  handleFormInput,
+  handleFormSelect,
+} from '@/redux/actions/formActions';
+import GENRES from '@constants/genres';
 
 import Form from '@components/Form';
 import Input from '@components/Input';
 import Button from '@components/Button';
 import Select from '@components/Select';
-
-import GENRES from '@constants/genres';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -20,73 +31,54 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
-const initialState = {
-  title: '',
-  release_date: '',
-  poster_path: '',
-  genres: [],
-  overview: '',
-  runtime: '',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'RESET_FORM':
-      return initialState;
-    case 'SET_MOVIE_FROM_PROPS':
-      return action.payload;
-    case 'HANDLE_INPUT': {
-      const { name, value } = action.payload;
-      return { ...state, [name]: value };
-    }
-    case 'HANDLE_SELECT': {
-      const newGenre = action.payload;
-      if (state.genres.includes(newGenre)) {
-        const filteredGenres = state.genres.filter((genre) => genre !== newGenre);
-        return { ...state, genres: filteredGenres };
-      }
-      return { ...state, genres: [...state.genres, newGenre] };
-    }
-    default:
-      return state;
-  }
-};
-
-const MovieForm = ({ formTitle, movie }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const MovieForm = ({ formTitle, movie, close }) => {
+  const selectedEditedMovie = useSelector(selectEditedMovie);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (movie) {
-      dispatch({ type: 'SET_MOVIE_FROM_PROPS', payload: movie });
+      dispatch(setEditedMovieToForm(movie));
     }
-  }, [movie]);
-
-  // TODO: replace with redux action
-  const handleSave = (e) => {
-    e.stopPropagation();
-    // eslint-disable-next-line no-alert
-    alert(`You are submitting: ${JSON.stringify(state)}`);
-  };
+  }, [dispatch, movie]);
 
   const handleReset = useCallback(
-    () => { dispatch({ type: 'RESET_FORM' }); },
+    () => { dispatch(resetForm()); },
     [dispatch],
   );
 
+  const setMovieAfterSave = (id) => {
+    handleReset();
+    close();
+    history.push(`/movies/${id}`);
+    dispatch(loadMovies());
+  };
+
+  const handleSave = () => {
+    if (selectedEditedMovie.id) {
+      dispatch(updateMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
+    } else {
+      dispatch(addMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
+    }
+  };
+
   const handleInput = useCallback(
-    (e) => dispatch({ type: 'HANDLE_INPUT', payload: e.target }),
+    (e) => {
+      const { type, name, value } = e.target;
+      dispatch(handleFormInput(name, type === 'number' ? Number(value) : value));
+    },
     [dispatch],
   );
 
   const handleSelect = useCallback(
-    (newGenre) => { dispatch({ type: 'HANDLE_SELECT', payload: newGenre }); },
+    (newGenre) => { dispatch(handleFormSelect(newGenre)); },
     [dispatch],
   );
 
   return (
     <Form title={formTitle}>
       <Input
-        value={state.title}
+        value={selectedEditedMovie.title}
         onChange={handleInput}
         name="title"
         label="title"
@@ -95,7 +87,7 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={state.release_date}
+        value={selectedEditedMovie.release_date}
         onChange={handleInput}
         name="release_date"
         type="date"
@@ -104,7 +96,7 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={state.poster_path}
+        value={selectedEditedMovie.poster_path}
         onChange={handleInput}
         name="poster_path"
         label="movie URL"
@@ -113,17 +105,18 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Select
-        value={state.genres.join(', ')}
+        value={selectedEditedMovie.genres.join(', ')}
         placeholder="Select genre"
         onChange={handleSelect}
         label="genre"
         optionList={GENRES}
-        selectedList={state.genres}
+        selectedList={selectedEditedMovie.genres}
         height="60px"
+        multiple
       />
 
       <Input
-        value={state.overview}
+        value={selectedEditedMovie.overview}
         onChange={handleInput}
         name="overview"
         label="overview"
@@ -132,12 +125,22 @@ const MovieForm = ({ formTitle, movie }) => {
       />
 
       <Input
-        value={state.runtime}
+        value={selectedEditedMovie.tagline}
+        onChange={handleInput}
+        name="tagline"
+        label="tagline"
+        placeholder="Tagline text goes here"
+        color="darkGray"
+      />
+
+      <Input
+        value={selectedEditedMovie.runtime}
         onChange={handleInput}
         name="runtime"
         label="runtime"
         placeholder="Runtime text goes here"
         color="darkGray"
+        type="number"
       />
 
       <ButtonWrapper>
@@ -164,11 +167,13 @@ MovieForm.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
+  close: func,
 };
 
 MovieForm.defaultProps = {
   formTitle: '',
   movie: null,
+  close: () => {},
 };
 
 export default MovieForm;

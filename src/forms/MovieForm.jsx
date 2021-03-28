@@ -11,14 +11,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { selectEditedMovie } from '@/redux/selectors';
+import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
 import {
   setEditedMovieToForm,
   resetForm,
   handleFormInput,
   handleFormSelect,
-  addMovie,
-  updateMovie, loadMovies,
-} from '@/redux/actions';
+} from '@/redux/actions/formActions';
 import GENRES from '@constants/genres';
 
 import Form from '@components/Form';
@@ -48,7 +47,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
     [dispatch],
   );
 
-  const afterSuccess = (id) => {
+  const setMovieAfterSave = (id) => {
     handleReset();
     close();
     history.push(`/movies/${id}`);
@@ -57,9 +56,9 @@ const MovieForm = ({ formTitle, movie, close }) => {
 
   const handleSave = () => {
     if (selectedEditedMovie.id) {
-      dispatch(updateMovie(selectedEditedMovie, (id) => afterSuccess(id)));
+      dispatch(updateMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
     } else {
-      dispatch(addMovie(selectedEditedMovie, (id) => afterSuccess(id)));
+      dispatch(addMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
     }
   };
 

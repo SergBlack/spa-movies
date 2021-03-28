@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 
 import useModal from '@hooks/useModal';
-import { resetForm } from '@/redux/actions';
+import { resetForm } from '@/redux/actions/formActions';
 
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';

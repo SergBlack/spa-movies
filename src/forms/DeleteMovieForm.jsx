@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { deleteMovie, loadMovies } from '@/redux/actions';
+import { deleteMovie, loadMovies } from '@/redux/actions/movieActions';
 
 import Form from '../components/Form';
 import Button from '../components/Button';
@@ -19,14 +19,14 @@ const DeleteMovieForm = ({ formTitle, id, close }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const afterSuccess = () => {
+  const resetForm = () => {
     close();
     history.push('/');
     dispatch(loadMovies());
   };
 
   const handleSubmit = () => {
-    dispatch(deleteMovie(id, () => afterSuccess()));
+    dispatch(deleteMovie(id, resetForm));
   };
 
   return (

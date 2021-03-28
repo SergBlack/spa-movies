@@ -1,5 +1,5 @@
 const objectParamsToQueryString = (params) => {
-  const queryString = Object.keys(params).map((key) => `${key}=${params[key]}`).join('&');
+  const queryString = Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
   return `?${queryString}`;
 };
 

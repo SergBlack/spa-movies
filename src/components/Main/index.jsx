@@ -16,9 +16,10 @@ import {
 import {
   loadMovies,
   setCurrentFilter,
-  setCurrentSort, setFilterParams,
+  setCurrentSort,
+  setFilterParams,
   setSortParams,
-} from '@/redux/actions';
+} from '@/redux/actions/movieActions';
 import objectParamsToQueryString from '@helpers/objectParamsToQueryString';
 
 import FilterPanel from '@components/FilterPanel';
@@ -71,11 +72,8 @@ const Main = ({ movieInfoRef }) => {
 
   const onFilterClick = (value) => {
     dispatch(setCurrentFilter(value));
-    if (value === 'All') {
-      dispatch(setFilterParams({}));
-    } else {
-      dispatch(setFilterParams({ searchBy: 'genres', filter: value.toLowerCase() }));
-    }
+    const params = value === 'All' ? {} : { searchBy: 'genres', filter: value.toLowerCase() };
+    dispatch(setFilterParams(params));
   };
 
   return (

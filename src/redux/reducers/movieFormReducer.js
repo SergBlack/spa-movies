@@ -42,7 +42,8 @@ const movieFormReducer = (state = initialState, action) => {
       return { ...action.payload };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };
 

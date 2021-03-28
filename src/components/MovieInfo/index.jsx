@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectSelectedMovie, selectIsLoadingSelectedMovie } from '@/redux/selectors';
-import { loadSelectedMovie } from '@/redux/actions';
+import { loadSelectedMovie } from '@/redux/actions/movieActions';
 
 import Logo from '@components/Logo';
 import Button from '@components/Button';

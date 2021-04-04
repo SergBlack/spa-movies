@@ -74,6 +74,7 @@ const SortPanel = ({
             <Dropdown>
               {sortList.map((sort) => (
                 <Button
+                  key={sort}
                   text={sort}
                   width="100%"
                   height="40px"

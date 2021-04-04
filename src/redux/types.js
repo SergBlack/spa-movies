@@ -11,9 +11,3 @@ export const SET_SORT_PARAMS = 'SET_SORT_PARAMS';
 export const SET_CURRENT_SORT = 'SET_CURRENT_SORT';
 export const SET_FILTER_PARAMS = 'SET_FILTER_PARAMS';
 export const SET_CURRENT_FILTER = 'SET_CURRENT_FILTER';
-
-// movie form reducer
-export const RESET_FORM = 'RESET_FORM';
-export const HANDLE_INPUT = 'HANDLE_INPUT';
-export const HANDLE_SELECT = 'HANDLE_SELECT';
-export const SET_EDITED_MOVIE_TO_FORM = 'SET_EDITED_MOVIE_TO_FORM';

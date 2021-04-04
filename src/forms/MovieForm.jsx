@@ -75,11 +75,11 @@ const MovieForm = ({ formTitle, movie, close }) => {
     dispatch(loadMovies());
   };
 
-  const submit = (values, { setSubmitting }) => {
+  const submit = (values, { setSubmitting, setStatus }) => {
     if (movie?.id) {
-      dispatch(updateMovie(values, (id) => setMovieAfterSave(id)));
+      dispatch(updateMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
     } else {
-      dispatch(addMovie(values, (id) => setMovieAfterSave(id)));
+      dispatch(addMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
     }
     setSubmitting(false);
   };
@@ -91,7 +91,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
         validate={formValidate}
         onSubmit={submit}
       >
-        {({ isSubmitting, handleReset }) => (
+        {({ isSubmitting, handleReset, status }) => (
           <Form>
             <Input name="title" placeholder="Enter movie title" label="title" />
             <Input
@@ -100,7 +100,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
               placeholder="Enter release date"
               label="release date"
             />
-            <Input name="poster_path" placeholder="Enter movie poster URL" label="movie URL" />
+            <Input name="poster_path" placeholder="Enter movie poster URL" label="poster path" />
             <Input name="overview" placeholder="Overview text goes here" label="overview" />
             <Select
               name="genres"
@@ -117,6 +117,11 @@ const MovieForm = ({ formTitle, movie, close }) => {
               placeholder="Runtime text goes here"
               label="runtime"
             />
+
+            {/* TODO think about how handle error */}
+            {!!status?.length && (
+              <span style={{ color: 'red' }}>{status.join(', ')}</span>
+            )}
 
             <ButtonWrapper>
               <Button text="reset" onClick={handleReset} color="gray" />

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
+import { useField } from 'formik';
 import {
   bool,
   number,
   string,
-  func,
-  oneOfType,
 } from 'prop-types';
 
 import Label from '@components/Label';
@@ -29,6 +28,9 @@ const StyledInput = styled.input`
   padding: 0 16px;
   font-size: 18px;
   outline: none;
+  border: ${({ error, errorColor, bgColor }) => (
+    error ? `1px solid ${errorColor}` : `1px solid ${bgColor}`
+  )};
   
   ::placeholder {
     font-size: 18px;
@@ -40,47 +42,50 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = React.memo(({
-  value,
-  onChange,
-  name,
+const StyledError = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: ${({ errorColor }) => errorColor};
+  font-size: 12px;
+  height: 16px;
+`;
+
+const Input = ({
   type,
   label,
-  placeholder,
   height,
   color,
   opacity,
   disabled,
+  ...props
 }) => {
   const { mainColors, textColorsDependBgColor } = useContext(ThemeContext);
+  const [field, meta] = useField(props);
 
   return (
     <InputWrapper>
       {label && <Label text={label} />}
       <StyledInput
-        value={value}
-        onChange={onChange}
-        name={name}
         type={type}
         id={label && label}
-        placeholder={placeholder}
         height={height}
         textColor={textColorsDependBgColor[color]}
         bgColor={mainColors[color]}
         opacity={opacity}
         disabled={disabled}
+        error={meta.error && meta.touched}
+        errorColor={mainColors.red}
+        {...field}
+        {...props}
       />
+      <StyledError errorColor={mainColors.red}>{meta.touched && meta.error}</StyledError>
     </InputWrapper>
   );
-});
+};
 
 Input.propTypes = {
-  value: oneOfType([string, number]),
-  onChange: func,
-  name: string,
   type: string,
   label: string,
-  placeholder: string,
   height: string,
   color: string,
   opacity: number,
@@ -88,14 +93,10 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  value: '',
-  onChange: () => {},
-  name: '',
   type: 'text',
   label: '',
-  placeholder: '',
   height: '60px',
-  color: 'light',
+  color: 'darkGray',
   opacity: 1,
   disabled: false,
 };

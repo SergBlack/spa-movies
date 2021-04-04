@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { string, bool, func } from 'prop-types';
+import { string, bool } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
+import { Field, useField } from 'formik';
 
 const OptionWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   padding: 0 16px;
   height: 36px;
   background-color: 
@@ -22,39 +24,27 @@ const StyledOption = styled.div`
   font-size: 18px;
 `;
 
-const StyledCheckbox = styled.input`
-  margin-right: 16px;
-`;
-
 const OptionItem = ({
   item,
-  selected,
-  onChange,
-  onClose,
   multiple,
+  ...props
 }) => {
   const { mainColors, shadesMainColors } = useContext(ThemeContext);
-
-  const onClick = () => {
-    onChange(item);
-    if (!multiple) {
-      onClose();
-    }
-  };
+  const [field] = useField(props);
 
   return (
     <OptionWrapper
       hoverColor={mainColors.red}
       activeColor={shadesMainColors.red}
       multiple={multiple}
-      selected={selected}
-      onClick={onClick}
+      selected={field.value.includes(item)}
     >
       {multiple && (
-        <StyledCheckbox
+        <Field
           type="checkbox"
-          checked={selected}
-          readOnly
+          name={field.name}
+          value={item}
+          style={{ marginRight: '16px' }}
         />
       )}
       <StyledOption
@@ -69,9 +59,6 @@ const OptionItem = ({
 
 OptionItem.propTypes = {
   item: string.isRequired,
-  selected: bool.isRequired,
-  onChange: func.isRequired,
-  onClose: func.isRequired,
   multiple: bool.isRequired,
 };
 

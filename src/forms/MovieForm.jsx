@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import {
   arrayOf,
   number,
@@ -7,20 +7,14 @@ import {
   func,
 } from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Formik, Form } from 'formik';
 import styled from 'styled-components';
 
-import { selectEditedMovie } from '@/redux/selectors';
 import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
-import {
-  setEditedMovieToForm,
-  resetForm,
-  handleFormInput,
-  handleFormSelect,
-} from '@/redux/actions/formActions';
 import GENRES from '@constants/genres';
 
-import Form from '@components/Form';
+import FormLayout from '@components/FormLayout';
 import Input from '@components/Input';
 import Button from '@components/Button';
 import Select from '@components/Select';
@@ -31,123 +25,107 @@ const ButtonWrapper = styled.div`
     margin: 80px 0 40px 0;
 `;
 
+const initialValues = {
+  title: '',
+  tagline: '',
+  vote_average: 0,
+  vote_count: 0,
+  release_date: '',
+  poster_path: '',
+  overview: '',
+  budget: 0,
+  revenue: 0,
+  genres: [],
+  runtime: 0,
+};
+
 const MovieForm = ({ formTitle, movie, close }) => {
-  const selectedEditedMovie = useSelector(selectEditedMovie);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    if (movie) {
-      dispatch(setEditedMovieToForm(movie));
+  const formValidate = (values) => {
+    const errors = {};
+    if (!values.title) {
+      errors.title = 'Required';
     }
-  }, [dispatch, movie]);
-
-  const handleReset = useCallback(
-    () => { dispatch(resetForm()); },
-    [dispatch],
-  );
+    if (!values.release_date) {
+      errors.release_date = 'Required';
+    }
+    if (!values.poster_path) {
+      errors.poster_path = 'Required';
+    }
+    if (!values.tagline) {
+      errors.tagline = 'Required';
+    }
+    if (!values.overview) {
+      errors.overview = 'Required';
+    }
+    if (!values.genres.length) {
+      errors.genres = 'Required';
+    }
+    if (!values.runtime) {
+      errors.runtime = 'Required';
+    }
+    return errors;
+  };
 
   const setMovieAfterSave = (id) => {
-    handleReset();
     close();
     history.push(`/movies/${id}`);
     dispatch(loadMovies());
   };
 
-  const handleSave = () => {
-    if (selectedEditedMovie.id) {
-      dispatch(updateMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
+  const submit = (values, { setSubmitting }) => {
+    if (movie?.id) {
+      dispatch(updateMovie(values, (id) => setMovieAfterSave(id)));
     } else {
-      dispatch(addMovie(selectedEditedMovie, (id) => setMovieAfterSave(id)));
+      dispatch(addMovie(values, (id) => setMovieAfterSave(id)));
     }
+    setSubmitting(false);
   };
 
-  const handleInput = useCallback(
-    (e) => {
-      const { type, name, value } = e.target;
-      dispatch(handleFormInput(name, type === 'number' ? Number(value) : value));
-    },
-    [dispatch],
-  );
-
-  const handleSelect = useCallback(
-    (newGenre) => { dispatch(handleFormSelect(newGenre)); },
-    [dispatch],
-  );
-
   return (
-    <Form title={formTitle}>
-      <Input
-        value={selectedEditedMovie.title}
-        onChange={handleInput}
-        name="title"
-        label="title"
-        placeholder="Enter movie title"
-        color="darkGray"
-      />
+    <FormLayout title={formTitle}>
+      <Formik
+        initialValues={movie || initialValues}
+        validate={formValidate}
+        onSubmit={submit}
+      >
+        {({ isSubmitting, handleReset }) => (
+          <Form>
+            <Input name="title" placeholder="Enter movie title" label="title" />
+            <Input
+              type="date"
+              name="release_date"
+              placeholder="Enter release date"
+              label="release date"
+            />
+            <Input name="poster_path" placeholder="Enter movie poster URL" label="movie URL" />
+            <Input name="overview" placeholder="Overview text goes here" label="overview" />
+            <Select
+              name="genres"
+              placeholder="Select genre"
+              label="genres"
+              optionList={GENRES}
+              height="60px"
+              multiple
+            />
+            <Input name="tagline" placeholder="Tagline text goes here" label="tagline" />
+            <Input
+              type="number"
+              name="runtime"
+              placeholder="Runtime text goes here"
+              label="runtime"
+            />
 
-      <Input
-        value={selectedEditedMovie.release_date}
-        onChange={handleInput}
-        name="release_date"
-        type="date"
-        label="release date"
-        color="darkGray"
-      />
-
-      <Input
-        value={selectedEditedMovie.poster_path}
-        onChange={handleInput}
-        name="poster_path"
-        label="movie URL"
-        placeholder="Enter movie URL"
-        color="darkGray"
-      />
-
-      <Select
-        value={selectedEditedMovie.genres.join(', ')}
-        placeholder="Select genre"
-        onChange={handleSelect}
-        label="genre"
-        optionList={GENRES}
-        selectedList={selectedEditedMovie.genres}
-        height="60px"
-        multiple
-      />
-
-      <Input
-        value={selectedEditedMovie.overview}
-        onChange={handleInput}
-        name="overview"
-        label="overview"
-        placeholder="Overview text goes here"
-        color="darkGray"
-      />
-
-      <Input
-        value={selectedEditedMovie.tagline}
-        onChange={handleInput}
-        name="tagline"
-        label="tagline"
-        placeholder="Tagline text goes here"
-        color="darkGray"
-      />
-
-      <Input
-        value={selectedEditedMovie.runtime}
-        onChange={handleInput}
-        name="runtime"
-        label="runtime"
-        placeholder="Runtime text goes here"
-        color="darkGray"
-        type="number"
-      />
-
-      <ButtonWrapper>
-        <Button text="reset" onClick={handleReset} color="gray" />
-        <Button text="save" onClick={handleSave} />
-      </ButtonWrapper>
-    </Form>
+            <ButtonWrapper>
+              <Button text="reset" onClick={handleReset} color="gray" />
+              <Button text="save" type="submit" disabled={isSubmitting} />
+            </ButtonWrapper>
+          </Form>
+        )}
+      </Formik>
+    </FormLayout>
   );
 };
 

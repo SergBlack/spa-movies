@@ -3,7 +3,7 @@ import styled, { ThemeContext } from 'styled-components';
 import { string } from 'prop-types';
 
 const StyledLabel = styled.label`
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: ${({ color }) => color};
   text-transform: uppercase;
 `;

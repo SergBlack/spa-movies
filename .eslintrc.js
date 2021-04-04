@@ -24,6 +24,7 @@ module.exports = {
   rules: {
     'max-len': ['error', { code: 100 }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'react/jsx-props-no-spreading': 1,
   },
   settings: {
     'import/resolver': {

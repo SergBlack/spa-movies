@@ -1,10 +1,6 @@
 import React, { useContext } from 'react';
-import {
-  arrayOf,
-  func,
-  string,
-  bool,
-} from 'prop-types';
+import { arrayOf, string, bool } from 'prop-types';
+import { useField } from 'formik';
 import styled, { ThemeContext } from 'styled-components';
 
 import OptionItem from './OptionItem';
@@ -22,35 +18,33 @@ const StyledOptionList = styled.div`
   padding: 0;
   margin-top: 3px;
   max-height: 180px;
-  overflow-y: ${({ isScroll }) => (isScroll ? 'scroll' : '')} ;
+  overflow-y: ${({ isScrollable }) => (isScrollable ? 'scroll' : '')} ;
 `;
 
 const OptionList = ({
   optionList,
-  selected,
-  selectedList,
   listBgColor,
   textColor,
-  onChange,
-  onClose,
   multiple,
+  ...props
 }) => {
   const { mainColors } = useContext(ThemeContext);
+  const [field] = useField(props);
 
   return (
     <StyledOptionList
       bgColor={mainColors[listBgColor]}
       color={mainColors[textColor]}
-      isScroll={optionList.length >= 5}
+      isScrollable={optionList.length >= 5}
+      role={multiple ? 'group' : ''}
+      aria-labelledby={multiple ? `${field.name}-group` : ''}
     >
       {optionList.map((item) => (
         <OptionItem
           key={item}
           item={item}
-          selected={item === selected || selectedList.includes(item)}
-          onChange={onChange}
-          onClose={onClose}
           multiple={multiple}
+          {...field}
         />
       ))}
     </StyledOptionList>
@@ -59,18 +53,12 @@ const OptionList = ({
 
 OptionList.propTypes = {
   optionList: arrayOf(string).isRequired,
-  selected: string,
-  selectedList: arrayOf(string),
   listBgColor: string,
   textColor: string,
-  onChange: func.isRequired,
-  onClose: func.isRequired,
   multiple: bool,
 };
 
 OptionList.defaultProps = {
-  selected: '',
-  selectedList: [],
   listBgColor: 'dark',
   textColor: 'light',
   multiple: false,

@@ -6,11 +6,9 @@ import {
   shape,
   string,
 } from 'prop-types';
-import { useDispatch } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 
 import useModal from '@hooks/useModal';
-import { resetForm } from '@/redux/actions/formActions';
 
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';
@@ -56,7 +54,6 @@ const MovieCard = ({ movie, onClick }) => {
   const [currentModal, setCurrentModal] = useState(null);
   const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
-  const dispatch = useDispatch();
 
   const onOpenDetailsClick = (e) => {
     e.stopPropagation();
@@ -86,7 +83,6 @@ const MovieCard = ({ movie, onClick }) => {
   const onCloseModalClick = (e) => {
     e.stopPropagation();
     setCurrentModal(null);
-    dispatch(resetForm());
     toggle();
   };
 

@@ -1,10 +1,6 @@
 import React, { useContext, useState } from 'react';
-import {
-  arrayOf,
-  func,
-  string,
-  bool,
-} from 'prop-types';
+import { arrayOf, string, bool } from 'prop-types';
+import { useField } from 'formik';
 import styled, { ThemeContext } from 'styled-components';
 
 import Label from '@components/Label';
@@ -33,6 +29,9 @@ const StyledSelect = styled.div`
   border: none;
   outline: none;
   font-size: 18px;
+  border: ${({ error, errorColor, bgColor }) => (
+    error ? `1px solid ${errorColor}` : `1px solid ${bgColor}`
+  )};
 
   :hover {
     cursor: pointer;
@@ -44,22 +43,28 @@ const StyledImage = styled.img`
   width: 8%;
 `;
 
+const StyledError = styled.div`
+  color: ${({ errorColor }) => errorColor};
+  font-size: 12px;
+  height: 16px;
+`;
+
 const Select = React.memo(({
-  value,
   placeholder,
-  onChange,
   label,
   optionList,
-  selected,
-  selectedList,
   height,
   bgColor,
   listBgColor,
   textColor,
   multiple,
+  ...props
 }) => {
   const [isListOpen, setIsListOpen] = useState(false);
   const { mainColors } = useContext(ThemeContext);
+  const [field, meta] = useField(props);
+
+  const value = Array.isArray(field.value) ? field.value.join(', ') : field.value;
 
   return (
     <SelectWrapper>
@@ -69,6 +74,8 @@ const Select = React.memo(({
         bgColor={mainColors[bgColor]}
         color={mainColors[textColor]}
         onClick={() => setIsListOpen(!isListOpen)}
+        error={meta.error && meta.touched}
+        errorColor={mainColors.red}
       >
         {value || placeholder}
         <StyledImage
@@ -79,26 +86,21 @@ const Select = React.memo(({
       {isListOpen && (
         <OptionList
           optionList={optionList}
-          selected={selected}
-          selectedList={selectedList}
           listBgColor={listBgColor}
-          onChange={onChange}
-          onClose={() => setIsListOpen(false)}
           multiple={multiple}
+          {...field}
+          {...props}
         />
       )}
+      <StyledError errorColor={mainColors.red}>{meta.touched && meta.error}</StyledError>
     </SelectWrapper>
   );
 });
 
 Select.propTypes = {
-  value: string,
   placeholder: string.isRequired,
-  onChange: func.isRequired,
   label: string,
   optionList: arrayOf(string).isRequired,
-  selected: string,
-  selectedList: arrayOf(string),
   height: string,
   bgColor: string,
   listBgColor: string,
@@ -107,10 +109,7 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-  value: '',
   label: '',
-  selected: '',
-  selectedList: [],
   height: '50px',
   bgColor: 'darkGray',
   listBgColor: 'dark',

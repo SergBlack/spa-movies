@@ -10,11 +10,6 @@ const StyledDropdown = styled.div`
   justify-content: center;
   align-items: flex-end;
   border-radius: 5px;
-  position: absolute;
-  margin: 10px;
-  padding: 10px;
-  top: 2%;
-  right: 2%;
 `;
 
 const Dropdown = ({
@@ -41,7 +36,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
-  width: '80%',
+  width: '100%',
   color: 'dark',
 };
 

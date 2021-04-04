@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { deleteMovie, loadMovies } from '@/redux/actions/movieActions';
 
-import Form from '../components/Form';
+import FormLayout from '../components/FormLayout';
 import Button from '../components/Button';
 
 const ButtonWrapper = styled.div`
@@ -30,12 +30,12 @@ const DeleteMovieForm = ({ formTitle, id, close }) => {
   };
 
   return (
-    <Form title={formTitle}>
+    <FormLayout title={formTitle}>
       <h2>Are you sure to delete this movie?</h2>
       <ButtonWrapper>
         <Button text="confirm" onClick={handleSubmit} />
       </ButtonWrapper>
-    </Form>
+    </FormLayout>
   );
 };
 

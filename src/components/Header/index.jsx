@@ -8,6 +8,7 @@ import Title from '@components/Title';
 import Input from '@components/Input';
 
 import LogoImage from '@assets/images/logo.svg';
+import { Form, Formik } from 'formik';
 
 const TopContent = styled.div`
   display: flex;
@@ -33,33 +34,51 @@ const ButtonWrapper = styled.div`
   margin: 0 20px;
 `;
 
-const Header = ({ onClick }) => (
-  <>
-    <TopContent>
-      <Logo src={LogoImage} />
-      <Button
-        text="+ add movie"
-        color="gray"
-        opacity={0.9}
-        onClick={onClick}
-      />
-    </TopContent>
+const Header = ({ onClick }) => {
+  const submit = (values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 1000);
+  };
 
-    <MainContent>
-      <Title content="find your movie" uppercase />
-      <SearchWrapper>
-        <Input
-          placeholder="What do you want?"
-          color="darkGray"
+  return (
+    <>
+      <TopContent>
+        <Logo src={LogoImage} />
+        <Button
+          text="+ add movie"
+          color="gray"
           opacity={0.9}
+          onClick={onClick}
         />
-        <ButtonWrapper>
-          <Button text="search" width="200px" />
-        </ButtonWrapper>
-      </SearchWrapper>
-    </MainContent>
-  </>
-);
+      </TopContent>
+
+      <MainContent>
+        <Title content="find your movie" uppercase />
+        <SearchWrapper>
+          <Formik
+            initialValues={{ search: '' }}
+            onSubmit={submit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <Input
+                  name="search"
+                  placeholder="What do you want?"
+                  opacity={0.9}
+                />
+                <ButtonWrapper>
+                  <Button text="search" width="200px" type="submit" disabled={isSubmitting} />
+                </ButtonWrapper>
+              </Form>
+            )}
+          </Formik>
+        </SearchWrapper>
+      </MainContent>
+    </>
+  );
+};
 
 Header.propTypes = {
   onClick: func.isRequired,

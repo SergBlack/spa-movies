@@ -29,9 +29,7 @@ const StyledSelect = styled.div`
   border: none;
   outline: none;
   font-size: 18px;
-  border: ${({ error, errorColor, bgColor }) => (
-    error ? `1px solid ${errorColor}` : `1px solid ${bgColor}`
-  )};
+  border: ${({ isError, errorColor, bgColor }) => `1px solid ${isError ? errorColor : bgColor}`};
 
   :hover {
     cursor: pointer;
@@ -74,7 +72,7 @@ const Select = React.memo(({
         bgColor={mainColors[bgColor]}
         color={mainColors[textColor]}
         onClick={() => setIsListOpen(!isListOpen)}
-        error={meta.error && meta.touched}
+        isError={meta.error && meta.touched}
         errorColor={mainColors.red}
       >
         {value || placeholder}

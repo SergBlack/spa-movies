@@ -3,25 +3,20 @@ import { string, bool } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 import { Field, useField } from 'formik';
 
-const OptionWrapper = styled.div`
+const StyledOption = styled.label`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 16px;
   height: 36px;
-  background-color: 
+  flex: 1 1 auto;
+  font-size: 18px;
+  background-color:
           ${({ activeColor, multiple, selected }) => (!multiple && selected) && activeColor};
-  
+
   :hover {
-    background-color: ${({ hoverColor, multiple }) => !multiple && hoverColor};
+    background-color: ${({ hoverColor }) => hoverColor};
     cursor: pointer;
   }
-`;
-
-const StyledOption = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 18px;
 `;
 
 const OptionItem = ({
@@ -33,27 +28,21 @@ const OptionItem = ({
   const [field] = useField(props);
 
   return (
-    <OptionWrapper
-      hoverColor={mainColors.red}
-      activeColor={shadesMainColors.red}
+    <StyledOption
+      value={item}
       multiple={multiple}
       selected={field.value.includes(item)}
+      hoverColor={mainColors.red}
+      activeColor={shadesMainColors.red}
     >
-      {multiple && (
-        <Field
-          type="checkbox"
-          name={field.name}
-          value={item}
-          style={{ marginRight: '16px' }}
-        />
-      )}
-      <StyledOption
-        key={item}
+      <Field
+        type={multiple ? 'checkbox' : 'radio'}
+        name={field.name}
         value={item}
-      >
-        {item}
-      </StyledOption>
-    </OptionWrapper>
+        style={{ marginRight: '16px', appearance: multiple ? '' : 'none' }}
+      />
+      {item}
+    </StyledOption>
   );
 };
 

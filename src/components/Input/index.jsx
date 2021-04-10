@@ -28,9 +28,7 @@ const StyledInput = styled.input`
   padding: 0 16px;
   font-size: 18px;
   outline: none;
-  border: ${({ error, errorColor, bgColor }) => (
-    error ? `1px solid ${errorColor}` : `1px solid ${bgColor}`
-  )};
+  border: ${({ isError, errorColor, bgColor }) => `1px solid ${isError ? errorColor : bgColor}`};
   
   ::placeholder {
     font-size: 18px;
@@ -73,7 +71,7 @@ const Input = ({
         bgColor={mainColors[color]}
         opacity={opacity}
         disabled={disabled}
-        error={meta.error && meta.touched}
+        isError={meta.error && meta.touched}
         errorColor={mainColors.red}
         {...field}
         {...props}

@@ -45,27 +45,15 @@ const MovieForm = ({ formTitle, movie, close }) => {
 
   const formValidate = (values) => {
     const errors = {};
-    if (!values.title) {
-      errors.title = 'Required';
-    }
-    if (!values.release_date) {
-      errors.release_date = 'Required';
-    }
-    if (!values.poster_path) {
-      errors.poster_path = 'Required';
-    }
-    if (!values.tagline) {
-      errors.tagline = 'Required';
-    }
-    if (!values.overview) {
-      errors.overview = 'Required';
-    }
-    if (!values.genres.length) {
-      errors.genres = 'Required';
-    }
-    if (!values.runtime) {
-      errors.runtime = 'Required';
-    }
+    const ERROR_MESSAGE = 'Required';
+    const stringValues = Object.keys(initialValues);
+
+    stringValues.forEach((item) => {
+      if (!values[item] || (Array.isArray(values[item]) && !values[item].length)) {
+        errors[item] = ERROR_MESSAGE;
+      }
+    });
+
     return errors;
   };
 

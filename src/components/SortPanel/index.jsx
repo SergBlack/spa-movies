@@ -18,6 +18,10 @@ const StyledSortPanel = styled.div`
   font-size: 18px;
   border-radius: 5px;
   position: relative;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledSortText = styled.div`
@@ -61,7 +65,7 @@ const SortPanel = ({
   const { mainColors } = useContext(ThemeContext);
 
   const onClick = () => {
-    setShowSort(!isShowSort);
+    setShowSort((prevValue) => !prevValue);
   };
 
   return (

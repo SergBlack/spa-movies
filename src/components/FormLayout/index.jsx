@@ -15,7 +15,7 @@ const TitleWrapper = styled.div`
   margin: 20px 0;
 `;
 
-const Form = ({ title, children }) => (
+const FormLayout = ({ title, children }) => (
   <StyledForm>
     <TitleWrapper>
       <Title content={title} size="30px" uppercase />
@@ -24,13 +24,13 @@ const Form = ({ title, children }) => (
   </StyledForm>
 );
 
-Form.propTypes = {
+FormLayout.propTypes = {
   title: string,
   children: node.isRequired,
 };
 
-Form.defaultProps = {
+FormLayout.defaultProps = {
   title: '',
 };
 
-export default Form;
+export default FormLayout;

@@ -7,7 +7,5 @@ export const selectSortParams = (state) => state.movies.sort.params;
 export const selectCurrentFilter = (state) => state.movies.filter.current;
 export const selectFilterParams = (state) => state.movies.filter.params;
 
-export const selectEditedMovie = (state) => state.movieForm;
-
 export const selectIsLoadingMovies = (state) => state.app.isLoadingMovies;
 export const selectIsLoadingSelectedMovie = (state) => state.app.isLoadingSelectedMovie;

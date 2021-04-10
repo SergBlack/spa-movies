@@ -21,6 +21,14 @@ const ButtonWrapper = styled.div`
   right: 20px;
 `;
 
+const DropdownWrapper = styled.div`
+  position: absolute;
+  width: 80%;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+`;
+
 const MediaContent = ({
   posterPath,
   isHover,
@@ -31,7 +39,7 @@ const MediaContent = ({
 }) => (
   <ImageWrapper>
     <Image posterPath={posterPath} />
-    {isHover && (
+    {isHover && !isShowCardDetails && (
       <ButtonWrapper>
         <Button
           icon={DetailsIcon}
@@ -43,31 +51,33 @@ const MediaContent = ({
         />
       </ButtonWrapper>
     )}
-    {isShowCardDetails && (
-      <Dropdown>
-        <Button
-          icon={CloseIcon}
-          onClick={onCloseDetailsClick}
-          height="30px"
-          width="30px"
-          color="dark"
-        />
-        <Button
-          text="edit"
-          width="100%"
-          height="40px"
-          color="dark"
-          onClick={(e) => onClick(e, 'edit')}
-        />
-        <Button
-          text="delete"
-          width="100%"
-          height="40px"
-          color="dark"
-          onClick={(e) => onClick(e, 'delete')}
-        />
-      </Dropdown>
-    )}
+    <DropdownWrapper>
+      {isShowCardDetails && (
+        <Dropdown>
+          <Button
+            icon={CloseIcon}
+            onClick={onCloseDetailsClick}
+            height="30px"
+            width="30px"
+            color="dark"
+          />
+          <Button
+            text="edit"
+            width="100%"
+            height="40px"
+            color="dark"
+            onClick={(e) => onClick(e, 'edit')}
+          />
+          <Button
+            text="delete"
+            width="100%"
+            height="40px"
+            color="dark"
+            onClick={(e) => onClick(e, 'delete')}
+          />
+        </Dropdown>
+      )}
+    </DropdownWrapper>
   </ImageWrapper>
 );
 

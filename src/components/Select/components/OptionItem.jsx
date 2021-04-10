@@ -1,77 +1,53 @@
 import React, { useContext } from 'react';
-import { string, bool, func } from 'prop-types';
+import { string, bool } from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
+import { Field, useField } from 'formik';
 
-const OptionWrapper = styled.div`
+const StyledOption = styled.label`
   display: flex;
   justify-content: flex-start;
-  padding: 0 16px;
+  align-items: center;
   height: 36px;
-  background-color: 
+  flex: 1 1 auto;
+  font-size: 18px;
+  background-color:
           ${({ activeColor, multiple, selected }) => (!multiple && selected) && activeColor};
-  
+
   :hover {
-    background-color: ${({ hoverColor, multiple }) => !multiple && hoverColor};
+    background-color: ${({ hoverColor }) => hoverColor};
     cursor: pointer;
   }
 `;
 
-const StyledOption = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-`;
-
-const StyledCheckbox = styled.input`
-  margin-right: 16px;
-`;
-
 const OptionItem = ({
   item,
-  selected,
-  onChange,
-  onClose,
   multiple,
+  ...props
 }) => {
   const { mainColors, shadesMainColors } = useContext(ThemeContext);
-
-  const onClick = () => {
-    onChange(item);
-    if (!multiple) {
-      onClose();
-    }
-  };
+  const [field] = useField(props);
 
   return (
-    <OptionWrapper
+    <StyledOption
+      value={item}
+      multiple={multiple}
+      selected={field.value.includes(item)}
       hoverColor={mainColors.red}
       activeColor={shadesMainColors.red}
-      multiple={multiple}
-      selected={selected}
-      onClick={onClick}
     >
-      {multiple && (
-        <StyledCheckbox
-          type="checkbox"
-          checked={selected}
-          readOnly
-        />
-      )}
-      <StyledOption
-        key={item}
+      <Field
+        type={multiple ? 'checkbox' : 'radio'}
+        name={field.name}
         value={item}
-      >
-        {item}
-      </StyledOption>
-    </OptionWrapper>
+        style={{ marginRight: '16px', appearance: multiple ? '' : 'none' }}
+      />
+      {item}
+    </StyledOption>
   );
 };
 
 OptionItem.propTypes = {
   item: string.isRequired,
-  selected: bool.isRequired,
-  onChange: func.isRequired,
-  onClose: func.isRequired,
   multiple: bool.isRequired,
 };
 

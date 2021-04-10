@@ -17,8 +17,8 @@ const StyledButton = styled.button`
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ textColor }) => textColor};
   background: ${({ transparent }) => (transparent ? 'transparent' : '')};
-  font-size: 20px;
-  text-transform: uppercase;
+  font-size: 18px;
+  text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : '')};
   border-radius: ${({ shape }) => (shape === 'square' ? '5px' : '50%')};
   border: none;
   padding: 0;
@@ -40,6 +40,7 @@ const StyledImage = styled.img`
 `;
 
 const Button = React.memo(({
+  type,
   text,
   icon,
   height,
@@ -50,12 +51,13 @@ const Button = React.memo(({
   disabled,
   onClick,
   transparent,
+  uppercase,
 }) => {
   const { mainColors, textColorsDependBgColor, shadesMainColors } = useContext(ThemeContext);
 
   return (
     <StyledButton
-      type="button"
+      type={type}
       height={height}
       width={width}
       bgColor={mainColors[color]}
@@ -66,6 +68,7 @@ const Button = React.memo(({
       opacity={opacity}
       disabled={disabled}
       onClick={onClick}
+      uppercase={uppercase}
     >
       {icon
         ? (
@@ -81,6 +84,7 @@ const Button = React.memo(({
 });
 
 Button.propTypes = {
+  type: string,
   text: string,
   icon: string,
   height: string,
@@ -90,10 +94,12 @@ Button.propTypes = {
   shape: string,
   opacity: number,
   disabled: bool,
+  uppercase: bool,
   onClick: func,
 };
 
 Button.defaultProps = {
+  type: 'button',
   text: '',
   icon: '',
   height: '60px',
@@ -103,6 +109,7 @@ Button.defaultProps = {
   shape: 'square',
   opacity: 1,
   disabled: false,
+  uppercase: true,
   onClick: () => {},
 };
 

@@ -66,7 +66,7 @@ const Main = ({ movieInfoRef }) => {
 
   const onSortChange = (type) => {
     dispatch(setCurrentSort(type));
-    const params = SORT_MAP[type] ?? '';
+    const params = SORT_MAP[type] ?? {};
     dispatch(setSortParams(params));
   };
 

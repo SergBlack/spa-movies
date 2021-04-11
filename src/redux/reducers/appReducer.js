@@ -6,7 +6,7 @@ import {
 } from '../types';
 
 const initialState = {
-  isLoadingMovies: true,
+  isLoadingMovies: false,
   isLoadingSelectedMovie: false,
 };
 

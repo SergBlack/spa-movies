@@ -7,10 +7,6 @@ import {
   END_SELECTED_MOVIE_LOADING,
   LOADED_MOVIES,
   LOADED_SELECTED_MOVIE,
-  SET_SORT_PARAMS,
-  SET_CURRENT_SORT,
-  SET_FILTER_PARAMS,
-  SET_CURRENT_FILTER,
 } from '@/redux/types';
 
 const API_URL = 'http://127.0.0.1:4000';
@@ -28,9 +24,10 @@ const loadedSelectedMovie = (data) => ({ type: LOADED_SELECTED_MOVIE, payload: d
 
 export const loadMovies = (params) => async (dispatch) => {
   dispatch(startMoviesLoading());
+  const queryParams = params ? `?${params}` : '';
 
   try {
-    const response = await axios.get(`${API_URL}/movies${params || ''}`, { headers });
+    const response = await axios.get(`${API_URL}/movies${queryParams}`, { headers });
     dispatch(loadedMovies(response.data));
   } catch (e) {
     logger(e);
@@ -92,8 +89,3 @@ export const deleteMovie = (id, afterSuccess) => async (dispatch) => {
     dispatch(endMoviesLoading());
   }
 };
-
-export const setCurrentSort = (sort) => ({ type: SET_CURRENT_SORT, payload: sort });
-export const setSortParams = (params) => ({ type: SET_SORT_PARAMS, payload: params });
-export const setCurrentFilter = (filter) => ({ type: SET_CURRENT_FILTER, payload: filter });
-export const setFilterParams = (params) => ({ type: SET_FILTER_PARAMS, payload: params });

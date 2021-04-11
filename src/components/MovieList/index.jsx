@@ -8,6 +8,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import NotFoundPage from '@pages/NotFoundPage';
 import MovieCard from '@components/MovieCard';
 
 const StyledMovieList = styled.div`
@@ -27,9 +28,9 @@ const MovieList = ({ movies, movieInfoRef }) => {
 
   return (
     <StyledMovieList>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />
-      ))}
+      {movies.length
+        ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />)
+        : <NotFoundPage />}
     </StyledMovieList>
   );
 };

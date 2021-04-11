@@ -12,7 +12,7 @@ import { Formik, Form } from 'formik';
 import styled from 'styled-components';
 
 import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
-import { GENRES_LIST } from '@constants/genres';
+import GENRES_LIST from '@constants/genres';
 
 import FormLayout from '@components/FormLayout';
 import Input from '@components/Input';

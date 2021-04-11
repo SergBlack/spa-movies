@@ -58,7 +58,7 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Switch>
-        <Route path={['/', '/movies']}>
+        <Route exact path={['/', '/search', '/film/:id']}>
           <HomePage />
         </Route>
         <Route path="*">

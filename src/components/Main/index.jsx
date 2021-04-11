@@ -18,7 +18,7 @@ import SortPanel from '@components/SortPanel';
 import Counter from '@components/Counter';
 import MovieList from '@components/MovieList';
 
-import { GENRES_LIST, GENRES_PARAMS_MAP } from '@constants/genres';
+import GENRES_LIST from '@constants/genres';
 import { SORT_LIST, SORT_PARAMS_MAP } from '@constants/sort';
 
 const StyledMain = styled.main`
@@ -50,23 +50,26 @@ const Main = ({ movieInfoRef }) => {
   const isLoadingMovies = useSelector(selectIsLoadingMovies);
 
   useEffect(() => {
-    const queryParamsString = query.toString();
-    if (queryParamsString) {
-      dispatch(loadMovies(queryParamsString));
+    if (query.get('search')) {
+      dispatch(loadMovies(query.toString()));
     }
   }, [dispatch, query]);
 
   const onSortChange = (type) => {
-    const { sortBy, sortOrder, ...newSearchParams } = searchParams;
-    const newSortParams = SORT_PARAMS_MAP[type] ?? {};
-    setSearchParams({ ...newSearchParams, ...newSortParams });
-    setCurrentSort(type);
+    if (query.get('search')) {
+      const { sortBy, sortOrder, ...newSearchParams } = searchParams;
+      const newSortParams = SORT_PARAMS_MAP[type] ?? {};
+      setSearchParams({ ...newSearchParams, ...newSortParams }, 'search');
+    }
+    setCurrentSort(type === 'Reset sort' ? '' : type);
   };
 
   const onFilterClick = (value) => {
-    const { searchBy, filter, ...newSearchParams } = searchParams;
-    const newFilterParams = GENRES_PARAMS_MAP[value] ?? {};
-    setSearchParams({ ...newSearchParams, ...newFilterParams });
+    if (query.get('search')) {
+      const { filter, ...newSearchParams } = searchParams;
+      const newFilterParams = value && value !== 'All' ? { filter: value.toLowerCase() } : {};
+      setSearchParams({ ...newSearchParams, ...newFilterParams }, 'search');
+    }
     setCurrentFilter(value);
   };
 

@@ -50,7 +50,7 @@ const ErrorPage = () => {
   return (
     <StyledWrapper bgColor={mainColors.dark}>
       <StyledLogoWrapper>
-        <Logo src={LogoImage} />
+        <Logo src={LogoImage} onClick={handleClick} />
       </StyledLogoWrapper>
       <StyledNotFoundWrapper>
         <StyledImageWrapper>

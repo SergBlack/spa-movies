@@ -15,14 +15,14 @@ const stringifyQuery = (query) => new URLSearchParams(query).toString();
 
 const useQuery = ([defaultQuery, setValue]) => {
   const history = useHistory();
-  const { search, pathname, hash } = useLocation();
+  const { search } = useLocation();
   const hasParams = search.indexOf('=') > -1;
 
-  const setValueWithQuery = (newQuery) => {
+  const setValueWithQuery = (newQuery, newPath) => {
     const searchParams = stringifyQuery(newQuery);
 
     setValue(newQuery);
-    history.push(`${pathname}?${searchParams}${hash}`);
+    history.push(`${newPath}?${searchParams}`);
   };
 
   return [

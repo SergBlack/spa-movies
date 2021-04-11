@@ -23,7 +23,7 @@ const MovieList = ({ movies, movieInfoRef }) => {
 
   const onCardClick = (id) => {
     movieInfoRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    history.push(`/movies/${id}`);
+    history.push(`/film/${id}`);
   };
 
   return (

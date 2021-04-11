@@ -43,7 +43,7 @@ const MovieInfo = () => {
     dispatch(loadSelectedMovie(id));
   }, [dispatch, id]);
 
-  const onSearchButtonClick = () => {
+  const onClick = () => {
     history.push('/');
   };
 
@@ -54,13 +54,13 @@ const MovieInfo = () => {
         : (
           <StyledMovieInfo>
             <TopContent>
-              <Logo src={LogoImage} />
+              <Logo src={LogoImage} onClick={onClick} />
               <Button
                 icon={SearchIcon}
                 transparent
                 width="60px"
                 shape="circle"
-                onClick={onSearchButtonClick}
+                onClick={onClick}
               />
             </TopContent>
 

@@ -1,4 +1,4 @@
-const GENRES = [
+const GENRES_LIST = [
   'Action',
   'Adventure',
   'Animation',
@@ -10,4 +10,4 @@ const GENRES = [
   'Science Fiction',
 ];
 
-export default GENRES;
+export default GENRES_LIST;

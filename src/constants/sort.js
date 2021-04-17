@@ -5,7 +5,7 @@ export const SORT_LIST = [
   'Rating Zz-Aa',
 ];
 
-export const SORT_MAP = {
+export const SORT_PARAMS_MAP = {
   'Release date Aa-Zz': { sortBy: 'release_date', sortOrder: 'desc' },
   'Release date Zz-Aa': { sortBy: 'release_date', sortOrder: 'asc' },
   'Rating Aa-Zz': { sortBy: 'vote_average', sortOrder: 'desc' },

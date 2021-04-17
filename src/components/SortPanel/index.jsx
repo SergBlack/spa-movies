@@ -87,14 +87,6 @@ const SortPanel = ({
                   onClick={() => onChange(sort)}
                 />
               ))}
-              <Button
-                text="Reset sort"
-                width="100%"
-                height="40px"
-                color="dark"
-                uppercase={false}
-                onClick={() => onChange('')}
-              />
             </Dropdown>
           </DropdownWrapper>
         )}

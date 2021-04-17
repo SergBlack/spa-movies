@@ -1,39 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 import { shape } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
 
-import {
-  selectMovies,
-  selectIsLoadingMovies,
-  selectTotalAmount,
-  selectCurrentSort,
-  selectSortParams,
-  selectCurrentFilter,
-  selectFilterParams,
-} from '@/redux/selectors';
-import {
-  loadMovies,
-  setCurrentFilter,
-  setCurrentSort,
-  setFilterParams,
-  setSortParams,
-} from '@/redux/actions/movieActions';
-import objectParamsToQueryString from '@helpers/objectParamsToQueryString';
+import { selectMovies, selectIsLoadingMovies, selectTotalAmount } from '@/redux/selectors';
+import { loadMovies } from '@/redux/actions/movieActions';
+import useQuery from '@hooks/useQuery';
 
 import FilterPanel from '@components/FilterPanel';
 import SortPanel from '@components/SortPanel';
 import Counter from '@components/Counter';
 import MovieList from '@components/MovieList';
 
-import GENRES from '@constants/genres';
-import { SORT_LIST, SORT_MAP } from '@constants/sort';
+import GENRES_LIST from '@constants/genres';
+import { SORT_LIST, SORT_PARAMS_MAP } from '@constants/sort';
 
 const StyledMain = styled.main`
   min-height: 700px;
   width: 100%;
-  background-color: #232323;
+    background-color: ${({ bgColor }) => bgColor};
 `;
 
 const StyledFilterBlock = styled.div`
@@ -47,52 +38,60 @@ const StyledFilterBlock = styled.div`
 `;
 
 const Main = ({ movieInfoRef }) => {
+  const [currentFilter, setCurrentFilter] = useState('');
+  const [currentSort, setCurrentSort] = useState('');
+  const [searchParams, setSearchParams] = useQuery(useState({}));
   const { mainColors } = useContext(ThemeContext);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { search } = useLocation();
+  const query = useMemo(() => new URLSearchParams(search), [search]);
   const movies = useSelector(selectMovies);
   const totalAmount = useSelector(selectTotalAmount);
   const isLoadingMovies = useSelector(selectIsLoadingMovies);
-  const currentSort = useSelector(selectCurrentSort);
-  const sortParams = useSelector(selectSortParams);
-  const currentFilter = useSelector(selectCurrentFilter);
-  const filterParams = useSelector(selectFilterParams);
 
   useEffect(() => {
-    const params = objectParamsToQueryString({ ...sortParams, ...filterParams });
-    dispatch(loadMovies(params));
-    history.push(`/movies${params}`);
-  }, [dispatch, sortParams, filterParams, history]);
+    if (query.get('search')) {
+      dispatch(loadMovies(query.toString()));
+    }
+  }, [dispatch, query]);
 
   const onSortChange = (type) => {
-    dispatch(setCurrentSort(type));
-    const params = SORT_MAP[type] ?? {};
-    dispatch(setSortParams(params));
+    if (query.get('search')) {
+      const { sortBy, sortOrder, ...newSearchParams } = searchParams;
+      const newSortParams = SORT_PARAMS_MAP[type] ?? {};
+      setSearchParams({ ...newSearchParams, ...newSortParams }, 'search');
+    }
+    setCurrentSort(type === 'Reset sort' ? '' : type);
   };
 
   const onFilterClick = (value) => {
-    dispatch(setCurrentFilter(value));
-    const params = value === 'All' ? {} : { searchBy: 'genres', filter: value.toLowerCase() };
-    dispatch(setFilterParams(params));
+    if (query.get('search')) {
+      const { filter, ...newSearchParams } = searchParams;
+      const newFilterParams = value && value !== 'All' ? { filter: value.toLowerCase() } : {};
+      setSearchParams({ ...newSearchParams, ...newFilterParams }, 'search');
+    }
+    setCurrentFilter(value);
   };
 
   return (
-    <StyledMain>
+    <StyledMain bgColor={mainColors.dark}>
       <StyledFilterBlock color={mainColors.gray}>
         <FilterPanel
-          filtersList={GENRES}
+          filtersList={['All', ...GENRES_LIST]}
           currentFilter={currentFilter}
           onClick={onFilterClick}
         />
-        <SortPanel current={currentSort} sortList={SORT_LIST} onChange={onSortChange} />
+        <SortPanel
+          current={currentSort}
+          sortList={[...SORT_LIST, 'Reset sort']}
+          onChange={onSortChange}
+        />
       </StyledFilterBlock>
 
       <Counter count={totalAmount} text="movies found" />
-      {
-        isLoadingMovies
-          ? <div>Loading movies...</div>
-          : <MovieList movies={movies} movieInfoRef={movieInfoRef} />
-      }
+      {isLoadingMovies
+        ? <div>Loading movies...</div>
+        : <MovieList movies={movies} movieInfoRef={movieInfoRef} />}
     </StyledMain>
   );
 };

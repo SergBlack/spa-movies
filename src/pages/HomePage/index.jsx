@@ -31,11 +31,11 @@ const HomePage = () => {
     <>
       <HeaderWrapper ref={movieInfoRef}>
         <Switch>
-          <Route exact path={['/', '/movies']}>
-            <Header onClick={toggle} />
-          </Route>
-          <Route path="/movies/:id">
+          <Route path="/film/:id">
             <MovieInfo />
+          </Route>
+          <Route path={['/', '/search']}>
+            <Header onClick={toggle} />
           </Route>
         </Switch>
       </HeaderWrapper>

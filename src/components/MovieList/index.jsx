@@ -8,6 +8,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+import NotFoundPage from '@pages/NotFoundPage';
 import MovieCard from '@components/MovieCard';
 
 const StyledMovieList = styled.div`
@@ -22,14 +23,14 @@ const MovieList = ({ movies, movieInfoRef }) => {
 
   const onCardClick = (id) => {
     movieInfoRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    history.push(`/movies/${id}`);
+    history.push(`/film/${id}`);
   };
 
   return (
     <StyledMovieList>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />
-      ))}
+      {movies.length
+        ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} onClick={onCardClick} />)
+        : <NotFoundPage />}
     </StyledMovieList>
   );
 };

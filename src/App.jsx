@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import HomePage from '@pages/HomePage';
-import LoginPage from '@pages/LoginPage';
+import ErrorPage from '@pages/ErrorPage';
 import ErrorBoundary from '@components/ErrorBoundary';
 
 import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
@@ -58,11 +58,11 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Switch>
-        <Route path="/">
+        <Route exact path={['/', '/search', '/film/:id']}>
           <HomePage />
         </Route>
-        <Route path="/login">
-          <LoginPage />
+        <Route path="*">
+          <ErrorPage />
         </Route>
       </Switch>
     </ThemeProvider>

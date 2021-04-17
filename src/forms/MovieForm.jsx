@@ -6,12 +6,9 @@ import {
   string,
   func,
 } from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import styled from 'styled-components';
 
-import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
 import GENRES_LIST from '@constants/genres';
 
 import FormLayout from '@components/FormLayout';
@@ -28,21 +25,14 @@ const ButtonWrapper = styled.div`
 const initialValues = {
   title: '',
   tagline: '',
-  vote_average: 0,
-  vote_count: 0,
   release_date: '',
   poster_path: '',
   overview: '',
-  budget: 0,
-  revenue: 0,
   genres: [],
   runtime: 0,
 };
 
-const MovieForm = ({ formTitle, movie, close }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
+const MovieForm = ({ formTitle, movie, onSubmit }) => {
   const formValidate = (values) => {
     const errors = {};
     const ERROR_MESSAGE = 'Required';
@@ -57,27 +47,12 @@ const MovieForm = ({ formTitle, movie, close }) => {
     return errors;
   };
 
-  const setMovieAfterSave = (id) => {
-    close();
-    history.push(`/movies/${id}`);
-    dispatch(loadMovies());
-  };
-
-  const submit = (values, { setSubmitting, setStatus }) => {
-    if (movie?.id) {
-      dispatch(updateMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
-    } else {
-      dispatch(addMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
-    }
-    setSubmitting(false);
-  };
-
   return (
     <FormLayout title={formTitle}>
       <Formik
         initialValues={movie || initialValues}
         validate={formValidate}
-        onSubmit={submit}
+        onSubmit={onSubmit}
       >
         {({ isSubmitting, handleReset, status }) => (
           <Form>
@@ -138,13 +113,12 @@ MovieForm.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
-  close: func,
+  onSubmit: func.isRequired,
 };
 
 MovieForm.defaultProps = {
   formTitle: '',
   movie: null,
-  close: () => {},
 };
 
 export default MovieForm;

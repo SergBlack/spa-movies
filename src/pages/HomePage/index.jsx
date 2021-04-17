@@ -1,15 +1,11 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import styled, { ThemeContext } from 'styled-components';
-
-import useModal from '@hooks/useModal';
+import styled from 'styled-components';
 
 import Header from '@components/Header';
 import MovieInfo from '@components/MovieInfo';
 import Main from '@components/Main';
 import Footer from '@components/Footer';
-import Modal from '@components/Modal';
-import MovieForm from '@forms/MovieForm';
 
 import BackgroundImage from '@assets/images/header-background.jpg';
 
@@ -23,8 +19,6 @@ const HeaderWrapper = styled.header`
 `;
 
 const HomePage = () => {
-  const { isOpen, toggle } = useModal();
-  const { mainColors } = useContext(ThemeContext);
   const movieInfoRef = useRef();
 
   return (
@@ -35,15 +29,12 @@ const HomePage = () => {
             <MovieInfo />
           </Route>
           <Route path={['/', '/search']}>
-            <Header onClick={toggle} />
+            <Header />
           </Route>
         </Switch>
       </HeaderWrapper>
       <Main movieInfoRef={movieInfoRef} />
       <Footer />
-      <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
-        <MovieForm formTitle="add movie" close={toggle} />
-      </Modal>
     </>
   );
 };

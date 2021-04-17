@@ -1,15 +1,6 @@
 import { useLocation, useHistory } from 'react-router-dom';
 
-const parseQuery = (search) => {
-  const urlParams = new URLSearchParams(search);
-  const params = {};
-
-  urlParams.forEach((value, key) => {
-    params[key] = value;
-  });
-
-  return params;
-};
+const parseQuery = (search) => Object.fromEntries(new URLSearchParams(search));
 
 const stringifyQuery = (query) => new URLSearchParams(query).toString();
 

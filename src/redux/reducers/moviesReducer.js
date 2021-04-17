@@ -3,7 +3,7 @@ import {
   LOADED_SELECTED_MOVIE,
 } from '../types';
 
-const initialState = {
+export const initialState = {
   data: [],
   totalAmount: 0,
   limit: 10,

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render with props 1`] = `
+<div
+  className="sc-bdfBwQ kSGToi"
+>
+  <strong>
+    42
+  </strong>
+   
+  <span>
+    Answer to the Ultimate Question of Life, the Universe, and Everything
+  </span>
+</div>
+`;

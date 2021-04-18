@@ -9,7 +9,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import styled, { ThemeContext } from 'styled-components';
 
-import { addMovie, loadMovies } from '@/redux/actions/movieActions';
+import { addMovie, loadMovies } from '@redux/actions/movieActions';
 import useQuery from '@hooks/useQuery';
 import useModal from '@hooks/useModal';
 import MovieForm from '@forms/MovieForm';

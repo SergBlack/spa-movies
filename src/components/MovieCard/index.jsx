@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
 
 import useModal from '@hooks/useModal';
-import { loadMovies, updateMovie } from '@/redux/actions/movieActions';
+import { loadMovies, updateMovie } from '@redux/actions/movieActions';
 
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';

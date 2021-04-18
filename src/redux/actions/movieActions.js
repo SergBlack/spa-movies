@@ -7,7 +7,7 @@ import {
   END_SELECTED_MOVIE_LOADING,
   LOADED_MOVIES,
   LOADED_SELECTED_MOVIE,
-} from '@/redux/types';
+} from '@redux/types';
 
 const API_URL = 'http://127.0.0.1:4000';
 

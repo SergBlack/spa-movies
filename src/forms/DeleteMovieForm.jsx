@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { deleteMovie, loadMovies } from '@/redux/actions/movieActions';
+import { deleteMovie, loadMovies } from '@redux/actions/movieActions';
 
 import FormLayout from '../components/FormLayout';
 import Button from '../components/Button';

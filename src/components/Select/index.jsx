@@ -42,6 +42,8 @@ const StyledImage = styled.img`
 `;
 
 const StyledError = styled.div`
+  display: flex;
+  justify-content: flex-end;
   color: ${({ errorColor }) => errorColor};
   font-size: 12px;
   height: 16px;

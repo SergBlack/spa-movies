@@ -16,6 +16,8 @@ import Input from '@components/Input';
 import Button from '@components/Button';
 import Select from '@components/Select';
 
+import isValidUrl from '@helpers/urlValidator';
+
 const ButtonWrapper = styled.div`
   display: flex;
     justify-content: space-between;
@@ -29,7 +31,7 @@ const initialValues = {
   poster_path: '',
   overview: '',
   genres: [],
-  runtime: 0,
+  runtime: '',
 };
 
 const MovieForm = ({ formTitle, movie, onSubmit }) => {
@@ -41,6 +43,9 @@ const MovieForm = ({ formTitle, movie, onSubmit }) => {
     stringValues.forEach((item) => {
       if (!values[item] || (Array.isArray(values[item]) && !values[item].length)) {
         errors[item] = ERROR_MESSAGE;
+      }
+      if (values.poster_path && !isValidUrl(values.poster_path)) {
+        errors.poster_path = 'Url must be valid';
       }
     });
 
@@ -77,7 +82,7 @@ const MovieForm = ({ formTitle, movie, onSubmit }) => {
             <Input
               type="number"
               name="runtime"
-              placeholder="Runtime text goes here"
+              placeholder="Runtime text goes here (must be a number)"
               label="runtime"
             />
 
@@ -113,12 +118,13 @@ MovieForm.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
-  onSubmit: func.isRequired,
+  onSubmit: func,
 };
 
 MovieForm.defaultProps = {
   formTitle: '',
   movie: null,
+  onSubmit: () => {},
 };
 
 export default MovieForm;

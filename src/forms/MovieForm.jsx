@@ -6,18 +6,17 @@ import {
   string,
   func,
 } from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import styled from 'styled-components';
 
-import { addMovie, updateMovie, loadMovies } from '@/redux/actions/movieActions';
 import GENRES_LIST from '@constants/genres';
 
 import FormLayout from '@components/FormLayout';
 import Input from '@components/Input';
 import Button from '@components/Button';
 import Select from '@components/Select';
+
+import isValidUrl from '@helpers/urlValidator';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -28,21 +27,14 @@ const ButtonWrapper = styled.div`
 const initialValues = {
   title: '',
   tagline: '',
-  vote_average: 0,
-  vote_count: 0,
   release_date: '',
   poster_path: '',
   overview: '',
-  budget: 0,
-  revenue: 0,
   genres: [],
-  runtime: 0,
+  runtime: '',
 };
 
-const MovieForm = ({ formTitle, movie, close }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
+const MovieForm = ({ formTitle, movie, onSubmit }) => {
   const formValidate = (values) => {
     const errors = {};
     const ERROR_MESSAGE = 'Required';
@@ -52,24 +44,12 @@ const MovieForm = ({ formTitle, movie, close }) => {
       if (!values[item] || (Array.isArray(values[item]) && !values[item].length)) {
         errors[item] = ERROR_MESSAGE;
       }
+      if (values.poster_path && !isValidUrl(values.poster_path)) {
+        errors.poster_path = 'Url must be valid';
+      }
     });
 
     return errors;
-  };
-
-  const setMovieAfterSave = (id) => {
-    close();
-    history.push(`/movies/${id}`);
-    dispatch(loadMovies());
-  };
-
-  const submit = (values, { setSubmitting, setStatus }) => {
-    if (movie?.id) {
-      dispatch(updateMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
-    } else {
-      dispatch(addMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
-    }
-    setSubmitting(false);
   };
 
   return (
@@ -77,7 +57,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
       <Formik
         initialValues={movie || initialValues}
         validate={formValidate}
-        onSubmit={submit}
+        onSubmit={onSubmit}
       >
         {({ isSubmitting, handleReset, status }) => (
           <Form>
@@ -102,7 +82,7 @@ const MovieForm = ({ formTitle, movie, close }) => {
             <Input
               type="number"
               name="runtime"
-              placeholder="Runtime text goes here"
+              placeholder="Runtime text goes here (must be a number)"
               label="runtime"
             />
 
@@ -138,13 +118,13 @@ MovieForm.propTypes = {
     genres: arrayOf(string),
     runtime: number,
   }),
-  close: func,
+  onSubmit: func,
 };
 
 MovieForm.defaultProps = {
   formTitle: '',
   movie: null,
-  close: () => {},
+  onSubmit: () => {},
 };
 
 export default MovieForm;

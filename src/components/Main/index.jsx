@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
 
-import { selectMovies, selectIsLoadingMovies, selectTotalAmount } from '@/redux/selectors';
-import { loadMovies } from '@/redux/actions/movieActions';
+import { selectMovies, selectIsLoadingMovies, selectTotalAmount } from '@redux/selectors';
+import { loadMovies } from '@redux/actions/movieActions';
 import useQuery from '@hooks/useQuery';
 
 import FilterPanel from '@components/FilterPanel';

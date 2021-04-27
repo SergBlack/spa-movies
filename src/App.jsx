@@ -8,7 +8,7 @@ import ErrorBoundary from '@components/ErrorBoundary';
 
 import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
 
-const theme = {
+export const theme = {
   mainColors: {
     gray: '#555',
     darkGray: '#424242',

@@ -6,9 +6,12 @@ import {
   shape,
   string,
 } from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled, { ThemeContext } from 'styled-components';
 
 import useModal from '@hooks/useModal';
+import { loadMovies, updateMovie } from '@redux/actions/movieActions';
 
 import Modal from '@components/Modal';
 import MovieForm from '@forms/MovieForm';
@@ -52,6 +55,8 @@ const MovieCard = ({ movie, onClick }) => {
   const [isShowCardDetails, setShowCardDetails] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [currentModal, setCurrentModal] = useState(null);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { isOpen, toggle } = useModal();
   const { mainColors } = useContext(ThemeContext);
 
@@ -80,10 +85,23 @@ const MovieCard = ({ movie, onClick }) => {
     toggle();
   };
 
+  const setMovieAfterSave = (id) => {
+    toggle();
+    history.push(`/film/${id}`);
+    dispatch(loadMovies());
+  };
+
   const onCloseModalClick = (e) => {
     e.stopPropagation();
     setCurrentModal(null);
     toggle();
+  };
+
+  const onSubmit = (values, { setSubmitting, setStatus }) => {
+    if (movie?.id) {
+      dispatch(updateMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
+    }
+    setSubmitting(false);
   };
 
   return (
@@ -107,7 +125,7 @@ const MovieCard = ({ movie, onClick }) => {
       />
       <Modal isOpen={isOpen} toggle={onCloseModalClick} color={mainColors.dark}>
         {currentModal === 'edit' && (
-          <MovieForm formTitle="edit movie" movie={movie} close={toggle} />
+          <MovieForm formTitle="edit movie" movie={movie} onSubmit={onSubmit} />
         )}
         {currentModal === 'delete' && (
           <DeleteMovieForm formTitle="delete movie" id={movie.id} close={toggle} />

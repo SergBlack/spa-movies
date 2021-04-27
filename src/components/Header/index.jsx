@@ -1,19 +1,26 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Form, Formik } from 'formik';
-import { func } from 'prop-types';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
-import { loadMovies } from '@/redux/actions/movieActions';
+import { addMovie, loadMovies } from '@redux/actions/movieActions';
+import useQuery from '@hooks/useQuery';
+import useModal from '@hooks/useModal';
+import MovieForm from '@forms/MovieForm';
 
 import Logo from '@components/Logo';
 import Button from '@components/Button';
 import Title from '@components/Title';
 import Input from '@components/Input';
+import Modal from '@components/Modal';
 
 import LogoImage from '@assets/images/logo.svg';
-import useQuery from '@hooks/useQuery';
 
 const TopContent = styled.div`
   display: flex;
@@ -46,12 +53,14 @@ const FormStyles = {
   flexWrap: 'wrap',
 };
 
-const Header = ({ onClick }) => {
+const Header = () => {
   const [currentSearch, setCurrentSearch] = useQuery(useState({}));
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const { isOpen, toggle } = useModal();
+  const { mainColors } = useContext(ThemeContext);
 
   useEffect(() => {
     if (query.get('search')) {
@@ -59,13 +68,24 @@ const Header = ({ onClick }) => {
     }
   }, [dispatch, query]);
 
-  const submit = (values) => {
+  const onSearchSubmit = (values) => {
     if (values.searchValue) {
       setCurrentSearch(
         { ...currentSearch, search: values.searchValue, searchBy: 'title' },
         'search',
       );
     }
+  };
+
+  const setMovieAfterSave = (id) => {
+    toggle();
+    history.push(`/film/${id}`);
+    dispatch(loadMovies());
+  };
+
+  const onAddMovieSubmit = (values, { setSubmitting, setStatus }) => {
+    dispatch(addMovie(values, (id) => setMovieAfterSave(id), (status) => setStatus(status)));
+    setSubmitting(false);
   };
 
   const onLogoClick = () => {
@@ -80,7 +100,7 @@ const Header = ({ onClick }) => {
           text="+ add movie"
           color="gray"
           opacity={0.9}
-          onClick={onClick}
+          onClick={toggle}
         />
       </TopContent>
 
@@ -89,7 +109,7 @@ const Header = ({ onClick }) => {
         <SearchWrapper>
           <Formik
             initialValues={{ searchValue: '' }}
-            onSubmit={submit}
+            onSubmit={onSearchSubmit}
           >
             {() => (
               <Form style={FormStyles}>
@@ -106,12 +126,12 @@ const Header = ({ onClick }) => {
           </Formik>
         </SearchWrapper>
       </MainContent>
+
+      <Modal isOpen={isOpen} toggle={toggle} color={mainColors.dark}>
+        <MovieForm formTitle="add movie" onSubmit={onAddMovieSubmit} />
+      </Modal>
     </>
   );
-};
-
-Header.propTypes = {
-  onClick: func.isRequired,
 };
 
 export default Header;

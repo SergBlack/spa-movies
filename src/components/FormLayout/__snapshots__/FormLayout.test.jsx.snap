@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormLayout renders FormLayout snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gsTCUz gVOTKC"
+  >
+    <div
+      class="sc-dlfnbm dOXLOI"
+    >
+      <h1
+        class="sc-bdfBwQ dDltp"
+      >
+        FormLayout title
+      </h1>
+    </div>
+    <div>
+      Some content
+    </div>
+  </div>
+</DocumentFragment>
+`;

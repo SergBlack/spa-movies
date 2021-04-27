@@ -5,7 +5,7 @@ import {
   END_SELECTED_MOVIE_LOADING,
 } from '../types';
 
-const initialState = {
+export const initialState = {
   isLoadingMovies: false,
   isLoadingSelectedMovie: false,
 };

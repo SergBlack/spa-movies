@@ -1,12 +1,20 @@
-import React from 'react';
+import '@babel/polyfill';
+// import React from 'react';
+import React, { StrictMode } from 'react';
+import { hot } from 'react-hot-loader';
 import { Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { shape, string, func } from 'prop-types';
+import configureStore from '@redux/configureStore';
 
 import HomePage from '@pages/HomePage';
 import ErrorPage from '@pages/ErrorPage';
 import ErrorBoundary from '@components/ErrorBoundary';
 
 import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
+
+const store = configureStore();
 
 export const theme = {
   mainColors: {
@@ -53,20 +61,39 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const App = () => (
-  <ErrorBoundary>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Switch>
-        <Route exact path={['/', '/search', '/film/:id']}>
-          <HomePage />
-        </Route>
-        <Route path="*">
-          <ErrorPage />
-        </Route>
-      </Switch>
-    </ThemeProvider>
-  </ErrorBoundary>
+const App = ({ Router, location, context }) => (
+  <Router location={location} context={context}>
+    <StrictMode>
+      <Provider store={store}>
+        <ErrorBoundary>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Switch>
+              <Route exact path={['/', '/search', '/film/:id']}>
+                <HomePage />
+              </Route>
+              <Route path="*">
+                <ErrorPage />
+              </Route>
+            </Switch>
+          </ThemeProvider>
+        </ErrorBoundary>
+      </Provider>
+    </StrictMode>
+  </Router>
 );
 
-export default App;
+App.propTypes = {
+  Router: func.isRequired,
+  location: string,
+  context: shape({
+    url: string,
+  }),
+};
+
+App.defaultProps = {
+  location: null,
+  context: null,
+};
+
+export default hot(module)(App);

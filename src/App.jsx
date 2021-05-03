@@ -5,15 +5,12 @@ import { Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { shape, string, func } from 'prop-types';
-import configureStore from '@redux/configureStore';
 
 import HomePage from '@pages/HomePage';
 import ErrorPage from '@pages/ErrorPage';
 import ErrorBoundary from '@components/ErrorBoundary';
 
 import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
-
-const store = configureStore();
 
 export const theme = {
   mainColors: {
@@ -60,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const App = ({ Router, location, context }) => (
+const App = ({ Router, location, context, store }) => (
   <Router location={location} context={context}>
     <StrictMode>
       <Provider store={store}>

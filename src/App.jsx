@@ -1,5 +1,4 @@
 import '@babel/polyfill';
-// import React from 'react';
 import React, { StrictMode } from 'react';
 import { hot } from 'react-hot-loader';
 import { Switch, Route } from 'react-router-dom';

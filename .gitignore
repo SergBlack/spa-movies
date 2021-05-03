@@ -5,7 +5,7 @@
 /test
 
 # production
-/build
+/public
 
 # misc
 .idea/

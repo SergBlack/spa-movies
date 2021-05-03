@@ -8,18 +8,19 @@ import App from './App';
 
 function renderHTML(html, style) {
   return `
-      <!doctype html>
-      <html>
-        <head>
-          <meta charset=utf-8>
-          <title>React Server Side Rendering</title>
-          ${process.env.NODE_ENV === 'development' ? style : '<link href="/css/main.css" rel="stylesheet" type="text/css">'}
-        </head>
-        <body>
-          <div id="root">${html}</div>
-          <script src="/js/main.js"></script>
-        </body>
-      </html>
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset=utf-8>
+        <title>React Server Side Rendering</title>
+        ${process.env.NODE_ENV === 'development' ? style : '<link href="/css/main.css" rel="stylesheet" type="text/css">'}
+      </head>
+      <body>
+        <div id="root">${html}</div>
+        <div id="modal-root"></div>
+        <script src="/js/main.js"></script>
+      </body>
+    </html>
   `;
 }
 

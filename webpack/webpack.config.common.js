@@ -26,7 +26,7 @@ module.exports = {
   },
 
   optimization: {
-    splitChunks: { chunks: 'all' },
+    // splitChunks: { chunks: 'all' },
     minimize: !isDevMod,
     moduleIds: isDevMod ? 'named' : 'deterministic',
   },

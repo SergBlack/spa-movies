@@ -15,6 +15,7 @@ const TitleWrapper = styled.div`
   margin: 20px 0;
 `;
 
+// PATTERN: {render prop}
 const FormLayout = ({ title, children }) => (
   <StyledForm>
     <TitleWrapper>

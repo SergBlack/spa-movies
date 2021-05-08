@@ -70,6 +70,10 @@ const MovieCard = ({ movie, onClick }) => {
     setShowCardDetails(false);
   };
 
+  const onMovieCardClick = () => {
+    onClick(movie.id);
+  };
+
   const onMouseEnterCard = () => {
     setIsHover(true);
   };
@@ -108,7 +112,7 @@ const MovieCard = ({ movie, onClick }) => {
     <StyledMovieCard
       onMouseEnter={onMouseEnterCard}
       onMouseLeave={onMouseLeaveCard}
-      onClick={() => onClick(movie.id)}
+      onClick={onMovieCardClick}
     >
       <MediaContent
         posterPath={movie.poster_path}

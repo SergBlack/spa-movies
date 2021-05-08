@@ -12,6 +12,7 @@ const StyledDropdown = styled.div`
   border-radius: 5px;
 `;
 
+// PATTERN: {render prop}
 const Dropdown = ({
   width,
   color,

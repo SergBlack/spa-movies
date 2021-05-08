@@ -66,6 +66,10 @@ const Select = React.memo(({
 
   const value = Array.isArray(field.value) ? field.value.join(', ') : field.value;
 
+  const onSelectClick = () => {
+    setIsListOpen((prev) => !prev);
+  };
+
   return (
     <SelectWrapper>
       {label && <Label text={label} />}
@@ -73,7 +77,7 @@ const Select = React.memo(({
         height={height}
         bgColor={mainColors[bgColor]}
         color={mainColors[textColor]}
-        onClick={() => setIsListOpen(!isListOpen)}
+        onClick={onSelectClick}
         isError={meta.error && meta.touched}
         errorColor={mainColors.red}
       >

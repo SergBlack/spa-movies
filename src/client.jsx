@@ -1,6 +1,7 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { loadableReady } from '@loadable/component';
 import configureStore from '@redux/configureStore';
 
 import App from './App';
@@ -14,4 +15,6 @@ const app = (
   />
 );
 
-hydrate(app, document.getElementById('root'));
+loadableReady(() => {
+  hydrate(app, document.getElementById('root'));
+});

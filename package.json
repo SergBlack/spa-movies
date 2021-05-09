@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^17.0.1",
+    "@loadable/component": "^5.15.0",
+    "@loadable/server": "^5.15.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "formik": "^2.2.6",
@@ -32,6 +34,8 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.12.13",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "^5.15.0",
     "@testing-library/dom": "^7.30.3",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.1",

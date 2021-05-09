@@ -3,5 +3,9 @@
     "@babel/preset-env",
     "@babel/preset-react"
   ],
-  "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
+  "plugins": [
+    "babel-plugin-styled-components",
+    "react-hot-loader/babel",
+    "@loadable/babel-plugin"
+  ]
 }

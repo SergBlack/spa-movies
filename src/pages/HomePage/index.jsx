@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component'
 import styled from 'styled-components';
 
 import Header from '@components/Header';
-import MovieInfo from '@components/MovieInfo';
 import Main from '@components/Main';
 import Footer from '@components/Footer';
 
@@ -18,6 +18,8 @@ const HeaderWrapper = styled.header`
   background-repeat: no-repeat;
 `;
 
+const LoadableMovieInfo = loadable(() => import('@components/MovieInfo'));
+
 const HomePage = () => {
   const movieInfoRef = useRef();
 
@@ -26,7 +28,7 @@ const HomePage = () => {
       <HeaderWrapper ref={movieInfoRef}>
         <Switch>
           <Route path="/film/:id">
-            <MovieInfo />
+            <LoadableMovieInfo />
           </Route>
           <Route path={['/', '/search']}>
             <Header />

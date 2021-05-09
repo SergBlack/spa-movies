@@ -6,11 +6,10 @@ import { Provider } from 'react-redux';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { shape, string, func } from 'prop-types';
 
-import HomePage from '@pages/HomePage';
-import ErrorPage from '@pages/ErrorPage';
 import ErrorBoundary from '@components/ErrorBoundary';
-
 import RobotoRegular from '@assets/fonts/Roboto-Regular.woff2';
+
+import routes from './routes';
 
 export const theme = {
   mainColors: {
@@ -57,7 +56,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const App = ({ Router, location, context, store }) => (
+const App = ({
+  Router,
+  location,
+  context,
+  store,
+}) => (
   <Router location={location} context={context}>
     <StrictMode>
       <Provider store={store}>
@@ -65,12 +69,15 @@ const App = ({ Router, location, context, store }) => (
           <ThemeProvider theme={theme}>
             <GlobalStyle />
             <Switch>
-              <Route exact path={['/', '/search', '/film/:id']}>
-                <HomePage />
-              </Route>
-              <Route path="*">
-                <ErrorPage />
-              </Route>
+              {/* <Route exact path={['/', '/search', '/film/:id']}> */}
+              {/*  <HomePage /> */}
+              {/* </Route> */}
+              {/* <Route path="*"> */}
+              {/*  <ErrorPage /> */}
+              {/* </Route> */}
+              {routes.map(({ exact, path, component }) => (
+                <Route key={path} exact={exact} path={path} component={component} />
+              ))}
             </Switch>
           </ThemeProvider>
         </ErrorBoundary>
@@ -85,6 +92,11 @@ App.propTypes = {
   context: shape({
     url: string,
   }),
+  store: shape({
+    dispatch: func.isRequired,
+    getState: func.isRequired,
+  }).isRequired,
+
 };
 
 App.defaultProps = {

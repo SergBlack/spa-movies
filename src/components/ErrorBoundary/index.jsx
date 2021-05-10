@@ -14,6 +14,7 @@ export default class ErrorBoundary extends React.Component {
     logger(errorInfo);
   }
 
+  // PATTERN: {render prop}
   render() {
     const { error, errorInfo } = this.state;
     const { children } = this.props;

@@ -36,50 +36,60 @@ const MediaContent = ({
   onOpenDetailsClick,
   onCloseDetailsClick,
   onClick,
-}) => (
-  <ImageWrapper>
-    <Image posterPath={posterPath} />
-    {isHover && !isShowCardDetails && (
-      <ButtonWrapper>
-        <Button
-          icon={DetailsIcon}
-          height="40px"
-          width="40px"
-          color="dark"
-          shape="circle"
-          onClick={onOpenDetailsClick}
-        />
-      </ButtonWrapper>
-    )}
-    <DropdownWrapper>
-      {isShowCardDetails && (
-        <Dropdown>
+}) => {
+  const onEditBtnClick = (e) => {
+    onClick(e, 'edit');
+  };
+
+  const onDeleteBtnClick = (e) => {
+    onClick(e, 'delete');
+  };
+
+  return (
+    <ImageWrapper>
+      <Image posterPath={posterPath} />
+      {isHover && !isShowCardDetails && (
+        <ButtonWrapper>
           <Button
-            icon={CloseIcon}
-            onClick={onCloseDetailsClick}
-            height="30px"
-            width="30px"
-            color="dark"
-          />
-          <Button
-            text="edit"
-            width="100%"
+            icon={DetailsIcon}
             height="40px"
+            width="40px"
             color="dark"
-            onClick={(e) => onClick(e, 'edit')}
+            shape="circle"
+            onClick={onOpenDetailsClick}
           />
-          <Button
-            text="delete"
-            width="100%"
-            height="40px"
-            color="dark"
-            onClick={(e) => onClick(e, 'delete')}
-          />
-        </Dropdown>
+        </ButtonWrapper>
       )}
-    </DropdownWrapper>
-  </ImageWrapper>
-);
+      <DropdownWrapper>
+        {isShowCardDetails && (
+          <Dropdown>
+            <Button
+              icon={CloseIcon}
+              onClick={onCloseDetailsClick}
+              height="30px"
+              width="30px"
+              color="dark"
+            />
+            <Button
+              text="edit"
+              width="100%"
+              height="40px"
+              color="dark"
+              onClick={onEditBtnClick}
+            />
+            <Button
+              text="delete"
+              width="100%"
+              height="40px"
+              color="dark"
+              onClick={onDeleteBtnClick}
+            />
+          </Dropdown>
+        )}
+      </DropdownWrapper>
+    </ImageWrapper>
+  );
+};
 
 MediaContent.propTypes = {
   posterPath: string,

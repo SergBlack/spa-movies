@@ -7,7 +7,9 @@
     "test": "jest --watchAll",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
-    "start": "cross-env NODE_ENV=development webpack serve --config webpack.dev.js --hot"
+    "start": "cross-env NODE_ENV=development webpack serve --config webpack.dev.js --hot",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Sergei Osipchuk <sergei_osipchuk@epam.com>",
   "license": "ISC",
@@ -28,6 +30,10 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.12.13",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
     "@testing-library/dom": "^7.30.3",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.1",

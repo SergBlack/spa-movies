@@ -52,6 +52,7 @@ const StyledModalBody = styled.div`
   align-items: center;
 `;
 
+// PATTERN: {render prop}
 const Modal = ({
   isOpen,
   toggle,
